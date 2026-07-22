@@ -1,0 +1,4 @@
+*.zip
+.thumbnail
+node_modules/
+.DS_Store
