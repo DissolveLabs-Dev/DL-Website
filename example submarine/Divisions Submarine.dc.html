@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics=""><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet"><style>
+html,body{margin:0;height:100%;background:#dbebf6;font-family:'Space Grotesk',ui-sans-serif,system-ui,sans-serif;color:#0e2a42;-webkit-font-smoothing:antialiased}
+a{color:#54e6ff;text-decoration:none}a:hover{color:#9ff3ff}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
+.track{position:relative;height:620vh}
+.scene{position:sticky;top:0;height:100vh;overflow:hidden;--p:0;background:radial-gradient(130% 90% at 50% 8%,#eaf4fb 0%,#dbebf6 40%,#cadff0 72%,#b6d2e8 100%)}
+.layer{position:absolute;inset:0;pointer-events:none}
+.grid{background-image:linear-gradient(rgba(84,230,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(84,230,255,.05) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(120% 90% at 50% 45%,#000 0%,#000 45%,transparent 78%);mask-image:radial-gradient(120% 90% at 50% 45%,#000 0%,#000 45%,transparent 78%)}
+.ray{top:-8%;left:14%;width:60%;height:70%;background:linear-gradient(96deg,transparent 46%,rgba(120,205,255,.09) 50%,transparent 54%),linear-gradient(88deg,transparent 42%,rgba(120,205,255,.06) 45%,transparent 49%);filter:blur(9px)}
+.parts{background-image:radial-gradient(rgba(160,225,255,.5) 1px,transparent 1.4px),radial-gradient(rgba(120,200,255,.28) 1px,transparent 1.4px);background-size:150px 150px,230px 230px;background-position:0 0,70px 50px;opacity:.5;animation:drift 34s linear infinite}
+@keyframes drift{to{background-position:0 150px,70px 280px}}
+.vig{background:radial-gradient(120% 100% at 50% 50%,transparent 55%,rgba(0,0,0,.55) 100%)}
+.depthgrad{background:linear-gradient(to top,#062a4a 0%,#0d3f66 22%,#1a5c8a 48%,#3d86b5 74%,#8dc4e0 100%);opacity:.9}
+.caustics{background:radial-gradient(60% 40% at 20% 12%,rgba(255,255,255,.5),transparent 60%),radial-gradient(50% 30% at 78% 8%,rgba(255,255,255,.4),transparent 60%),repeating-linear-gradient(58deg,rgba(255,255,255,.14) 0 3px,transparent 3px 34px),repeating-linear-gradient(122deg,rgba(255,255,255,.1) 0 3px,transparent 3px 40px);mix-blend-mode:screen;opacity:.6;animation:caustic 16s ease-in-out infinite}
+@keyframes caustic{0%,100%{background-position:0 0,0 0,0 0,0 0;opacity:.45}50%{background-position:40px 20px,-30px 15px,60px 0,-50px 0;opacity:.7}}
+.godrays{background:repeating-linear-gradient(74deg,rgba(255,255,255,.16) 0 20px,transparent 20px 120px);-webkit-mask-image:linear-gradient(#000,transparent 70%);mask-image:linear-gradient(#000,transparent 70%);mix-blend-mode:screen;opacity:.5;animation:godray 12s ease-in-out infinite}
+@keyframes godray{0%,100%{opacity:.35;transform:translateX(-2%)}50%{opacity:.6;transform:translateX(3%)}}
+.silt{background:radial-gradient(rgba(255,255,255,.5) 1px,transparent 1.5px),radial-gradient(rgba(200,230,250,.4) 1px,transparent 1.5px);background-size:180px 180px,260px 260px;background-position:0 0,90px 60px;opacity:.35;animation:siltdrift 40s linear infinite}
+@keyframes siltdrift{to{background-position:-60px 180px,30px 340px}}
+.leader{position:absolute;inset:0;z-index:7;pointer-events:none;width:100%;height:100%;opacity:calc(var(--p)*6 - .15)}
+.leadline{fill:none;stroke:var(--lc,#54e6ff);stroke-width:2;stroke-dasharray:7 6;filter:drop-shadow(0 0 5px var(--lc,#54e6ff))}
+.leadhalo{fill:none;stroke:var(--lc,#54e6ff);stroke-width:2.2;opacity:.5;animation:leadpulse 1.8s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes leadpulse{0%,100%{opacity:.55;r:9}50%{opacity:.15;r:16}}
+.leaddot{fill:var(--lc,#54e6ff);filter:drop-shadow(0 0 7px var(--lc,#54e6ff))}
+.leadstart{fill:none;stroke:var(--lc,#54e6ff);stroke-width:2;opacity:.9}
+.pulse{left:50%;top:47%;width:1200px;height:1200px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(84,230,255,.06),transparent 62%);animation:breathe 7s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.5;transform:translate(-50%,-50%) scale(.94)}50%{opacity:.9;transform:translate(-50%,-50%) scale(1.04)}}
+.brand{position:absolute;top:26px;left:30px;z-index:8;font-weight:700;font-size:14px;letter-spacing:.16em;color:#0e2a42;display:flex;align-items:center;gap:10px}
+.brand .dot{width:14px;height:14px;border-radius:50%;border:2px solid #54e6ff;box-shadow:0 0 12px rgba(84,230,255,.8);position:relative}
+.brand .dot::after{content:"";position:absolute;inset:3px;border-radius:50%;background:#54e6ff}
+.hud{position:absolute;top:22px;right:30px;z-index:8;text-align:right}
+.hudlab{font-size:10px;letter-spacing:.34em;color:#3a7196;font-weight:600}
+.hudnum{font-weight:700;font-size:clamp(34px,4vw,54px);line-height:.9;color:#0e2a42;text-shadow:0 0 22px rgba(84,230,255,.4)}
+.hudnum small{font-size:.34em;font-weight:500;color:#3a7196;margin-left:4px;letter-spacing:.04em}
+.hero{position:absolute;top:3vh;left:50%;transform:translateX(-50%);width:min(780px,74vw);text-align:center;z-index:6;pointer-events:none}
+.eyebrow{font-weight:600;font-size:11px;letter-spacing:.36em;color:#1f83b0}
+.title{font-weight:700;font-size:clamp(24px,3.1vw,42px);letter-spacing:-.01em;margin:6px 0 8px;color:#0e2a42}
+.sub{font-weight:400;font-size:clamp(12.5px,1.15vw,15px);color:#3a6284;max-width:540px;margin:0 auto;line-height:1.45}
+.scanbar{position:absolute;right:38px;bottom:40px;z-index:9;width:min(320px,80vw);opacity:calc(var(--p)*3 - .05)}
+.scanbar .lab{display:flex;justify-content:space-between;font-size:9.5px;letter-spacing:.22em;color:#3a7196;font-weight:600;margin-bottom:6px}
+.scanbar .lab b{color:#0f7fa8;font-weight:700}
+.scanbar .trk{height:5px;border-radius:4px;background:rgba(84,230,255,.14);overflow:hidden}
+.scanbar .fil{height:100%;border-radius:4px;background:linear-gradient(90deg,#2f8fb5,#7ff0ff);transition:width .5s ease;box-shadow:0 0 12px rgba(127,240,255,.7)}
+.subwrap{position:absolute;left:50%;top:48%;width:min(1220px,94vw);transform:translate(-50%,-50%);z-index:5}
+.subfloat{animation:bob 7s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(-6px)}50%{transform:translateY(6px)}}
+.sub svg{width:100%;height:auto;overflow:visible;filter:drop-shadow(0 24px 40px rgba(0,8,18,.6))}
+.hullstroke{fill:none;stroke:#41607c;stroke-width:4;stroke-linejoin:round}
+.hulledge{fill:none;stroke:#7fd8ff;stroke-width:1.4;opacity:.25}
+.interior{fill:url(#interiorg)}
+.metal{fill:url(#metalg);stroke:#0a1420;stroke-width:4;stroke-linejoin:round}
+.metald{fill:url(#metaldg);stroke:#0a1420;stroke-width:4;stroke-linejoin:round}
+.plating{fill:url(#metalg);stroke:#0b1722;stroke-width:1}
+.plateline{stroke:#0b1722;stroke-width:2;opacity:.5}
+.rivet2{fill:#0b1722;opacity:.5}
+.panel{transition:opacity .6s ease}
+.seg.revealed .panel{opacity:0}
+.guts{color:#54e6ff;opacity:0;transition:opacity .7s ease,color .6s ease}
+.seg.revealed .guts{opacity:.85}
+.seg.active .guts{color:var(--ac);opacity:1;filter:drop-shadow(0 0 4px var(--ac))}
+.xedge{stroke:#54e6ff;stroke-width:1.6;fill:none;opacity:0;transition:opacity .6s ease,stroke .6s ease}
+.seg.revealed .xedge{opacity:.32}
+.seg.active .xedge{opacity:.85;stroke:var(--ac)}
+.cnum2{fill:#3f596e;font-weight:700;font-size:13px;letter-spacing:.04em;transition:fill .6s}
+.seg.revealed .cnum2{fill:#8fefff}
+.seg.active .cnum2{fill:var(--ac)}
+.cname2{fill:#3f596e;font-weight:600;font-size:14px;transition:fill .6s}
+.seg.revealed .cname2{fill:#cdeffb}
+.seg.active .cname2{fill:var(--ac)}
+.comp{cursor:pointer}
+.screw{animation:spin 2.4s linear infinite;transform-box:fill-box;transform-origin:center}
+@keyframes spin{to{transform:rotate(360deg)}}
+.scan{transition:transform .55s cubic-bezier(.4,0,.2,1);opacity:calc(var(--p)*4 - .1)}
+.scanline{stroke:#9ff3ff;stroke-width:2;filter:drop-shadow(0 0 7px #7ff0ff)}
+.scanchev{fill:#9ff3ff;filter:drop-shadow(0 0 6px #7ff0ff)}
+.scanfield{fill:url(#scang)}
+.mast{stroke:#7fa7c2;stroke-width:4;stroke-linecap:round}
+.card{position:absolute;left:38px;bottom:34px;width:min(392px,84vw);z-index:9;background:linear-gradient(180deg,rgba(11,28,44,.94),rgba(7,20,33,.94));border:1px solid rgba(84,230,255,.28);border-left:5px solid var(--ac);border-radius:16px;padding:20px 22px 18px;box-shadow:0 24px 50px rgba(0,6,14,.6),inset 0 1px 0 rgba(255,255,255,.05);backdrop-filter:blur(10px)}
+.card .top{display:flex;align-items:center;gap:14px}
+.card .ci{width:48px;height:48px;border-radius:12px;border:1px solid var(--ac);display:flex;align-items:center;justify-content:center;color:var(--ac);flex:none;background:color-mix(in srgb,var(--ac) 14%,transparent);box-shadow:0 0 18px color-mix(in srgb,var(--ac) 40%,transparent)}
+.cardic{width:26px;height:26px}
+.cthd{min-width:0}
+.cct{font-weight:700;font-size:22px;line-height:1.05;color:#eafcff}
+.ccs{font-weight:400;font-size:12px;color:#7fa7c2;letter-spacing:.01em}
+.mtag{display:inline-block;white-space:nowrap;margin:14px 0 9px;font-weight:600;font-size:9.5px;letter-spacing:.22em;padding:4px 11px;border-radius:5px;color:#04101c;background:var(--ac);box-shadow:0 0 16px color-mix(in srgb,var(--ac) 55%,transparent)}
+.ccd{font-weight:400;font-size:14px;line-height:1.5;color:#a9c9dc;margin:0}
+.cfoot{display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:13px;border-top:1px solid rgba(84,230,255,.14)}
+.clm{font-weight:600;font-size:13px;color:var(--ac)}
+.cdep{font-weight:600;font-size:10px;letter-spacing:.14em;color:#5aa3c7}
+.ribwrap{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);z-index:8;display:flex;flex-direction:column;align-items:center;width:max-content}
+.riblab{margin-bottom:8px;font-weight:600;font-size:9.5px;letter-spacing:.28em;color:#3a7196}
+.ribbon{display:flex;gap:6px;align-items:center;padding:9px 12px;background:rgba(7,20,33,.7);border:1px solid rgba(84,230,255,.2);border-radius:12px;backdrop-filter:blur(8px)}
+.seg2{width:20px;height:10px;border-radius:3px;border:none;cursor:pointer;background:var(--ac);opacity:.32;padding:0;transition:.3s}
+.seg2:hover{opacity:.6}
+.seg2.active{width:30px;opacity:1;box-shadow:0 0 14px var(--ac)}
+.divehint{position:absolute;left:50%;bottom:92px;transform:translateX(-50%);z-index:7;font-weight:600;font-size:10px;letter-spacing:.3em;color:#54e6ff;opacity:calc(1 - var(--p)*6);animation:hintbob 1.9s ease-in-out infinite}
+@keyframes hintbob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+.bubbles{position:absolute;inset:0;z-index:4}
+.bubble{position:absolute;bottom:-40px;border-radius:50%;background:radial-gradient(circle at 32% 28%,rgba(180,240,255,.6),rgba(120,200,255,.08) 60%,transparent);border:1px solid rgba(127,216,255,.28);animation:rise linear infinite}
+@keyframes rise{0%{transform:translateY(0);opacity:0}12%{opacity:.65}90%{opacity:.5}100%{transform:translateY(-108vh) translateX(22px);opacity:0}}
+.scrollend{position:fixed;right:26px;bottom:26px;z-index:20;width:52px;height:52px;border-radius:50%;border:1px solid rgba(84,230,255,.45);background:linear-gradient(180deg,rgba(11,28,44,.92),rgba(7,20,33,.92));color:#7ff0ff;display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(10px);box-shadow:0 10px 28px rgba(0,6,14,.5),0 0 18px rgba(84,230,255,.25);transition:transform .25s ease,box-shadow .25s ease,opacity .3s ease}
+.scrollend:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(0,6,14,.55),0 0 26px rgba(84,230,255,.5)}
+.scrollend svg{width:22px;height:22px}
+.scrollend.hide{opacity:0;pointer-events:none;transform:translateY(8px)}
+</style></helmet><div class="track"><div class="scene"><div class="layer depthgrad"></div><div class="layer godrays"></div><div class="layer caustics"></div><div class="layer grid"></div><div class="layer silt"></div><div class="layer ray"></div><div class="layer pulse"></div><div class="layer parts"></div><div class="brand"><span class="dot"></span>DEEPWATER FLEET</div><div class="hud"><div class="hudlab">SYSTEMS ONLINE</div><div class="hudnum"><span id="segNum">01</span><small>/ 10</small></div></div><div class="hero"><div class="eyebrow">ONE VESSEL · TEN DIVISIONS</div><h1 class="title">A single hull. Ten systems inside.</h1><p class="sub">Scroll from bow to stern and the exterior peels away — each compartment x-rays open to reveal the division engineered within.</p></div><div class="scanbar"></div><div class="subwrap"><div class="subfloat"><svg viewBox="0 0 1440 480" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="metalg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a4f66"></stop><stop offset=".5" stop-color="#263749"></stop><stop offset="1" stop-color="#141f2c"></stop></linearGradient><linearGradient id="metaldg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2c3f54"></stop><stop offset="1" stop-color="#101a26"></stop></linearGradient><linearGradient id="interiorg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0c1a29"></stop><stop offset="1" stop-color="#050d16"></stop></linearGradient><linearGradient id="scang" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7ff0ff" stop-opacity="0"></stop><stop offset="1" stop-color="#7ff0ff" stop-opacity=".16"></stop></linearGradient><clipPath id="hullclip"><path d="M150,158 L1150,158 C1214,158 1260,196 1276,244 C1278,248 1278,252 1276,256 C1260,304 1214,342 1150,342 L150,342 C94,342 76,300 76,250 C76,200 94,158 150,158 Z"></path></clipPath></defs><g transform="translate(1306,250)"><g class="screw"><ellipse cx="0" cy="0" rx="8" ry="36" class="metald"></ellipse><ellipse cx="0" cy="0" rx="36" ry="8" class="metald"></ellipse><circle cx="0" cy="0" r="11" fill="#0a1420"></circle></g></g><ellipse cx="1306" cy="250" rx="16" ry="48" fill="none" stroke="#41607c" stroke-width="4"></ellipse><path class="metald" d="M1268,226 L1296,234 L1296,266 L1268,274 Z"></path><polygon class="metald" points="1150,158 1224,100 1240,110 1192,164"></polygon><polygon class="metald" points="1150,342 1224,400 1240,390 1192,336"></polygon><path class="metald" d="M628,158 L636,88 Q640,74 658,74 L774,74 Q792,74 796,90 L804,158 Z"></path><rect x="656" y="94" width="50" height="20" rx="5" class="metal"></rect><rect x="716" y="94" width="30" height="20" rx="5" class="metal"></rect><line class="mast" x1="672" y1="74" x2="672" y2="36"></line><circle cx="672" cy="34" r="5" fill="none" stroke="#7fd8ff" stroke-width="3"></circle><line class="mast" x1="700" y1="74" x2="700" y2="48"></line><path class="mast" d="M700,48 h16" fill="none"></path><path class="interior" d="M150,158 L1150,158 C1214,158 1260,196 1276,244 C1278,248 1278,252 1276,256 C1260,304 1214,342 1150,342 L150,342 C94,342 76,300 76,250 C76,200 94,158 150,158 Z"></path><g clip-path="url(#hullclip)"><sc-for list="{{ divs }}" as="d" hint-placeholder-count="10"><g class="{{ d.cls }}" style="{{ d.styleVar }}" onClick="{{ d.go }}">{{ d.panelEl }}{{ d.gutsEl }}{{ d.edgeEl }}{{ d.numEl }}{{ d.nameEl }}</g></sc-for></g><path class="hullstroke" d="M150,158 L1150,158 C1214,158 1260,196 1276,244 C1278,248 1278,252 1276,256 C1260,304 1214,342 1150,342 L150,342 C94,342 76,300 76,250 C76,200 94,158 150,158 Z"></path><path class="hulledge" d="M150,168 L1150,168 C1206,168 1250,200 1264,245"></path><g class="metald"><circle cx="108" cy="250" r="10"></circle></g><circle cx="108" cy="250" r="5" fill="none" stroke="#7fd8ff" stroke-width="2.5"></circle><g class="scan" style="{{ scanStyle }}"><rect class="scanfield" x="-70" y="150" width="70" height="200"></rect><line class="scanline" x1="0" y1="146" x2="0" y2="354"></line><polygon class="scanchev" points="-9,140 9,140 0,152"></polygon><polygon class="scanchev" points="-9,360 9,360 0,348"></polygon></g></svg></div></div><svg class="leader" style="left: 2px; top: 83px; position: absolute"><path class="leadline"></path><circle class="leadhalo" r="9"></circle><circle class="leaddot" r="4"></circle><circle class="leadstart" r="4"></circle></svg><div class="card" style="{{ aStyle }}"><div class="top"><div class="ci">{{ activeIcon }}</div><div class="cthd"><div class="cct">{{ aCt }}</div><div class="ccs">{{ aCs }}</div></div></div><span class="mtag">{{ aSub }}</span><p class="ccd">{{ aCd }}</p><div class="cfoot"><a class="clm" href="#">Explore division →</a><span class="cdep mono">SEGMENT {{ aNum }} / 10</span></div></div><div class="ribwrap"><div class="riblab">JUMP TO A SEGMENT</div><div class="ribbon"><sc-for list="{{ divs }}" as="d" hint-placeholder-count="10"><button class="{{ d.rcls }}" style="{{ d.styleVar }}" onClick="{{ d.go }}" aria-label="{{ d.ct }}"></button></sc-for></div></div><div class="divehint">SCROLL TO SCAN →</div><div class="bubbles"><sc-for list="{{ bubbles }}" as="b" hint-placeholder-count="16"><span class="bubble" style="{{ b.style }}"></span></sc-for></div></div></div>
+<button class="scrollend" id="scrollEnd" title="Scroll to end" aria-label="Scroll to end" onClick="{{ scrollToEnd }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v13M6 11l6 6 6-6M5 21h14"></path></svg></button></x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;100%&quot;}}">
+class Component extends DCLogic {
+  state = { idx: 0 };
+
+  data() {
+    return [
+      { ct:'SaaS', cs:'Micro software products', sub:'BOW · NAV MODULE', nm:'SaaS', cd:'Focused products that ship fast and scale on demand.', accent:'#f87171', icon:'<rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M3 9h18M8 13l-2 2 2 2M16 13l2 2-2 2"></path>', internals:'<rect x="26" y="42" width="52" height="36" rx="4"/><line x1="26" y1="54" x2="78" y2="54"/><circle cx="32" cy="48" r="2"/><circle cx="40" cy="48" r="2"/><rect x="34" y="90" width="36" height="26" rx="3"/><line x1="52" y1="78" x2="52" y2="90"/><path d="M30 128h44M30 138h30M30 148h38"/>' },
+      { ct:'AI-aaS', cs:'AI as a Service', sub:'COMMS DECK', nm:'AI-aaS', cd:'Managed intelligence — consumed like infrastructure.', accent:'#818cf8', icon:'<path d="M7 18a4 4 0 010-8 5 5 0 019.6-1.2A4 4 0 0117 18H7z"></path>', internals:'<rect x="28" y="34" width="48" height="116" rx="4"/><line x1="28" y1="60" x2="76" y2="60"/><line x1="28" y1="86" x2="76" y2="86"/><line x1="28" y1="112" x2="76" y2="112"/><circle cx="36" cy="47" r="2.4"/><circle cx="36" cy="73" r="2.4"/><circle cx="36" cy="99" r="2.4"/><circle cx="36" cy="125" r="2.4"/><path d="M58 47h12M58 73h12M58 99h12M58 125h12"/>' },
+      { ct:'AI Solutions', cs:'Vision · ML · Custom AI', sub:'AI CORE', nm:'AI', cd:'Applied models built around your data and your floor.', accent:'#a78bfa', icon:'<circle cx="5" cy="12" r="2"></circle><circle cx="19" cy="6" r="2"></circle><circle cx="19" cy="18" r="2"></circle><path d="M7 11l10-4M7 13l10 4"></path>', internals:'<circle cx="28" cy="56" r="6"/><circle cx="28" cy="118" r="6"/><circle cx="76" cy="46" r="6"/><circle cx="76" cy="92" r="6"/><circle cx="76" cy="140" r="6"/><circle cx="51" cy="88" r="8"/><path d="M34 56l9 26M34 118l10 -24M59 84l11 -34M59 90l11 2M59 96l11 42"/>' },
+      { ct:'Industrial Automation', cs:'Factory · PLC · SCADA', sub:'DRIVE DECK', nm:'Factory', cd:'Automation that keeps production lines running around the clock.', accent:'#fbbf24', icon:'<rect x="4" y="6" width="16" height="12" rx="2"></rect><path d="M8 6V3M12 6V3M16 6V3M8 21v-3M12 21v-3M16 21v-3"></path>', internals:'<circle cx="40" cy="66" r="17"/><circle cx="40" cy="66" r="6"/><path d="M40 45v-8M40 87v8M19 66h-8M61 66h8M25 51l-6-6M55 81l6 6M55 51l6-6M25 81l-6 6"/><circle cx="70" cy="116" r="12"/><circle cx="70" cy="116" r="4"/><path d="M70 100v-6M70 132v6M54 116h-6M86 116h6"/><rect x="22" y="130" width="10" height="28" rx="2"/><line x1="27" y1="130" x2="27" y2="110"/>' },
+      { ct:'IoT', cs:'Internet of Things', sub:'SONAR ARRAY', nm:'IoT', cd:'Connected devices, edge to cloud, monitored in real time.', accent:'#38bdf8', icon:'<path d="M5 11a10 10 0 0114 0"></path><path d="M8 14a6 6 0 018 0"></path><circle cx="12" cy="18" r="1.5"></circle>', internals:'<circle cx="51" cy="96" r="8"/><circle cx="24" cy="56" r="4"/><circle cx="80" cy="60" r="4"/><circle cx="28" cy="140" r="4"/><circle cx="78" cy="134" r="4"/><path d="M46 90c-8-14-16-24-22-30M56 90c8-14 18-24 24-28M46 102c-6 16-13 26-18 34M56 102c8 12 16 22 22 28"/><path d="M38 42a26 26 0 0126 0M42 34a36 36 0 0118 0"/>' },
+      { ct:'Agri-Tech', cs:'Dairy · Agriculture', sub:'HYDRO BAY', nm:'Agri', cd:'Sensing and software for farms, herds, and yields.', accent:'#34d399', icon:'<path d="M12 21v-8"></path><path d="M12 13c0-4 3-6 7-6 0 4-3 6-7 6z"></path><path d="M12 13c0-3-2.5-5-6-5 0 3 2.5 5 6 5z"></path>', internals:'<rect x="30" y="44" width="44" height="112" rx="10"/><path d="M30 116h44"/><path d="M52 116v-30M52 86c0-12 8-18 18-18 0 12-8 18-18 18zM52 92c0-9-7-14-16-14 0 9 7 14 16 14z"/><circle cx="40" cy="136" r="2.2"/><circle cx="60" cy="128" r="2.6"/><circle cx="50" cy="146" r="2"/>' },
+      { ct:'Retail', cs:'Digital retail solutions', sub:'CARGO HOLD', nm:'Retail', cd:'Commerce experiences that move inventory online and in-store.', accent:'#f472b6', icon:'<path d="M6 8h12l-1 12H7L6 8z"></path><path d="M9 8V6a3 3 0 016 0v2"></path>', internals:'<rect x="24" y="56" width="24" height="24"/><rect x="54" y="56" width="24" height="24"/><rect x="24" y="86" width="24" height="24"/><rect x="54" y="86" width="24" height="24"/><rect x="39" y="118" width="24" height="24"/><path d="M36 56v24M66 56v24M51 118v24"/>' },
+      { ct:'HMI', cs:'Human Machine Interface', sub:'HELM CONTROL', nm:'HMI', cd:'Interfaces where operators and machines meet — clear, fast, safe.', accent:'#22d3ee', icon:'<rect x="3" y="5" width="18" height="12" rx="2"></rect><path d="M7 9h6M7 12h4M9 21h6M12 17v4"></path><circle cx="17" cy="9" r="1"></circle>', internals:'<rect x="24" y="42" width="54" height="34" rx="4"/><path d="M30 56h20M30 64h13"/><circle cx="34" cy="118" r="12"/><path d="M34 118l6 -8"/><circle cx="68" cy="118" r="12"/><path d="M68 118l-5 -8"/><rect x="26" y="146" width="50" height="9" rx="4"/><circle cx="42" cy="150.5" r="4"/>' },
+      { ct:'Solutions', cs:'Pre-built building blocks', sub:'POWER PLANT', nm:'Modules', cd:'Production-ready modules that compress months of engineering into weeks.', accent:'#2dd4bf', icon:'<rect x="4" y="13" width="7" height="7" rx="1"></rect><rect x="13" y="13" width="7" height="7" rx="1"></rect><rect x="8.5" y="4" width="7" height="7" rx="1"></rect>', internals:'<rect x="26" y="48" width="22" height="22" rx="2"/><rect x="54" y="48" width="22" height="22" rx="2"/><rect x="40" y="78" width="22" height="22" rx="2"/><rect x="26" y="108" width="22" height="22" rx="2"/><rect x="54" y="108" width="22" height="22" rx="2"/><path d="M37 70v8M65 70v8M51 100v8"/>' },
+      { ct:'Services', cs:'PMF · Turnaround · Due Diligence', sub:'STERN · REACTOR', nm:'Services', cd:'Hands-on advisory that gets products to market fit — and keeps them there.', accent:'#f59e0b', icon:'<circle cx="12" cy="12" r="3.2"></circle><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"></path>', internals:'<circle cx="50" cy="88" r="22"/><circle cx="50" cy="88" r="9"/><ellipse cx="50" cy="88" rx="22" ry="9"/><ellipse cx="50" cy="88" rx="9" ry="22"/><path d="M50 66v-14M50 110v14M28 88h-13M72 88h13"/><path d="M30 138q20 12 40 0"/><circle cx="30" cy="150" r="3"/><circle cx="70" cy="150" r="3"/>' }
+    ];
+  }
+
+  componentDidMount() {
+    this._p = -1;
+    this.update = () => {
+      const track = document.querySelector('.track');
+      const scene = document.querySelector('.scene');
+      if (!track || !scene) return;
+      const total = track.offsetHeight - scene.offsetHeight;
+      const top = track.getBoundingClientRect().top;
+      const p = total > 0 ? Math.min(1, Math.max(0, -top / total)) : 0;
+      if (Math.abs(p - this._p) <= 0.0004) return;
+      this._p = p;
+      scene.style.setProperty('--p', p.toFixed(4));
+      const idx = Math.min(9, Math.floor(p * 9.999));
+      const segEl = document.getElementById('segNum');
+      const pctEl = document.getElementById('scanPct');
+      if (segEl) segEl.textContent = String(idx + 1).padStart(2, '0');
+      if (pctEl) pctEl.textContent = Math.round((idx + 1) / 10 * 100);
+      if (idx !== this.state.idx) this.setState({ idx });
+    };
+    this._accents = this.data().map(d => d.accent);
+    this.positionLeader = () => {
+      const svg = document.querySelector('.leader');
+      const seg = document.querySelector('.seg.active');
+      const card = document.querySelector('.card');
+      if (!svg || !seg || !card) return;
+      const s = seg.getBoundingClientRect();
+      const c = card.getBoundingClientRect();
+      const tx = s.left + s.width / 2;
+      const ty = s.top + s.height * 0.5;
+      const sx = c.right - 24;
+      const sy = c.top;
+      const midY = (sy + ty) / 2;
+      svg.querySelector('.leadline').setAttribute('d', `M${sx},${sy} C${sx},${midY} ${tx},${midY} ${tx},${ty}`);
+      svg.querySelector('.leadhalo').setAttribute('cx', tx);
+      svg.querySelector('.leadhalo').setAttribute('cy', ty);
+      svg.querySelector('.leaddot').setAttribute('cx', tx);
+      svg.querySelector('.leaddot').setAttribute('cy', ty);
+      svg.querySelector('.leadstart').setAttribute('cx', sx);
+      svg.querySelector('.leadstart').setAttribute('cy', sy);
+      svg.style.setProperty('--lc', this._accents[this._p >= 0 ? Math.min(9, Math.floor(this._p * 9.999)) : 0]);
+    };
+    this._toggleBtn = () => { const btn = document.getElementById('scrollEnd'); if (btn) btn.classList.toggle('hide', (this._p ?? 0) > 0.985); };
+    this._onScroll = () => { this.update(); this._toggleBtn(); };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    window.addEventListener('resize', this._onScroll, { passive: true });
+    const loop = () => { this.update(); this.positionLeader(); this._raf = requestAnimationFrame(loop); };
+    this._raf = requestAnimationFrame(loop);
+    this.update();
+  }
+  componentWillUnmount() {
+    if (this._raf) cancelAnimationFrame(this._raf);
+    if (this._onScroll) { window.removeEventListener('scroll', this._onScroll); window.removeEventListener('resize', this._onScroll); }
+  }
+
+  smoothTo(target) {
+    if (this._anim) cancelAnimationFrame(this._anim);
+    const doc = document.documentElement;
+    const start = window.scrollY || doc.scrollTop;
+    const max = doc.scrollHeight - window.innerHeight;
+    const end = Math.max(0, Math.min(max, target));
+    const dur = Math.min(1400, Math.max(500, Math.abs(end - start) * 0.6));
+    const t0 = performance.now();
+    const ease = t => 1 - Math.pow(1 - t, 3);
+    const step = now => {
+      const t = Math.min(1, (now - t0) / dur);
+      const y = start + (end - start) * ease(t);
+      window.scrollTo(0, y); doc.scrollTop = y;
+      if (t < 1) this._anim = requestAnimationFrame(step);
+    };
+    this._anim = requestAnimationFrame(step);
+  }
+
+  scrollToEnd() {
+    const track = document.querySelector('.track');
+    if (track) this.smoothTo(track.offsetTop + track.offsetHeight);
+  }
+
+  goTo(i) {
+    const track = document.querySelector('.track');
+    const scene = document.querySelector('.scene');
+    if (!track || !scene) return;
+    const total = track.offsetHeight - scene.offsetHeight;
+    const targetTop = track.offsetTop + ((i + 0.5) / 10) * total;
+    window.scrollTo({ top: targetTop, behavior: 'smooth' });
+  }
+
+  renderVals() {
+    const PIPES = '<path d="M0 26h103M0 158h103"/><circle cx="18" cy="26" r="3"/><circle cx="85" cy="158" r="3"/>';
+    const base = this.data();
+    const idx = this.state.idx ?? 0;
+    const divs = base.map((d, i) => {
+      const x = 150 + i * 103;
+      const cx = x + 51.5;
+      return {
+        ...d,
+        styleVar: { '--ac': d.accent },
+        cls: 'comp seg' + (i <= idx ? ' revealed' : '') + (i === idx ? ' active' : ''),
+        rcls: 'seg2' + (i === idx ? ' active' : ''),
+        panelEl: React.createElement('g', { className: 'panel' },
+          React.createElement('rect', { className: 'plating', x, y: 158, width: 103, height: 184 }),
+          React.createElement('line', { className: 'plateline', x1: x, y1: 204, x2: x + 103, y2: 204 }),
+          React.createElement('line', { className: 'plateline', x1: x, y1: 296, x2: x + 103, y2: 296 }),
+          React.createElement('circle', { className: 'rivet2', cx: x + 15, cy: 172, r: 2.4 }),
+          React.createElement('circle', { className: 'rivet2', cx: x + 88, cy: 172, r: 2.4 }),
+          React.createElement('circle', { className: 'rivet2', cx: x + 15, cy: 328, r: 2.4 }),
+          React.createElement('circle', { className: 'rivet2', cx: x + 88, cy: 328, r: 2.4 })
+        ),
+        gutsEl: React.createElement('svg', {
+          className: 'guts', x, y: 158, width: 103, height: 184, viewBox: '0 0 103 184',
+          fill: 'none', stroke: 'currentColor', strokeWidth: 2.4, strokeLinecap: 'round', strokeLinejoin: 'round',
+          dangerouslySetInnerHTML: { __html: d.internals + PIPES }
+        }),
+        edgeEl: React.createElement('rect', { className: 'xedge', x, y: 158, width: 103, height: 184, rx: 2 }),
+        numEl: React.createElement('text', { x: cx, y: 180, className: 'cnum2', textAnchor: 'middle', fontFamily: "'IBM Plex Mono',monospace" }, String(i + 1).padStart(2, '0')),
+        nameEl: React.createElement('text', { x: cx, y: 336, className: 'cname2', textAnchor: 'middle', fontFamily: "'Space Grotesk',sans-serif" }, d.nm),
+        go: () => this.goTo(i)
+      };
+    });
+    const a = base[idx];
+    const activeIcon = React.createElement('svg', {
+      viewBox: '0 0 24 24', className: 'cardic', fill: 'none', stroke: 'currentColor',
+      strokeWidth: 1.7, strokeLinecap: 'round', strokeLinejoin: 'round',
+      dangerouslySetInnerHTML: { __html: a.icon }
+    });
+    const bubbles = Array.from({ length: 16 }, (_, i) => {
+      const sz = 6 + (i * 7 % 5) * 4;
+      return { style: {
+        left: (5 + (i * 61 % 90)) + '%', width: sz + 'px', height: sz + 'px',
+        animationDuration: (8 + i % 6 * 2) + 's', animationDelay: (-i * 1.1) + 's'
+      } };
+    });
+    const scanX = 150 + idx * 103 + 103;
+    return {
+      divs, bubbles, idx,
+      aCt: a.ct, aCs: a.cs, aCd: a.cd, aSub: a.sub, aNum: String(idx + 1).padStart(2, '0'),
+      aStyle: { '--ac': a.accent },
+      scanStyle: { transform: 'translateX(' + scanX + 'px)' },
+      activeIcon,
+      scrollToEnd: () => this.scrollToEnd()
+    };
+  }
+}
+</script>
+</body>
+</html>
