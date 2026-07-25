@@ -423,6 +423,19 @@ window.addEventListener('scroll', () => {
         stickyElement.style.width = '100%';
     }
     
+    // Prevent overlap with '#contact' title when scrolling down or back up
+    const contactTitle = document.querySelector('#contact .reveal');
+    if (contactTitle) {
+        const titleRect = contactTitle.getBoundingClientRect();
+        const wrapperRect = stickyElement.getBoundingClientRect();
+        if (titleRect.top < wrapperRect.bottom) {
+            const overlap = wrapperRect.bottom - titleRect.top + 20; // 20px padding/margin spacing
+            if (overlap > 0) {
+                stickyElement.style.transform = `translateY(${-overlap}px)`;
+            }
+        }
+    }
+    
     // 2. Track scroll progress and state
     const scrolled = startOffset - rect.top;
     const totalScrollableDistance = trackSection.offsetHeight - stickyElement.offsetHeight;

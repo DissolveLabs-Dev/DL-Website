@@ -4,6 +4,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Calendly link widget -->
+  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+  <!-- End Calendly link widget -->
   <script src="./support.js"></script>
   <style>
         /* Footer Height & Tree Adjustments */
@@ -121,6 +125,98 @@
           --text-body: var(--ink-400);
         }
 
+        /* Nav hover background variables */
+        body {
+          --nav-hover-bg: rgba(38, 208, 206, 0.12);
+        }
+        body.theme-light {
+          --nav-hover-bg: rgba(14, 154, 167, 0.08);
+        }
+
+        /* 2. Scroll indicator and design partner text in light mode */
+        body.theme-light #scroll-ind div {
+          color: #0b2028 !important;
+        }
+        body.theme-light #scroll-ind div:last-child {
+          background: linear-gradient(to bottom, #0e9aa7, transparent) !important;
+        }
+        body.theme-light .hero-partner-text {
+          color: #0b2028 !important;
+        }
+        body.theme-light .hero-partner-text span {
+          background: rgba(14, 154, 167, 0.6) !important;
+        }
+
+        /* 3. Hero Buttons Positioning (Desktop/Big Screens) */
+        .hero-action-buttons {
+          display: flex;
+          gap: 16px;
+          margin-top: 38px;
+          flex-wrap: wrap;
+        }
+        @media (min-width: 1024px) {
+          .hero-inner-container {
+            position: static !important;
+          }
+          .hero-action-buttons {
+            position: absolute !important;
+            right: 8vw !important;
+            top: 45% !important;
+            transform: translateY(-50%) !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 16px !important;
+            margin-top: 0 !important;
+            z-index: 10;
+          }
+        }
+
+        /* 5. Theme Toggle Position styling */
+        #mobile-theme-toggle {
+          position: fixed;
+          top: 33px;
+          z-index: 9990;
+          width: 58px;
+          height: 30px;
+          border-radius: 100px;
+          border: 1px solid rgba(107,235,232,.4);
+          background: var(--surface-nav);
+          backdrop-filter: blur(18px);
+          -webkit-backdrop-filter: blur(18px);
+          padding: 0;
+          left: 50%;
+          margin-left: 320px;
+          transition: left 0.3s, margin-left 0.3s, right 0.3s, top 0.3s;
+        }
+        @media (min-width: 1024px) {
+          #mobile-theme-toggle {
+            left: auto !important;
+            right: 40px !important;
+            margin-left: 0 !important;
+          }
+        }
+
+        /* 7. Cyan / Blue Text Contrast on Light Mode */
+        body.theme-light [style*="33E0DE"] {
+          color: #0d8a96 !important;
+          text-shadow: 0 0 10px rgba(14,154,167,0.15) !important;
+        }
+        body.theme-light [style*="5CC6C4"] {
+          color: #0d8a96 !important;
+        }
+        body.theme-light [style*="26D0CE"] {
+          color: #0d8a96 !important;
+        }
+        body.theme-light span[style*="linear-gradient"],
+        body.theme-light h1 span[style*="linear-gradient"],
+        body.theme-light h2 span[style*="linear-gradient"],
+        body.theme-light h3 span[style*="linear-gradient"] {
+          background: linear-gradient(100deg, #0d8a96, #066770) !important;
+          -webkit-background-clip: text !important;
+          background-clip: text !important;
+          -webkit-text-fill-color: transparent !important;
+        }
+
         a {
           color: var(--ink-300);
           text-decoration: none;
@@ -236,6 +332,13 @@
           transform: none
         }
 
+        .ev-card > div[style*="top:18px"],
+        .ev-card > div[style*="top: 18px"] {
+          white-space: normal !important;
+          line-height: 1.35 !important;
+          text-align: left !important;
+        }
+
         .svc-card {
           transition: flex .6s cubic-bezier(.5, 0, .2, 1)
         }
@@ -324,21 +427,95 @@
         }
 
         @media(max-width:820px) {
-          .svc-bottom { bottom: 12px !important; }
-        }
-        @media(max-width:820px) {
           #services { padding-bottom: 20px !important; }
           #delivery { padding-top: 15px !important; }
-          .svc-card h3 { font-size: 20px !important; }
-          .svc-card .svc-desc { margin-top: 8px !important; }
+          
           .svc-pair {
             flex-direction: column;
-            height: auto !important
+            height: auto !important;
+            min-height: 0 !important;
           }
 
+          /* Default card: flex:none stops the inline flex:1 1 50% from stretching */
           .svc-card {
-            height: 320px
+            flex: none !important;
+            height: 160px !important;
+            max-height: 160px !important;
+            transition: height 0.55s cubic-bezier(0.4,0,0.2,1), max-height 0.55s cubic-bezier(0.4,0,0.2,1) !important;
+            cursor: pointer;
           }
+
+          /* Active card grows to show description */
+          .svc-card.active {
+            height: 300px !important;
+            max-height: 300px !important;
+          }
+
+          .svc-card h3 {
+            position: absolute !important;
+            top: auto !important;
+            left: 24px !important;
+            right: 24px !important;
+            bottom: 22px !important;
+            margin: 0 !important;
+            font-size: 18px !important;
+            line-height: 1.25 !important;
+            opacity: 1 !important;
+            transition: opacity 0.3s ease !important;
+            pointer-events: none !important;
+          }
+          
+          .svc-header-meta {
+            position: absolute !important;
+            top: 22px !important;
+            bottom: auto !important;
+            left: 24px !important;
+            right: 24px !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: baseline !important;
+            opacity: 1 !important;
+            transition: opacity 0.3s ease !important;
+            pointer-events: none !important;
+          }
+
+          .svc-card .svc-desc {
+            opacity: 0 !important;
+            pointer-events: none !important;
+            transition: opacity 0.3s ease !important;
+            margin: 0 !important;
+            font-size: 14px !important;
+            line-height: 1.5 !important;
+            color: #9BA8B4 !important;
+          }
+
+          .svc-card.active h3 {
+            opacity: 0 !important;
+          }
+          
+          .svc-card.active .svc-header-meta {
+            opacity: 0 !important;
+          }
+
+          .svc-card.active .svc-desc {
+            opacity: 1 !important;
+            pointer-events: auto !important;
+          }
+
+          .svc-bottom {
+            position: absolute !important;
+            inset: 0 !important;
+            padding: 22px 24px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: center !important;
+            align-items: flex-start !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            top: 0 !important;
+          }
+        }
 
           .hero-c-rail {
             display: none !important
@@ -377,18 +554,13 @@
           width: 100%;
           overflow: hidden;
           padding: 8px 0;
-          background: rgba(4, 15, 26, .75);
+          background: rgba(230, 246, 246, .85);
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
-          border-top: 1px solid rgba(38, 208, 206, .16);
+          border-top: 1px solid rgba(14, 154, 167, .2);
           z-index: 2;
           -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
           mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)
-        }
-
-        body.theme-light .logo-strip-container {
-          background: rgba(230, 246, 246, .85);
-          border-color: rgba(14, 154, 167, .2)
         }
 
         .logo-track {
@@ -536,8 +708,7 @@
       <canvas id="particles-canvas"
         style="position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none"></canvas>      <div class="desktop-nav-wrapper">
         <button id="mobile-theme-toggle"
-          class="theme-toggle" onClick="{{ toggleTheme }}" aria-label="Toggle light and dark theme"
-          style="position: fixed; top: 33px; z-index: 9990; width: 58px; height: 30px; border-radius: 100px; border: 1px solid rgba(107,235,232,.4); background: var(--surface-nav); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); padding: 0; left: 50%; margin-left: 320px">
+          class="theme-toggle" onClick="{{ toggleTheme }}" aria-label="Toggle light and dark theme">
           <span class="ti-sun"
             style="position:absolute;left:9px;top:50%;transform:translateY(-50%);font-size:12px;line-height:1">☀</span>
           <span class="ti-moon"
@@ -616,7 +787,7 @@
         <canvas id="hero-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:-1"></canvas>
 
         <sc-if value="{{ heroA }}" hint-placeholder-val="{{ true }}">
-          <div style="max-width:820px;position:relative;z-index:1">
+          <div class="hero-inner-container" style="max-width:820px;position:relative;z-index:1">
             <x-import component-from-global-scope="DissolveLabsDesignSystem_0564f1.Eyebrow"
               hint-size="auto,18px">End-to-End Design &amp; Product Partner</x-import>
             <x-import component-from-global-scope="DissolveLabsDesignSystem_0564f1.SectionHeading" size="display"
@@ -627,13 +798,13 @@
               style="font-family:Manrope;font-weight:400;font-size:clamp(16px,1.4vw,19px);line-height:1.6;color:var(--ink-400);margin-top:28px;max-width:560px">
               We embed as design co-founders to build bespoke software, AI systems, and digital products alongside
               ambitious teams.</p>
-            <div style="display:flex;gap:16px;margin-top:38px;flex-wrap:wrap">
+            <div class="hero-action-buttons">
               <x-import component-from-global-scope="DissolveLabsDesignSystem_0564f1.Button" variant="primary" size="md"
                 on-click="{{ goContact }}" hint-size="auto,48px">Partner With Us</x-import>
               <x-import component-from-global-scope="DissolveLabsDesignSystem_0564f1.Button" variant="secondary"
-                size="md" on-click="{{ goWork }}" hint-size="auto,48px">Explore Co-Built Products</x-import>
+                size="md" on-click="{{ goWork }}" hint-size="auto,48px">Co-Build With Us</x-import>
             </div>
-            <div
+            <div class="hero-partner-text"
               style="display:flex;align-items:center;gap:14px;margin-top:34px;font-family:Manrope;font-size:13px;letter-spacing:.3px;color:var(--ink-600)">
               <span style="width:34px;height:1px;background:rgba(107,235,232,.5)"></span>
               Embedded as design partners across fintech, robotics, health &amp; applied AI
@@ -642,7 +813,7 @@
         </sc-if>
 
         <sc-if value="{{ heroB }}">
-          <div style="max-width:960px;margin:0 auto;text-align:center;position:relative;z-index:1">
+          <div class="hero-inner-container" style="max-width:960px;margin:0 auto;text-align:center;position:relative;z-index:1">
             <x-import component-from-global-scope="DissolveLabsDesignSystem_0564f1.Eyebrow"
               hint-size="auto,18px">End-to-End Design &amp; Product Partner</x-import>
             <x-import component-from-global-scope="DissolveLabsDesignSystem_0564f1.SectionHeading" size="display"
@@ -653,17 +824,17 @@
               style="font-family:Manrope;font-weight:400;font-size:clamp(16px,1.5vw,20px);line-height:1.6;color:var(--ink-400);margin:28px auto 0;max-width:600px">
               Co-founding and engineering bespoke software, AI systems, and digital products alongside teams driven to
               lead.</p>
-            <div style="display:flex;gap:16px;margin-top:40px;flex-wrap:wrap;justify-content:center">
+            <div class="hero-action-buttons" style="justify-content:center">
               <x-import component-from-global-scope="DissolveLabsDesignSystem_0564f1.Button" variant="primary" size="lg"
-                pulse="true" on-click="{{ goContact }}" hint-size="auto,54px">Build With Us</x-import>
+                pulse="true" on-click="{{ goContact }}" hint-size="auto,54px">Partner With Us</x-import>
               <x-import component-from-global-scope="DissolveLabsDesignSystem_0564f1.Button" variant="ghost" size="lg"
-                on-click="{{ goWork }}" hint-size="auto,54px">Explore Co-Built Products →</x-import>
+                on-click="{{ goWork }}" hint-size="auto,54px">Co-Build With Us</x-import>
             </div>
           </div>
         </sc-if>
 
         <sc-if value="{{ heroC }}">
-          <div
+          <div class="hero-inner-container"
             style="width:100%;display:flex;justify-content:space-between;align-items:center;gap:60px;flex-wrap:wrap;position:relative;z-index:1">
             <div style="max-width:640px">
               <x-import component-from-global-scope="DissolveLabsDesignSystem_0564f1.Eyebrow"
@@ -676,11 +847,11 @@
                 style="font-family:Manrope;font-weight:400;font-size:clamp(16px,1.4vw,19px);line-height:1.6;color:var(--ink-400);margin-top:26px;max-width:520px">
                 We embed as design co-founders to architect software, robotics, and applied-AI systems with teams that
                 refuse to move slowly.</p>
-              <div style="display:flex;gap:16px;margin-top:36px;flex-wrap:wrap">
+              <div class="hero-action-buttons">
                 <x-import component-from-global-scope="DissolveLabsDesignSystem_0564f1.Button" variant="primary"
-                  size="md" on-click="{{ goContact }}" hint-size="auto,48px">Build With Us</x-import>
+                  size="md" on-click="{{ goContact }}" hint-size="auto,48px">Partner With Us</x-import>
                 <x-import component-from-global-scope="DissolveLabsDesignSystem_0564f1.Button" variant="secondary"
-                  size="md" on-click="{{ goWork }}" hint-size="auto,48px">Explore Co-Built Products</x-import>
+                  size="md" on-click="{{ goWork }}" hint-size="auto,48px">Co-Build With Us</x-import>
               </div>
             </div>
             <div class="hero-c-rail" style="display:flex;flex-direction:column;gap:14px;width:270px">
@@ -1114,7 +1285,7 @@
             <div
               style="position:absolute;inset:0;background:linear-gradient(to top,#03090f 18%,rgba(3,9,15,.2) 55%,transparent 80%)">
             </div>
-            <div
+            <div class="svc-header-meta"
               style="position:absolute;top:26px;left:28px;right:28px;display:flex;justify-content:space-between;align-items:baseline">
               <span
                 style="font-family:Sora;font-weight:600;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#5CC6C4">Software</span>
@@ -1141,7 +1312,7 @@
             <div
               style="position:absolute;inset:0;background:linear-gradient(to top,#03090f 18%,rgba(3,9,15,.2) 55%,transparent 80%)">
             </div>
-            <div
+            <div class="svc-header-meta"
               style="position:absolute;top:26px;left:28px;right:28px;display:flex;justify-content:space-between;align-items:baseline">
               <span
                 style="font-family:Sora;font-weight:600;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#5CC6C4">Robotics</span>
@@ -1170,7 +1341,7 @@
             <div
               style="position:absolute;inset:0;background:linear-gradient(to top,#03090f 18%,rgba(3,9,15,.2) 55%,transparent 80%)">
             </div>
-            <div
+            <div class="svc-header-meta"
               style="position:absolute;top:26px;left:28px;right:28px;display:flex;justify-content:space-between;align-items:baseline">
               <span
                 style="font-family:Sora;font-weight:600;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#5CC6C4">AI</span>
@@ -1197,7 +1368,7 @@
             <div
               style="position:absolute;inset:0;background:linear-gradient(to top,#03090f 18%,rgba(3,9,15,.2) 55%,transparent 80%)">
             </div>
-            <div
+            <div class="svc-header-meta"
               style="position:absolute;top:26px;left:28px;right:28px;display:flex;justify-content:space-between;align-items:baseline">
               <span
                 style="font-family:Sora;font-weight:600;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#5CC6C4">Product</span>
@@ -1572,6 +1743,42 @@
   }
 
   /* Connector */
+  @keyframes step-line-1 {
+    0%   { transform: scaleX(0); }
+    22%  { transform: scaleX(1); }
+    97%  { transform: scaleX(1); }
+    100% { transform: scaleX(0); }
+  }
+  @keyframes step-line-2 {
+    0%, 25%  { transform: scaleX(0); }
+    47%      { transform: scaleX(1); }
+    97%      { transform: scaleX(1); }
+    100%     { transform: scaleX(0); }
+  }
+  @keyframes step-line-3 {
+    0%, 50%  { transform: scaleX(0); }
+    72%      { transform: scaleX(1); }
+    97%      { transform: scaleX(1); }
+    100%     { transform: scaleX(0); }
+  }
+  @keyframes step-line-v-1 {
+    0%   { transform: scaleY(0); }
+    22%  { transform: scaleY(1); }
+    97%  { transform: scaleY(1); }
+    100% { transform: scaleY(0); }
+  }
+  @keyframes step-line-v-2 {
+    0%, 25%  { transform: scaleY(0); }
+    47%      { transform: scaleY(1); }
+    97%      { transform: scaleY(1); }
+    100%     { transform: scaleY(0); }
+  }
+  @keyframes step-line-v-3 {
+    0%, 50%  { transform: scaleY(0); }
+    72%      { transform: scaleY(1); }
+    97%      { transform: scaleY(1); }
+    100%     { transform: scaleY(0); }
+  }
   .step-connector {
     display: flex;
     align-items: center;
@@ -1579,19 +1786,41 @@
     margin-top: 40px;
     position: relative;
     padding: 0;
+    gap: 0;
   }
-  .step-line {
-    position: absolute;
-    top: 50%; left: 10px; right: 10px;
+  .step-arrow {
+    flex-grow: 1;
     height: 2px;
+    background: rgba(51, 224, 222, 0.12);
+    position: relative;
+    z-index: 2;
+    margin: 0;
+    overflow: visible;
+  }
+  .step-arrow::after { display: none; }
+  .step-arrow::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
     background: #33E0DE;
-    box-shadow: 0 0 4px rgba(51, 224, 222, 0.4);
-    z-index: 0;
+    box-shadow: 0 0 6px rgba(51,224,222,0.9), 0 0 14px rgba(51,224,222,0.4);
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+  .step-connector > .step-arrow:nth-child(2)::before {
+    animation: step-line-1 4.5s linear infinite;
+  }
+  .step-connector > .step-arrow:nth-child(4)::before {
+    animation: step-line-2 4.5s linear infinite;
+  }
+  .step-connector > .step-arrow:nth-child(6)::before {
+    animation: step-line-3 4.5s linear infinite;
   }
   .step-badge {
     cursor: pointer;
     position: relative;
-    z-index: 1;
+    z-index: 3;
     background: #0a151d;
     border: 1px solid rgba(107, 235, 232, 0.6);
     border-radius: 12px;
@@ -1615,22 +1844,169 @@
   @media(max-width: 600px) {
     .step-connector {
       flex-direction: column;
-      gap: 20px;
+      gap: 0;
       margin-top: 30px;
-      align-items: stretch;
+      align-items: center;
     }
-    .step-line {
-      top: 0; bottom: 0; left: 50%; width: 1px; height: 100%;
+    .step-arrow {
+      height: 20px;
+      width: 2px;
+      flex-grow: 0;
     }
+    .step-arrow::before {
+      transform-origin: top center;
+      transform: scaleY(0);
+    }
+    .step-connector > .step-arrow:nth-child(2)::before {
+      animation: step-line-v-1 4.5s linear infinite;
+    }
+    .step-connector > .step-arrow:nth-child(4)::before {
+      animation: step-line-v-2 4.5s linear infinite;
+    }
+    .step-connector > .step-arrow:nth-child(6)::before {
+      animation: step-line-v-3 4.5s linear infinite;
+    }
+  }
+
+  /* === DL Booking Card === */
+  .dl-booking-card {
+    display: flex;
+    border-radius: 16px;
+    overflow: hidden;
+    width: 100%;
+    max-height: calc(100vh - 105px);
+    margin-bottom: 20px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.55);
+    border: 1px solid rgba(14,154,167,0.25);
+    animation: dlBookingIn .4s cubic-bezier(.22,1,.36,1);
+    background: #071019;
+    position: relative;
+  }
+  @keyframes dlBookingIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.96); }
+    to   { opacity: 1; transform: none; }
+  }
+  .dl-booking-left {
+    background: #071019;
+    padding: 24px 22px;
+    flex: 0 0 40%;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid rgba(14,154,167,0.15);
+  }
+  .dl-booking-right { background: #0a151d; padding: 22px 20px; flex: 1; }
+  body.theme-light .dl-booking-card { background: #ffffff; border-color: rgba(14,154,167,0.2); }
+  body.theme-light .dl-booking-left { background: #f4f8fb; border-right-color: rgba(14,154,167,0.1); }
+  body.theme-light .dl-booking-right { background: #ffffff; }
+  .dl-booking-brand { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .dl-brand-badge {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg,#0E9AA7,#26D0CE);
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: Sora, sans-serif; font-weight: 800; font-size: 12px; color: #fff;
+    letter-spacing: 0.5px; flex-shrink: 0;
+  }
+  .dl-brand-name { font-family: Sora, sans-serif; font-weight: 700; font-size: 14px; color: #EAF3F4; }
+  body.theme-light .dl-brand-name { color: #0d1f29; }
+  .dl-booking-title { font-family: Sora, sans-serif; font-weight: 800; font-size: 22px; line-height: 1.15; color: #EAF3F4; margin: 0 0 14px; }
+  body.theme-light .dl-booking-title { color: #0d1f29; }
+  .dl-booking-meta { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+  .dl-meta-item { display: flex; align-items: flex-start; gap: 8px; font-family: Manrope, sans-serif; font-size: 12px; color: #7F9AA2; line-height: 1.4; }
+  .dl-meta-item svg { flex-shrink: 0; margin-top: 1px; }
+  .dl-meta-selected { color: #0E9AA7; }
+  .dl-meta-selected span { color: #0E9AA7 !important; font-weight: 600; }
+  body.theme-light .dl-meta-item { color: #4a6272; }
+  .dl-booking-quote { font-family: Manrope, sans-serif; font-style: italic; font-size: 12px; color: #4a6272; line-height: 1.5; margin-top: auto; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.06); }
+  body.theme-light .dl-booking-quote { color: #6b8494; border-top-color: rgba(0,0,0,0.07); }
+  .dl-booking-subtitle { font-family: Sora, sans-serif; font-weight: 700; font-size: 15px; color: #EAF3F4; margin: 0 0 12px; }
+  body.theme-light .dl-booking-subtitle { color: #0d1f29; }
+  .dl-day-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .dl-day-cell {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    width: 62px; height: 50px; border-radius: 8px; cursor: pointer;
+    transition: all .15s; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04);
+  }
+  .dl-day-cell:hover { border-color: rgba(14,154,167,0.5); background: rgba(14,154,167,0.08); }
+  .dl-day-cell.dl-day-sel { background: #0E9AA7 !important; border-color: #0E9AA7 !important; box-shadow: 0 3px 12px rgba(14,154,167,.4); }
+  body.theme-light .dl-day-cell { background: #f1f6f9; border-color: #d8e5ec; }
+  body.theme-light .dl-day-cell:hover { border-color: #0E9AA7; background: rgba(14,154,167,0.06); }
+  body.theme-light .dl-day-cell.dl-day-sel { background: #0E9AA7 !important; border-color: #0E9AA7 !important; }
+  .dl-day-wd { font-family: Sora, sans-serif; font-weight: 700; font-size: 11px; color: #EAF3F4; display: block; }
+  .dl-day-cell.dl-day-sel .dl-day-wd,
+  .dl-day-cell.dl-day-sel .dl-day-dm { color: #fff !important; }
+  .dl-day-dm { font-family: Manrope, sans-serif; font-size: 10px; color: #7F9AA2; display: block; margin-top: 1px; }
+  body.theme-light .dl-day-wd { color: #26404a; }
+  body.theme-light .dl-day-dm { color: #5b7a88; }
+  .dl-avail-label { font-family: Sora, sans-serif; font-size: 10px; font-weight: 700; color: #4a6272; letter-spacing: 1.1px; text-transform: uppercase; margin-bottom: 8px; }
+  body.theme-light .dl-avail-label { color: #7a9aaa; }
+  .dl-time-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+  .dl-time-cell {
+    display: flex; align-items: center; justify-content: center; padding: 10px 6px;
+    border-radius: 8px; cursor: pointer; transition: all .15s;
+    font-family: Manrope, sans-serif; font-weight: 600; font-size: 13px;
+    border: 1px solid rgba(14,154,167,0.35); color: #0E9AA7; background: transparent;
+  }
+  .dl-time-cell:hover { background: rgba(14,154,167,0.1); border-color: #0E9AA7; }
+  .dl-time-cell.dl-time-sel { background: #0E9AA7 !important; border-color: #0E9AA7 !important; color: #fff !important; box-shadow: 0 3px 12px rgba(14,154,167,.35); }
+  body.theme-light .dl-time-cell { background: #fff; border-color: #0E9AA7; color: #0E9AA7; }
+  body.theme-light .dl-time-cell:hover { background: rgba(14,154,167,0.06); }
+  body.theme-light .dl-time-cell.dl-time-sel { background: #0E9AA7 !important; color: #fff !important; }
+  .dl-confirm-btn {
+    width: 100%; padding: 12px; border-radius: 8px; border: none;
+    background: #0E9AA7; color: #fff;
+    font-family: Sora, sans-serif; font-weight: 700; font-size: 14px;
+    cursor: pointer; box-shadow: 0 4px 16px rgba(14,154,167,.4);
+    transition: background .2s, box-shadow .2s, transform .2s; margin-bottom: 10px;
+  }
+  .dl-confirm-btn:hover { background: #0b8591; box-shadow: 0 6px 22px rgba(14,154,167,.55); transform: translateY(-1px); }
+  .dl-confirm-btn:active { transform: translateY(0); }
+  .dl-powered { text-align: center; font-family: Manrope, sans-serif; font-size: 11px; color: #4a6272; }
+  .dl-powered a { color: #0E9AA7; text-decoration: none; }
+  .dl-powered a:hover { text-decoration: underline; }
+  .dl-booking-close {
+    position: absolute; top: 10px; right: 12px;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 6px; cursor: pointer; color: #7F9AA2;
+    font-size: 14px; line-height: 1; padding: 4px 8px;
+    transition: color .15s, background .15s; z-index: 10;
+  }
+  .dl-booking-close:hover { color: #EAF3F4; background: rgba(255,255,255,0.12); }
+  body.theme-light .dl-booking-close { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.1); color: #6b8494; }
+  body.theme-light .dl-booking-close:hover { color: #0d1f29; background: rgba(0,0,0,0.1); }
+  @media(max-width: 700px) {
+    .dl-booking-card { flex-direction: column; max-height: calc(100vh - 95px); }
+    .dl-booking-left { flex: none; border-right: none; border-bottom: 1px solid rgba(14,154,167,0.15); padding: 18px 16px; }
+    .dl-booking-right { padding: 18px 16px; }
+    .dl-time-list { grid-template-columns: repeat(2, 1fr); }
   }
 
   /* Calendly override */
   .calendly-inline-widget {
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-    border: 1px solid rgba(107, 235, 232, 0.2);
-    background: #0a151d;
+    width: 100% !important;
+    height: 520px !important;
+    min-height: 460px !important;
+    max-height: calc(100vh - 110px) !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+  }
+  #dl-calendly-inline-host {
+    width: 100%;
+    height: 520px;
+    min-height: 460px;
+    max-height: calc(100vh - 110px);
+    background: transparent;
+    position: relative;
+    z-index: 5;
+  }
+  #dl-calendly-inline-host iframe {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 460px !important;
+    max-height: calc(100vh - 110px) !important;
+    border: none !important;
   }
 </style>
 
@@ -1657,12 +2033,55 @@
       </div>
     </sc-if>
 
+    <!-- Booking Calendar (expanded) -->
+    <sc-if value="{{ bookingOpen }}">
+      <div class="dl-booking-card" id="dl-booking-card">
+        <button class="dl-booking-close" id="dl-booking-close-btn" title="Close">&#x2715;</button>
+        <!-- Left Panel -->
+        <div class="dl-booking-left" id="dl-booking-left-panel">
+          <div class="dl-booking-brand">
+            <div class="dl-brand-badge">DL</div>
+            <span class="dl-brand-name">Dissolve Labs</span>
+          </div>
+          <h2 class="dl-booking-title">30 Minute<br>Meeting</h2>
+          <div class="dl-booking-meta">
+            <div class="dl-meta-item">
+              <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="#7F9AA2" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              <span>30 min</span>
+            </div>
+            <div class="dl-meta-item">
+              <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="#7F9AA2" stroke-width="2"><rect x="2" y="7" width="15" height="11" rx="2"/><path d="m17 10 4-2v9l-4-2"/></svg>
+              <span>Web conferencing details provided on confirmation.</span>
+            </div>
+            <div class="dl-meta-item dl-meta-selected">
+              <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="#0E9AA7" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4" fill="#0E9AA7" stroke="none"/></svg>
+              <span id="dl-sel-text">Select a date &amp; time</span>
+            </div>
+          </div>
+          <p class="dl-booking-quote">&#x201C;We&#x2019;ll evaluate product strategy and explore how we co-own the outcome.&#x201D;</p>
+        </div>
+        <!-- Right Panel -->
+        <div class="dl-booking-right" id="dl-booking-right-panel">
+          <h3 class="dl-booking-subtitle">Select a Date &amp; Time</h3>
+          <div class="dl-day-grid" id="dl-day-grid-host"></div>
+          <div class="dl-avail-label">AVAILABLE TIMES</div>
+          <div class="dl-time-list" id="dl-time-list-host"></div>
+          <button class="dl-confirm-btn" id="dl-confirm-btn">Confirm Booking</button>
+          <div class="dl-powered">Powered by <a href="https://calendly.com" target="_blank" rel="noopener">Calendly</a></div>
+        </div>
+        <!-- Inline Calendly Host -->
+        <div id="dl-calendly-inline-host" style="display: none; width: 100%; min-height: 650px; position: relative; z-index: 5;"></div>
+      </div>
+    </sc-if>
+
     <!-- 4-Step Connector -->
     <div class="step-connector" style="width: 100%;">
-      <div class="step-line"></div>
       <div class="step-badge"><span class="step-num">01</span><span class="step-label">Alignment</span></div>
+      <div class="step-arrow"></div>
       <div class="step-badge"><span class="step-num">02</span><span class="step-label">Velocity</span></div>
+      <div class="step-arrow"></div>
       <div class="step-badge"><span class="step-num">03</span><span class="step-label">Execution</span></div>
+      <div class="step-arrow"></div>
       <div class="step-badge"><span class="step-num">04</span><span class="step-label">Stewardship</span></div>
     </div>
   </div>
@@ -1839,7 +2258,7 @@
                 size="clamp(24px,3.2vw,38px)" color="#26D0CE" hint-size="auto,auto" style="line-height:.9"></x-import>
             </div>
             <div style="text-align:center">
-              <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:#8EA6AD">Ideas,
+              <div style="font-family:Sora,sans-serif;font-weight:700;font-size:16px;letter-spacing:-0.2px;color:#8EA6AD">Ideas,
                 <span style="color:#26D0CE">dissolved</span> into products.
               </div>
               <div style="font-family:Manrope;font-size:13px;color:#3C4A55;margin-top:12px">© 2026 Dissolve Labs</div>
@@ -1911,13 +2330,28 @@ class Component extends DCLogic {
     }
     x.restore();
   }
-  componentDidUpdate() { this.applyCursor(); this.applySpeed(); this.applyMotion(); this.applyTheme(); }
+  componentDidUpdate() { this.applyCursor(); this.applySpeed(); this.applyMotion(); this.applyTheme(); if (this.state.bookingOpen) setTimeout(() => this.renderBookingUI(), 0); }
 
   applySpeed() { if (this.engine) this.engine.setSpeed(this.props.animationSpeed ?? 0.7); }
   applyTheme(theme) {
     const light = (theme || this.state.theme) === 'light';
     document.body.classList.toggle('theme-light', light);
     if (this.engine) this.engine.setTheme(light ? 'light' : 'dark');
+    if (this._inCalendlyView) {
+      const inlineHost = document.getElementById('dl-calendly-inline-host');
+      if (inlineHost && inlineHost.style.display !== 'none') {
+        const bgColor = light ? 'ffffff' : '071019';
+        const textColor = light ? '0d1f29' : 'ffffff';
+        const primaryColor = '0E9AA7';
+        const url = `https://calendly.com/developer-dissolvelabs/new-meeting?background_color=${bgColor}&text_color=${textColor}&primary_color=${primaryColor}`;
+        if (typeof Calendly !== 'undefined' && Calendly.initInlineWidget) {
+          inlineHost.innerHTML = '';
+          Calendly.initInlineWidget({ url: url, parentElement: inlineHost });
+        } else {
+          inlineHost.innerHTML = `<iframe src="${url}" width="100%" height="520" frameborder="0" style="border: none; width: 100%; min-height: 460px; max-height: calc(100vh - 110px);"></iframe>`;
+        }
+      }
+    }
   }
   componentWillUnmount() { if (this._iv) clearInterval(this._iv); if (this.orbRaf) cancelAnimationFrame(this.orbRaf); if (this.engine) this.engine.detach(); document.body.classList.remove('dl-cursor', 'theme-light'); }
 
@@ -1933,6 +2367,86 @@ class Component extends DCLogic {
   }
 
   scrollToId(id) { const el = document.getElementById(id); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + scrollY - 10, behavior: 'smooth' }); }
+
+  renderBookingUI() {
+    if (this._inCalendlyView) return;
+    const s = this.state;
+    const times = ['9:00 AM', '11:00 AM', '1:30 PM', '3:30 PM', '5:00 PM'];
+    const base = new Date(2026, 6, 20);
+    const days = [];
+    for (let i = 0; days.length < 5; i++) {
+      const d = new Date(base); d.setDate(base.getDate() + i);
+      if (d.getDay() === 0 || d.getDay() === 6) continue;
+      days.push({ wd: d.toLocaleString('en-US', { weekday: 'short' }), dm: d.toLocaleString('en-US', { month: 'short', day: 'numeric' }) });
+    }
+    const dayGrid = document.getElementById('dl-day-grid-host');
+    const timeList = document.getElementById('dl-time-list-host');
+    const selText = document.getElementById('dl-sel-text');
+    const confirmBtn = document.getElementById('dl-confirm-btn');
+    const closeBtn = document.getElementById('dl-booking-close-btn');
+    const leftPanel = document.getElementById('dl-booking-left-panel');
+    const rightPanel = document.getElementById('dl-booking-right-panel');
+    const inlineHost = document.getElementById('dl-calendly-inline-host');
+    if (leftPanel) leftPanel.style.display = 'flex';
+    if (rightPanel) rightPanel.style.display = 'block';
+    if (inlineHost) { inlineHost.style.display = 'none'; inlineHost.innerHTML = ''; }
+    if (!dayGrid || !timeList) return;
+    dayGrid.innerHTML = '';
+    days.forEach((d, i) => {
+      const el = document.createElement('div');
+      el.className = 'dl-day-cell' + (i === s.selDay ? ' dl-day-sel' : '');
+      el.innerHTML = '<span class="dl-day-wd">' + d.wd + '</span><span class="dl-day-dm">' + d.dm + '</span>';
+      el.onclick = () => this.setState({ selDay: i });
+      dayGrid.appendChild(el);
+    });
+    timeList.innerHTML = '';
+    times.forEach(tm => {
+      const el = document.createElement('div');
+      el.className = 'dl-time-cell' + (tm === s.selTime ? ' dl-time-sel' : '');
+      el.textContent = tm;
+      el.onclick = () => this.setState({ selTime: tm });
+      timeList.appendChild(el);
+    });
+    const sel = days[s.selDay];
+    if (selText && sel) selText.textContent = sel.wd + ', ' + sel.dm + ' at ' + s.selTime;
+    if (confirmBtn) {
+      confirmBtn.onclick = () => {
+        this._inCalendlyView = true;
+        if (leftPanel) leftPanel.style.display = 'none';
+        if (rightPanel) rightPanel.style.display = 'none';
+        if (inlineHost) {
+          inlineHost.style.display = 'block';
+          const isLight = document.body.classList.contains('theme-light') || this.state.theme === 'light';
+          const bgColor = isLight ? 'ffffff' : '071019';
+          const textColor = isLight ? '0d1f29' : 'ffffff';
+          const primaryColor = '0E9AA7';
+          const url = `https://calendly.com/developer-dissolvelabs/new-meeting?background_color=${bgColor}&text_color=${textColor}&primary_color=${primaryColor}`;
+          if (typeof Calendly !== 'undefined' && Calendly.initInlineWidget) {
+            inlineHost.innerHTML = '';
+            Calendly.initInlineWidget({ url: url, parentElement: inlineHost });
+          } else {
+            inlineHost.innerHTML = `<iframe src="${url}" width="100%" height="520" frameborder="0" style="border: none; width: 100%; min-height: 460px; max-height: calc(100vh - 110px);"></iframe>`;
+          }
+          setTimeout(() => {
+            const el = document.getElementById('dl-booking-card');
+            if (el) {
+              const top = el.getBoundingClientRect().top + window.scrollY - 90;
+              window.scrollTo({ top, behavior: 'smooth' });
+            }
+          }, 50);
+        }
+      };
+    }
+    if (closeBtn) {
+      closeBtn.onclick = () => {
+        this._inCalendlyView = false;
+        if (inlineHost) { inlineHost.style.display = 'none'; inlineHost.innerHTML = ''; }
+        if (leftPanel) leftPanel.style.display = 'flex';
+        if (rightPanel) rightPanel.style.display = 'block';
+        this.setState({ bookingOpen: false });
+      };
+    }
+  }
 
   renderVals() {
     const v = this.props.heroVariant || 'Anchored';
@@ -1987,7 +2501,17 @@ class Component extends DCLogic {
       goAbout: (e) => { if (e && e.preventDefault) e.preventDefault(); this.scrollToId('descend'); },
       bookingOpen: s.bookingOpen, bookingClosed: !s.bookingOpen,
       notConfirmed: !s.confirmed, confirmed: s.confirmed,
-      openBooking: () => this.setState({ bookingOpen: true }),
+      openBooking: () => {
+        this._inCalendlyView = false;
+        this.setState({ bookingOpen: true });
+        setTimeout(() => {
+          const el = document.getElementById('dl-booking-card');
+          if (el) {
+            const top = el.getBoundingClientRect().top + window.scrollY - 90;
+            window.scrollTo({ top, behavior: 'smooth' });
+          }
+        }, 50);
+      },
       confirmBooking: () => this.setState({ confirmed: true }),
       dayCells, timeCells, selectionLabel, confirmMsg,
       confirmStyle: 'width:100%;margin-top:16px;font-family:Sora;font-weight:700;font-size:15px;color:#ffffff;background:#0E9AA7;border:none;padding:13px;border-radius:9px;cursor:pointer;box-shadow:0 4px 14px rgba(14,154,167,.35)',
@@ -2038,6 +2562,46 @@ class Component extends DCLogic {
       document.addEventListener('touchstart', startVideos);
     })();
   </script>
+<script>
+  function initSvcCardClicks() {
+    var cards = document.querySelectorAll('.svc-card');
+    if (!cards.length) return;
+    cards.forEach(function(card) {
+      // Remove old listener by cloning
+      var newCard = card.cloneNode(true);
+      card.parentNode.replaceChild(newCard, card);
+    });
+    document.querySelectorAll('.svc-card').forEach(function(card) {
+      card.addEventListener('click', function() {
+        var isActive = card.classList.contains('active');
+        document.querySelectorAll('.svc-card').forEach(function(c) { c.classList.remove('active'); });
+        if (!isActive) card.classList.add('active');
+      });
+    });
+  }
+  function splitEventSubheadings() {
+    var subheaders = document.querySelectorAll('.ev-card > div[style*="top:18px"]');
+    subheaders.forEach(function(el) {
+      if (el.innerHTML.indexOf('·') !== -1) {
+        el.innerHTML = el.innerHTML.replace(/\s*·\s*/g, '<br>');
+      }
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      initSvcCardClicks();
+      splitEventSubheadings();
+    });
+  } else {
+    initSvcCardClicks();
+    splitEventSubheadings();
+  }
+  // Also retry after short delay in case component system renders late
+  setTimeout(initSvcCardClicks, 800);
+  setTimeout(initSvcCardClicks, 2000);
+  setTimeout(splitEventSubheadings, 800);
+  setTimeout(splitEventSubheadings, 2000);
+</script>
 </body>
 
 </html>

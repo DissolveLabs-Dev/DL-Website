@@ -398,7 +398,10 @@ function NavLink({
       fontSize: 'var(--fs-sm)',
       color: hover ? 'var(--ink-100)' : 'var(--ink-300)',
       cursor: 'pointer',
-      transition: 'color var(--dur-fast) var(--ease-soft)'
+      padding: '6px 12px',
+      borderRadius: '20px',
+      background: hover ? 'var(--nav-hover-bg, rgba(38, 208, 206, 0.12))' : 'transparent',
+      transition: 'color var(--dur-fast) var(--ease-soft), background var(--dur-fast) var(--ease-soft)'
     }
   }, rest), children);
 }
@@ -438,7 +441,7 @@ function NavBar({
   }), links.length > 0 && /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
-      gap: 'var(--gap-nav)'
+      gap: '0px'
     }
   }, links.map((l, i) => /*#__PURE__*/React.createElement(NavLink, {
     key: i,
