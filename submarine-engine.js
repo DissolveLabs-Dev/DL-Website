@@ -106,6 +106,8 @@ window.revealCompartment = function(index) {
     const start = performance.now();
     
     function tick(now) {
+        if (comp.getAttribute('data-revealed') !== 'true') return;
+        
         const elapsed = Math.max(0, now - start);
         const progress = Math.min(1, elapsed / duration);
         // Easing: easeOutQuart
@@ -378,6 +380,8 @@ window.updateSubmarineState = function(newStep) {
 };
 
 // Scroll listener (JS Sticky Polyfill to bypass overflow restrictions)
+let lastScrollY = window.scrollY;
+
 window.addEventListener('scroll', () => {
     const trackSection = document.getElementById('submarine-track');
     if (!trackSection) return;
@@ -421,15 +425,68 @@ window.addEventListener('scroll', () => {
     
     // 2. Track scroll progress and state
     const scrolled = startOffset - rect.top;
+    const totalScrollableDistance = trackSection.offsetHeight - stickyElement.offsetHeight;
+    const svg = document.querySelector('.submarine-svg');
+    
+    // Determine scroll direction
+    const currentScrollY = window.scrollY;
+    const isScrollingDown = currentScrollY > lastScrollY;
+    lastScrollY = currentScrollY;
+    
+    if (typeof window.subEntryPath === 'undefined') window.subEntryPath = 'right';
+    
+    // Progress calculation for smooth entry/exit
+    // 0 = completely offscreen, 1 = perfectly pinned in center
     
     if (scrolled < 0) {
-        // Before section is pinned
+        // Above the section
+        // Switch path to left only if we are leaving from a pinned state (scrolled > -50)
+        // Switch path to right if we are coming from far above (scrolled < -window.innerHeight)
+        const enterDistance = Math.min(600, window.innerHeight * 0.75);
+        
+        if (scrolled < -enterDistance && isScrollingDown) {
+            window.subEntryPath = 'right';
+        }
+        
+        const enterProgress = Math.max(0, 1 - Math.abs(scrolled) / enterDistance);
+        const inv = 1 - enterProgress;
+        
+        if (svg) {
+            const opac = Math.min(1, enterProgress * 3); // Fade out completely before it swaps sides
+            if (window.subEntryPath === 'right') {
+                // Enters from top-right
+                svg.style.transform = `translate(${inv * 100}vw, ${inv * -40}vh) rotate(${inv * 25}deg)`;
+                svg.style.opacity = opac;
+            } else {
+                // Exits to top-left
+                svg.style.transform = `translate(${inv * -100}vw, ${inv * -40}vh) rotate(${inv * -25}deg)`;
+                svg.style.opacity = opac;
+            }
+        }
         window.updateSubmarineState(0);
         return;
+    } else if (scrolled > totalScrollableDistance) {
+        // Below the section
+        const overScroll = scrolled - totalScrollableDistance;
+        const exitProgress = Math.max(0, 1 - Math.abs(overScroll) / (window.innerHeight * 1.4));
+        const inv = 1 - exitProgress;
+        
+        if (svg) {
+            const opac = Math.min(1, exitProgress * 3);
+            // Let's have it consistently dive out to the bottom-left
+            svg.style.transform = `translate(${inv * -100}vw, ${inv * 40}vh) rotate(${inv * 15}deg)`;
+            svg.style.opacity = opac;
+        }
+        window.updateSubmarineState(4);
+        return;
+    } else {
+        // Pinned perfectly in the center
+        window.subEntryPath = 'left'; // Prep for upward exit
+        if (svg) {
+            svg.style.transform = 'translate(0vw, 0vh) rotate(0deg)';
+            svg.style.opacity = '1';
+        }
     }
-    
-    // Total scrollable distance while pinned
-    const totalScrollableDistance = trackSection.offsetHeight - stickyElement.offsetHeight;
     
     let progress = scrolled / totalScrollableDistance;
     progress = Math.max(0, Math.min(1, progress));

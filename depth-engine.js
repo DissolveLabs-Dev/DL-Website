@@ -350,7 +350,11 @@
       // sea stars resting on the sand (behind reef)
       this.stars.forEach(s => { const sx = s.x * w, sy = floor + 20 + s.y * (h - floor - 30); x.save(); x.translate(sx, sy); x.rotate(s.rot); x.fillStyle = 'rgba(48,150,140,.5)'; x.beginPath(); for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, r = i % 2 ? 4 : 11; x.lineTo(Math.cos(a) * r, Math.sin(a) * r); } x.closePath(); x.fill(); x.restore(); });
       // reef, back-to-front
-      this.reef.forEach(r => { const bx = r.x * w, by = baseY(bx) + 4, fade = 0.35 + r.dz * 0.65, s = r.scale;
+      this.reef.forEach(r => { const bx = r.x * w, by = baseY(bx) + 4, fade = 0.35 + r.dz * 0.65;
+        // Dynamically scale trees to ensure they never exceed the top of the canvas (with 10px gap)
+        const maxTreeHeight = 220; // Approx max height for base scale
+        const heightScale = Math.max(0.1, (floor - 10) / (maxTreeHeight * 1.75));
+        const s = r.scale * Math.min(1, heightScale * 1.2);
         if (r.type === 'staghorn') this._branch(x, bx, by, -Math.PI / 2, 66 * s, 7 * s, '110,225,205', fade, t, r.ph);
         else if (r.type === 'fan') this.reefFan(x, bx, by, s, '60,205,200', r.ph, fade, t);
         else if (r.type === 'sponge') this.reefSponge(x, bx, by, s, '95,215,205', r.ph, fade, t);
