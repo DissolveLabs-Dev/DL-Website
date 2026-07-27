@@ -130,6 +130,23 @@
           --color-bg: #E6F6F6;
           --text-primary: var(--ink-100);
           --text-body: var(--ink-400);
+          /* Accent ramp — the design system defines these in :root for the dark
+             theme only, so without these they stayed near-white cyan on a light
+             page (#33E0DE is 1.47:1 on #E6F6F6). */
+          --teal-light: #0B7C87;
+          --teal-bright: #0A6E78;
+          --teal-deep: #076570;
+          --color-accent-strong: #0A6E78;
+          --teal-rgb: 14, 154, 167;
+          --teal-bright-rgb: 10, 110, 120;
+          --teal-light-rgb: 11, 124, 135;
+          --selection-bg: rgba(14, 154, 167, .28);
+          color-scheme: light;
+        }
+
+        /* Native UI (scrollbars, form controls, autofill) follows the theme. */
+        body {
+          color-scheme: dark;
         }
 
         /* Nav hover background variables */
@@ -178,41 +195,65 @@
           }
         }
 
-        /* 5. Theme Toggle Position styling */
-        #mobile-theme-toggle {
-          position: fixed;
-          top: 33px;
-          z-index: 9990;
+        /* 5. Theme Toggle */
+        .theme-toggle {
+          position: relative;
           width: 58px;
           height: 30px;
           border-radius: 100px;
-          border: 1px solid rgba(107,235,232,.4);
+          border: 1px solid var(--line-teal-soft);
           background: var(--surface-nav);
           backdrop-filter: blur(18px);
           -webkit-backdrop-filter: blur(18px);
           padding: 0;
-          left: 50%;
-          margin-left: 320px;
-          transition: left 0.3s, margin-left 0.3s, right 0.3s, top 0.3s;
+        }
+        #mobile-theme-toggle {
+          position: fixed;
+          top: 33px;
+          right: max(20px, 4vw);
+          z-index: 9990;
+          transition: right 0.3s, top 0.3s;
         }
         @media (min-width: 1024px) {
           #mobile-theme-toggle {
-            left: auto !important;
-            right: 40px !important;
-            margin-left: 0 !important;
+            right: 40px;
           }
         }
 
-        /* 7. Cyan / Blue Text Contrast on Light Mode */
+        /* 7. Cyan / Blue Text Contrast on Light Mode
+           These match on the inline hex, so they are deliberately broad. Two
+           consequences are handled right below:
+             a) #0A6E78 (not #0d8a96) — #0d8a96 is only 3.71:1 on the #E6F6F6
+                page, which fails AA for body text. #0A6E78 is 5.37:1.
+             b) they also hit text sitting on surfaces that stay dark in BOTH
+                themes, where darkening it destroys the contrast. Those
+                surfaces are re-exempted in the "always-dark islands" block. */
         body.theme-light [style*="33E0DE"] {
-          color: #0d8a96 !important;
+          color: #0A6E78 !important;
           text-shadow: 0 0 10px rgba(14,154,167,0.15) !important;
         }
         body.theme-light [style*="5CC6C4"] {
-          color: #0d8a96 !important;
+          color: #0A6E78 !important;
         }
         body.theme-light [style*="26D0CE"] {
-          color: #0d8a96 !important;
+          color: #0A6E78 !important;
+        }
+
+        /* 7b. Always-dark islands.
+           .ev-card (photo cards under a #04101c scrim), .svc-card (video cards
+           on #050e18) and .main-footer (the seabed canvas paints an abyss in
+           both themes) never turn light, so their text must keep its original
+           bright value. Without this, e.g. the .ev-card category chip renders
+           #0A6E78 on a rgba(4,16,28,.7) pill — 3.2:1, effectively unreadable. */
+        body.theme-light :is(.ev-card, .svc-card, .main-footer) [style*="33E0DE"] {
+          color: #33E0DE !important;
+          text-shadow: none !important;
+        }
+        body.theme-light :is(.ev-card, .svc-card, .main-footer) [style*="5CC6C4"] {
+          color: #5CC6C4 !important;
+        }
+        body.theme-light :is(.ev-card, .svc-card, .main-footer) [style*="26D0CE"] {
+          color: #26D0CE !important;
         }
         body.theme-light span[style*="linear-gradient"],
         body.theme-light h1 span[style*="linear-gradient"],
@@ -222,6 +263,28 @@
           -webkit-background-clip: text !important;
           background-clip: text !important;
           -webkit-text-fill-color: transparent !important;
+        }
+
+        /* 7c. Hero stat cards are dark glass — rgba(6,15,24,.55) over the light
+           page resolves to a murky #6b777c, on which the inline #8EA6AD label
+           lands at 1.7:1. Flip the glass itself rather than only its text. */
+        body.theme-light .hero-c-rail > div {
+          background: rgba(255, 255, 255, .72) !important;
+          border-color: rgba(14, 154, 167, .28) !important;
+        }
+        body.theme-light .hero-c-rail > div > div {
+          color: var(--ink-100) !important;
+        }
+        body.theme-light .hero-c-rail > div > div + div {
+          color: var(--ink-400) !important;
+        }
+
+        /* 7d. The submarine panel uses --surface-panel, which is
+           rgba(255,255,255,.74) in light mode, but hardcodes color:#fff
+           inline — white on white. Children set their own colours; this
+           covers the container and any text that does not. */
+        body.theme-light #submarine-card-container {
+          color: var(--ink-100) !important;
         }
 
         a {
@@ -235,30 +298,54 @@
         }
 
         .theme-toggle .knob {
-          transform: translateX(0);
-          transition: transform .35s cubic-bezier(.4, 0, .2, 1)
+          position: absolute;
+          top: 3px;
+          left: 3px;
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(135deg, #33E0DE, #0E9AA7);
+          box-shadow: 0 1px 3px rgba(0,0,0,.35), 0 0 10px rgba(38,208,206,.55);
+          transform: translateX(28px);
+          transition: transform .4s cubic-bezier(.4, 0, .2, 1), background .4s ease, box-shadow .4s ease;
         }
 
         body.theme-light .theme-toggle .knob {
-          transform: translateX(26px)
+          transform: translateX(0);
+          background: linear-gradient(135deg, #123039, #0B2028);
+          box-shadow: 0 1px 3px rgba(0,0,0,.25), 0 0 10px rgba(14,154,167,.45);
         }
 
-        .theme-toggle .ti-sun {
-          color: #8EA6AD;
-          transition: color .3s
+        .theme-toggle .knob svg {
+          position: absolute;
+          width: 14px;
+          height: 14px;
+          transition: opacity .3s ease, transform .3s ease;
         }
 
-        .theme-toggle .ti-moon {
-          color: #6BEBE8;
-          transition: color .3s
+        .theme-toggle .icon-moon {
+          color: #EAFBFF;
+          opacity: 1;
+          transform: scale(1) rotate(0deg);
         }
 
-        body.theme-light .theme-toggle .ti-sun {
-          color: #0E9AA7
+        .theme-toggle .icon-sun {
+          color: #FFF8E7;
+          opacity: 0;
+          transform: scale(.4) rotate(-90deg);
         }
 
-        body.theme-light .theme-toggle .ti-moon {
-          color: #7FA6AE
+        body.theme-light .theme-toggle .icon-moon {
+          opacity: 0;
+          transform: scale(.4) rotate(90deg);
+        }
+
+        body.theme-light .theme-toggle .icon-sun {
+          opacity: 1;
+          transform: scale(1) rotate(0deg);
         }
 
         @media(hover:hover) and (pointer:fine) {
@@ -716,12 +803,18 @@
         style="position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none"></canvas>      <div class="desktop-nav-wrapper">
         <button id="mobile-theme-toggle"
           class="theme-toggle" onClick="{{ toggleTheme }}" aria-label="Toggle light and dark theme">
-          <span class="ti-sun"
-            style="position:absolute;left:9px;top:50%;transform:translateY(-50%);font-size:12px;line-height:1">☀</span>
-          <span class="ti-moon"
-            style="position:absolute;right:9px;top:50%;transform:translateY(-50%);font-size:12px;line-height:1">☾</span>
-          <span class="knob"
-            style="position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#33E0DE,#0E9AA7);box-shadow:0 0 10px rgba(38,208,206,.6)"></span>
+          <span class="knob">
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M20.9 14.2A8.4 8.4 0 1 1 9.8 3.1a6.8 6.8 0 0 0 11.1 11.1Z" fill="currentColor" />
+            </svg>
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="12" r="4.3" fill="currentColor" />
+              <g stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <path
+                  d="M12 2.6v2.3M12 19.1v2.3M4.2 12H1.9M22.1 12h-2.3M5.8 5.8l1.6 1.6M16.6 16.6l1.6 1.6M18.2 5.8l-1.6 1.6M7.4 16.6l-1.6 1.6" />
+              </g>
+            </svg>
+          </span>
         </button>
         <div id="vignette"
           style="position: fixed; inset: 0; z-index: 3; pointer-events: none; opacity: 0; background: radial-gradient(ellipse 120% 90% at 50% 50%,transparent 40%,rgba(0,0,0,.55) 78%,rgba(0,0,0,.9) 100%); top: -1px">
@@ -752,10 +845,19 @@
           <a href="#contact" class="cmn-cta" onClick="{{ goContact }}">Build With Us</a>
           
           <div style="margin-top: 10px;">
-            <button class="theme-toggle cmn-theme-btn" onClick="{{ toggleTheme }}" aria-label="Toggle light and dark theme" style="position: relative; width: 58px; height: 30px; border-radius: 100px; border: 1px solid rgba(107,235,232,.4); background: var(--surface-nav); padding: 0;">
-              <span class="ti-sun" style="position:absolute;left:9px;top:50%;transform:translateY(-50%);font-size:12px;line-height:1">☀</span>
-              <span class="ti-moon" style="position:absolute;right:9px;top:50%;transform:translateY(-50%);font-size:12px;line-height:1">☾</span>
-              <span class="knob" style="position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#33E0DE,#0E9AA7);box-shadow:0 0 10px rgba(38,208,206,.6)"></span>
+            <button class="theme-toggle cmn-theme-btn" onClick="{{ toggleTheme }}" aria-label="Toggle light and dark theme">
+              <span class="knob">
+                <svg class="icon-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M20.9 14.2A8.4 8.4 0 1 1 9.8 3.1a6.8 6.8 0 0 0 11.1 11.1Z" fill="currentColor" />
+                </svg>
+                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <circle cx="12" cy="12" r="4.3" fill="currentColor" />
+                  <g stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                    <path
+                      d="M12 2.6v2.3M12 19.1v2.3M4.2 12H1.9M22.1 12h-2.3M5.8 5.8l1.6 1.6M16.6 16.6l1.6 1.6M18.2 5.8l-1.6 1.6M7.4 16.6l-1.6 1.6" />
+                  </g>
+                </svg>
+              </span>
             </button>
           </div>
         </div>
@@ -812,7 +914,7 @@
                 size="md" on-click="{{ goWork }}" hint-size="auto,48px">Co-Build With Us</x-import>
             </div>
             <div class="hero-partner-text"
-              style="display:flex;align-items:center;gap:14px;margin-top:34px;font-family:Manrope;font-size:13px;letter-spacing:.3px;color:var(--ink-600)">
+              style="display:flex;align-items:center;gap:14px;margin-top:34px;font-family:Manrope;font-size:13px;letter-spacing:.3px;color:var(--ink-100)">
               <span style="width:34px;height:1px;background:rgba(107,235,232,.5)"></span>
               Embedded as design partners across fintech, robotics, health &amp; applied AI
             </div>
@@ -889,7 +991,7 @@
         <div id="scroll-ind"
           style="position:absolute;bottom:96px;left:50%;transform:translateX(-50%);text-align:center;transition:opacity .4s;z-index:1">
           <div
-            style="font-family:Sora;font-weight:600;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#7FA6AE">
+            style="font-family:Sora;font-weight:600;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-100)">
             Descend ↓</div>
           <div
             style="width:1px;height:46px;margin:14px auto 0;background:linear-gradient(to bottom,#33E0DE,transparent);animation:scrollLine 2.4s ease-in-out infinite;transform-origin:top">
@@ -2313,7 +2415,25 @@ class Component extends DCLogic {
     }
     let saved = null;
     try { saved = localStorage.getItem('dl-theme'); } catch (e) {}
-    const initial = saved || this.props.defaultTheme || 'dark';
+    // Precedence: explicit choice > OS preference > authored default.
+    // The OS check has to sit BEFORE this.props.defaultTheme: support.js feeds
+    // every prop its schema default, so defaultTheme is always the string
+    // 'dark' and anything after it is unreachable.
+    const canMatch = typeof matchMedia === 'function';
+    const prefersLight = canMatch && matchMedia('(prefers-color-scheme: light)').matches;
+    const initial = saved || (canMatch ? (prefersLight ? 'light' : 'dark') : (this.props.defaultTheme || 'dark'));
+    // Track the OS while the visitor has not chosen for themselves.
+    if (!saved && canMatch) {
+      const mq = matchMedia('(prefers-color-scheme: light)');
+      this._onSchemeChange = (e) => {
+        let chosen = null;
+        try { chosen = localStorage.getItem('dl-theme'); } catch (err) {}
+        if (!chosen) this.setState({ theme: e.matches ? 'light' : 'dark' });
+      };
+      if (mq.addEventListener) mq.addEventListener('change', this._onSchemeChange);
+      else if (mq.addListener) mq.addListener(this._onSchemeChange);
+      this._schemeMq = mq;
+    }
     this.setState({ theme: initial }, () => {
       if (window.initPartnershipDecks) window.initPartnershipDecks();
     });
@@ -2374,7 +2494,7 @@ class Component extends DCLogic {
       }
     }
   }
-  componentWillUnmount() { if (this._iv) clearInterval(this._iv); if (this.orbRaf) cancelAnimationFrame(this.orbRaf); if (this.engine) this.engine.detach(); document.body.classList.remove('dl-cursor', 'theme-light'); }
+  componentWillUnmount() { if (this._iv) clearInterval(this._iv); if (this.orbRaf) cancelAnimationFrame(this.orbRaf); if (this.engine) this.engine.detach(); if (this._schemeMq && this._onSchemeChange) { if (this._schemeMq.removeEventListener) this._schemeMq.removeEventListener('change', this._onSchemeChange); else if (this._schemeMq.removeListener) this._schemeMq.removeListener(this._onSchemeChange); } document.body.classList.remove('dl-cursor', 'theme-light'); }
 
   applyCursor() {
     const on = (this.props.customCursor ?? true) && !matchMedia('(hover:none)').matches;
