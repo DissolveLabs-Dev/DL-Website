@@ -21,7 +21,11 @@
       this._sprites = {};
       this.speed = 1; this.simT = 0; this.lastNow = 0;
       this.light = false;
-      this.reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      // Decorative canvas animation is forced on regardless of the OS/browser
+      // prefers-reduced-motion setting — this is a portfolio/showcase site and
+      // the motion is the point. (Was previously gated on that media query,
+      // which is why it went fully static on machines with "reduce motion" on.)
+      this.reduced = false;
     }
     setSpeed(v) { this.speed = Math.max(0.05, +v || 1); }
     setTheme(mode) {

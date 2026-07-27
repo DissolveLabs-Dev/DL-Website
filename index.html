@@ -2368,7 +2368,7 @@ class Component extends DCLogic {
   componentWillUnmount() { if (this._iv) clearInterval(this._iv); if (this.orbRaf) cancelAnimationFrame(this.orbRaf); if (this.engine) this.engine.detach(); document.body.classList.remove('dl-cursor', 'theme-light'); }
 
   applyCursor() {
-    const on = (this.props.customCursor ?? true) && !matchMedia('(hover:none)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const on = (this.props.customCursor ?? true) && !matchMedia('(hover:none)').matches;
     document.body.classList.toggle('dl-cursor', on);
     const ring = document.getElementById('cursor-ring'), dot = document.getElementById('cursor-dot');
     [ring, dot].forEach(el => { if (el) el.style.display = on ? 'block' : 'none'; });
