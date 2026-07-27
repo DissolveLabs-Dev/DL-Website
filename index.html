@@ -84,9 +84,12 @@
         href="_ds/dissolve-labs-design-system-0564f16a-cf6d-4e26-af78-86141f9dae9a/tokens/base.css">
       <link rel="stylesheet" href="_ds/dissolve-labs-design-system-0564f16a-cf6d-4e26-af78-86141f9dae9a/styles.css">
       <script src="_ds/dissolve-labs-design-system-0564f16a-cf6d-4e26-af78-86141f9dae9a/_ds_bundle.js"></script>
+      <script src="lenis.min.js"></script>
       <script src="depth-engine.js"></script>
       <script src="submarine-engine.js"></script>
       <script src="./image-slot.js"></script>
+      <!-- must load after lenis.min.js -->
+      <script src="smooth-scroll.js"></script>
       <style>
         body {
           margin: 0;
@@ -2082,7 +2085,9 @@
           <div class="dl-powered">Powered by <a href="https://calendly.com" target="_blank" rel="noopener">Calendly</a></div>
         </div>
         <!-- Inline Calendly Host -->
-        <div id="dl-calendly-inline-host" style="display: none; width: 100%; min-height: 650px; position: relative; z-index: 5;"></div>
+        <!-- data-lenis-prevent: let the Calendly widget own wheel/touch scrolling inside itself -->
+        <div id="dl-calendly-inline-host" data-lenis-prevent
+          style="display: none; width: 100%; min-height: 650px; position: relative; z-index: 5;"></div>
       </div>
     </sc-if>
 
