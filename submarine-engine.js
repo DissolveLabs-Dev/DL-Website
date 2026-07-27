@@ -1,5 +1,14 @@
 // submarine-engine.js
 
+// This file is loaded twice per page view: once by the browser's native HTML
+// parse of the <script src> sitting inside <x-dc><helmet>, and again when
+// dc-runtime (support.js) re-injects the same <script> into <head> once it
+// boots. Everything below is wrapped in a guarded IIFE so the second run is a
+// no-op instead of throwing on redeclared top-level `let`s and double-binding
+// the scroll/keydown listeners.
+if (!window.__submarineEngineLoaded) {
+window.__submarineEngineLoaded = true;
+
 console.log("Submarine engine script loading... (Using RequestAnimationFrame Wipe)");
 
 // Phase Content Data (attached to window to prevent redeclaration errors in hot-reload)
@@ -619,3 +628,5 @@ window.addEventListener('keydown', (e) => {
 setTimeout(() => {
     window.updateSubmarineState(0);
 }, 100);
+
+} // window.__submarineEngineLoaded guard
