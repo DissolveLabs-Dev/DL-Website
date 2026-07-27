@@ -41,6 +41,13 @@
       .mobile-sub-track { height: 180vh !important; }
       #contact { margin-top: -30vh !important; padding-top: 30px !important; position: relative; z-index: 20; }
     }
+
+    /* Registered outside the page wrapper so the underwater logo strip animates in place. */
+    @keyframes logoMarquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
   </style>
   <style>
     
@@ -891,42 +898,42 @@
 
         <div class="logo-strip-container" aria-label="Trusted by leading organizations">
           <div class="logo-track">
-            <img class="logo-item" src="src/logos/y-combinator-seeklogo.svg" alt="Y Combinator" />
+            <img class="logo-item" src="src/logos/y-combinator-seeklogo.webp" alt="Y Combinator" decoding="async"/>
             <img class="logo-item" src="src/logos/harvard-university-seeklogo.svg" alt="Harvard University"
-              style="height:65px" />
-            <img class="logo-item" src="src/logos/harvard-innovation-lab.svg" alt="Harvard Innovation Lab" />
-            <img class="logo-item" src="src/logos/World-bank-logo.svg" alt="World Bank" style="height:110px" />
-            <img class="logo-item" src="src/logos/mit.svg" alt="MIT" />
-            <img class="logo-item" src="src/logos/mit-delta-v.svg" alt="MIT Delta V" />
-            <img class="logo-item" src="src/logos/northeastern-university.svg" alt="Northeastern University" />
+              style="height:65px" decoding="async"/>
+            <img class="logo-item" src="src/logos/harvard-innovation-lab.webp" alt="Harvard Innovation Lab" decoding="async"/>
+            <img class="logo-item" src="src/logos/World-bank-logo.svg" alt="World Bank" style="height:110px" decoding="async"/>
+            <img class="logo-item" src="src/logos/mit.png" alt="MIT" decoding="async"/>
+            <img class="logo-item" src="src/logos/mit-delta-v.webp" alt="MIT Delta V" decoding="async"/>
+            <img class="logo-item" src="src/logos/northeastern-university.png" alt="Northeastern University" decoding="async"/>
             <img class="logo-item logo-lg" src="src/logos/international-monetary-fund-seeklogo.svg"
-              alt="International Monetary Fund" />
-            <img class="logo-item" src="src/logos/TechCrunch-Logo.wine.svg" alt="TechCrunch" />
-            <img class="logo-item" src="src/logos/cambridge-innovation-center.svg" alt="Cambridge Innovation Center" />
-            <img class="logo-item" src="src/logos/world-summit-ai.svg" alt="World Summit AI" />
-            <img class="logo-item" src="src/logos/mtc-hex.svg" alt="Maryland Tech Council" />
-            <img class="logo-item" src="src/logos/aws-gen-ai.svg" alt="AWS Gen AI" />
+              alt="International Monetary Fund" decoding="async"/>
+            <img class="logo-item" src="src/logos/TechCrunch-Logo.wine.svg" alt="TechCrunch" decoding="async"/>
+            <img class="logo-item" src="src/logos/cambridge-innovation-center.png" alt="Cambridge Innovation Center" decoding="async"/>
+            <img class="logo-item" src="src/logos/world-summit-ai.webp" alt="World Summit AI" decoding="async"/>
+            <img class="logo-item" src="src/logos/mtc-hex.png" alt="Maryland Tech Council" decoding="async"/>
+            <img class="logo-item" src="src/logos/aws-gen-ai.webp" alt="AWS Gen AI" decoding="async"/>
 
             <!-- Duplicated logo set for 100% seamless infinite scroll -->
-            <img class="logo-item" aria-hidden="true" src="src/logos/y-combinator-seeklogo.svg" alt="Y Combinator" />
+            <img class="logo-item" aria-hidden="true" src="src/logos/y-combinator-seeklogo.webp" alt="Y Combinator" decoding="async" loading="lazy" fetchpriority="low"/>
             <img class="logo-item" aria-hidden="true" src="src/logos/harvard-university-seeklogo.svg"
-              alt="Harvard University" style="height:65px" />
-            <img class="logo-item" aria-hidden="true" src="src/logos/harvard-innovation-lab.svg"
-              alt="Harvard Innovation Lab" />
-            <img class="logo-item" aria-hidden="true" src="src/logos/mit.svg" alt="MIT" />
+              alt="Harvard University" style="height:65px" decoding="async" loading="lazy" fetchpriority="low"/>
+            <img class="logo-item" aria-hidden="true" src="src/logos/harvard-innovation-lab.webp"
+              alt="Harvard Innovation Lab" decoding="async" loading="lazy" fetchpriority="low"/>
+            <img class="logo-item" aria-hidden="true" src="src/logos/mit.png" alt="MIT" decoding="async" loading="lazy" fetchpriority="low"/>
             <img class="logo-item" aria-hidden="true" src="src/logos/World-bank-logo.svg" alt="World Bank"
-              style="height:110px" />
-            <img class="logo-item" aria-hidden="true" src="src/logos/mit-delta-v.svg" alt="MIT Delta V" />
-            <img class="logo-item" aria-hidden="true" src="src/logos/northeastern-university.svg"
-              alt="Northeastern University" />
+              style="height:110px" decoding="async" loading="lazy" fetchpriority="low"/>
+            <img class="logo-item" aria-hidden="true" src="src/logos/mit-delta-v.webp" alt="MIT Delta V" decoding="async" loading="lazy" fetchpriority="low"/>
+            <img class="logo-item" aria-hidden="true" src="src/logos/northeastern-university.png"
+              alt="Northeastern University" decoding="async" loading="lazy" fetchpriority="low"/>
             <img class="logo-item logo-lg" aria-hidden="true" src="src/logos/international-monetary-fund-seeklogo.svg"
-              alt="International Monetary Fund" />
-            <img class="logo-item" aria-hidden="true" src="src/logos/TechCrunch-Logo.wine.svg" alt="TechCrunch" />
-            <img class="logo-item" aria-hidden="true" src="src/logos/cambridge-innovation-center.svg"
-              alt="Cambridge Innovation Center" />
-            <img class="logo-item" aria-hidden="true" src="src/logos/world-summit-ai.svg" alt="World Summit AI" />
-            <img class="logo-item" aria-hidden="true" src="src/logos/mtc-hex.svg" alt="Maryland Tech Council" />
-            <img class="logo-item" aria-hidden="true" src="src/logos/aws-gen-ai.svg" alt="AWS Gen AI" />
+              alt="International Monetary Fund" decoding="async" loading="lazy" fetchpriority="low"/>
+            <img class="logo-item" aria-hidden="true" src="src/logos/TechCrunch-Logo.wine.svg" alt="TechCrunch" decoding="async" loading="lazy" fetchpriority="low"/>
+            <img class="logo-item" aria-hidden="true" src="src/logos/cambridge-innovation-center.png"
+              alt="Cambridge Innovation Center" decoding="async" loading="lazy" fetchpriority="low"/>
+            <img class="logo-item" aria-hidden="true" src="src/logos/world-summit-ai.webp" alt="World Summit AI" decoding="async" loading="lazy" fetchpriority="low"/>
+            <img class="logo-item" aria-hidden="true" src="src/logos/mtc-hex.png" alt="Maryland Tech Council" decoding="async" loading="lazy" fetchpriority="low"/>
+            <img class="logo-item" aria-hidden="true" src="src/logos/aws-gen-ai.webp" alt="AWS Gen AI" decoding="async" loading="lazy" fetchpriority="low"/>
           </div>
         </div>
       </section>
@@ -953,7 +960,7 @@
               <img
                 src="src/Hamza%20Mubashir/MIT%20Delta%20V%20Team%20with%20Center%20of%20Entrepreneurship%20Head%20Bill%20Aulet_.webp"
                 alt="MIT Delta V" loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -973,7 +980,7 @@
               style="flex:0 0 auto;width:clamp(240px,20vw,320px);aspect-ratio:2/3;position:relative;border:1px solid rgba(255,255,255,.14);border-radius:16px;overflow:hidden;background:#081A2C">
               <img src="src/Hamza Mubashir/Harvard Leadership Course- Masters of Management.webp"
                 alt="Harvard Leadership Course" loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -993,7 +1000,7 @@
               style="flex:0 0 auto;width:clamp(240px,20vw,320px);aspect-ratio:2/3;position:relative;border:1px solid rgba(255,255,255,.14);border-radius:16px;overflow:hidden;background:#081A2C">
               <img src="src/Hamza Mubashir/Y Combinator AI Startup School_s AWS After Party.webp" alt="AI Startup school"
                 loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1014,7 +1021,7 @@
               style="flex:0 0 auto;width:clamp(240px,20vw,320px);aspect-ratio:2/3;position:relative;border:1px solid rgba(255,255,255,.14);border-radius:16px;overflow:hidden;background:#081A2C">
               <img src="src/Hamza%20Mubashir/Instacart%20Headquarter%20San%20Francisco.webp" alt="US Tech Hubs"
                 loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1034,7 +1041,7 @@
               style="flex:0 0 auto;width:clamp(240px,20vw,320px);aspect-ratio:2/3;position:relative;border:1px solid rgba(255,255,255,.14);border-radius:16px;overflow:hidden;background:#081A2C">
               <img src="src/Hamza Mubashir/World Bank Group - Spring Meetings 2025.webp" alt="World Bank Spring Meeting"
                 loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1055,7 +1062,7 @@
               <img
                 src="src/Hamza%20Mubashir/Cambridge%20Innovation%20Center%20Hackathon%20Win..%20picture%20from%20during%20presentation.webp"
                 alt="CIC Cambridge" loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1075,7 +1082,7 @@
               style="flex:0 0 auto;width:clamp(240px,20vw,320px);aspect-ratio:2/3;position:relative;border:1px solid rgba(255,255,255,.14);border-radius:16px;overflow:hidden;background:#081A2C">
               <img src="src/Hamza%20Mubashir/AWS%20Gen%20AI%20Loft%20after%20winning%20a%20hackathon.webp"
                 alt="AWS Gen AI Loft" loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1095,7 +1102,7 @@
               style="flex:0 0 auto;width:clamp(240px,20vw,320px);aspect-ratio:2/3;position:relative;border:1px solid rgba(255,255,255,.14);border-radius:16px;overflow:hidden;background:#081A2C">
               <img src="src/Hamza%20Mubashir/TechCrunch%20Disrupt%20Conference.webp" alt="TechCrunch Disrupt Conference"
                 loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1116,7 +1123,7 @@
               <img
                 src="src/Hamza%20Mubashir/MIT%20Delta%20V%20Team%20with%20Center%20of%20Entrepreneurship%20Head%20Bill%20Aulet_.webp"
                 alt="MIT Delta V" loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1134,7 +1141,7 @@
               style="flex:0 0 auto;width:clamp(240px,20vw,320px);aspect-ratio:2/3;position:relative;border:1px solid rgba(255,255,255,.14);border-radius:16px;overflow:hidden;background:#081A2C">
               <img src="src/Hamza Mubashir/Harvard Leadership Course- Masters of Management.webp"
                 alt="Harvard Leadership Course" loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1152,7 +1159,7 @@
               style="flex:0 0 auto;width:clamp(240px,20vw,320px);aspect-ratio:2/3;position:relative;border:1px solid rgba(255,255,255,.14);border-radius:16px;overflow:hidden;background:#081A2C">
               <img src="src/Hamza Mubashir/Y Combinator AI Startup School_s AWS After Party.webp" alt="AI Startup school"
                 loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1171,7 +1178,7 @@
               style="flex:0 0 auto;width:clamp(240px,20vw,320px);aspect-ratio:2/3;position:relative;border:1px solid rgba(255,255,255,.14);border-radius:16px;overflow:hidden;background:#081A2C">
               <img src="src/Hamza%20Mubashir/Instacart%20Headquarter%20San%20Francisco.webp" alt="US Tech Hubs"
                 loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1189,7 +1196,7 @@
               style="flex:0 0 auto;width:clamp(240px,20vw,320px);aspect-ratio:2/3;position:relative;border:1px solid rgba(255,255,255,.14);border-radius:16px;overflow:hidden;background:#081A2C">
               <img src="src/Hamza Mubashir/World Bank Group - Spring Meetings 2025.webp" alt="World Bank Spring Meeting"
                 loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1208,7 +1215,7 @@
               <img
                 src="src/Hamza%20Mubashir/Cambridge%20Innovation%20Center%20Hackathon%20Win..%20picture%20from%20during%20presentation.webp"
                 alt="CIC Cambridge" loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1226,7 +1233,7 @@
               style="flex:0 0 auto;width:clamp(240px,20vw,320px);aspect-ratio:2/3;position:relative;border:1px solid rgba(255,255,255,.14);border-radius:16px;overflow:hidden;background:#081A2C">
               <img src="src/Hamza%20Mubashir/AWS%20Gen%20AI%20Loft%20after%20winning%20a%20hackathon.webp"
                 alt="AWS Gen AI Loft" loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1244,7 +1251,7 @@
               style="flex:0 0 auto;width:clamp(240px,20vw,320px);aspect-ratio:2/3;position:relative;border:1px solid rgba(255,255,255,.14);border-radius:16px;overflow:hidden;background:#081A2C">
               <img src="src/Hamza%20Mubashir/TechCrunch%20Disrupt%20Conference.webp" alt="TechCrunch Disrupt Conference"
                 loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1277,10 +1284,9 @@
         <div class="svc-pair" style="display:flex;gap:20px;height:54vh;min-height:400px;margin-bottom:22px">
           <div class="svc-card"
             style="flex:1 1 50%;position:relative;border-radius:20px;overflow:hidden;border:1px solid rgba(38,208,206,.4);background:#050e18">
-            <video class="svc-video" autoplay loop muted playsinline disablepictureinpicture preload="auto"
+            <video class="svc-video" poster="src/Videos/co-founding-software-engineering-poster.webp" autoplay loop muted playsinline disablepictureinpicture preload="auto"
               style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none">
-              <source src="src/Videos/co-founding-software-engineering.mp4" type="video/mp4">
-              <source src="src/Videos/Co-Founding%20%26%20Software%20Engineering.mp4" type="video/mp4">
+              <source src="src/Videos/co-founding-software-engineering.mp4?v=main-original" type="video/mp4">
             </video>
             <div
               style="position:absolute;inset:0;background:linear-gradient(to top,#03090f 18%,rgba(3,9,15,.2) 55%,transparent 80%)">
@@ -1304,10 +1310,9 @@
           </div>
           <div class="svc-card"
             style="flex:1 1 50%;position:relative;border-radius:20px;overflow:hidden;border:1px solid rgba(38,208,206,.4);background:#050e18">
-            <video class="svc-video" autoplay loop muted playsinline disablepictureinpicture preload="auto"
+            <video class="svc-video" poster="src/Videos/autonomous-systems-robotics-poster.webp" autoplay loop muted playsinline disablepictureinpicture preload="auto"
               style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none">
-              <source src="src/Videos/autonomous-systems-robotics.mp4" type="video/mp4">
-              <source src="src/Videos/Autonomous%20Systems%20%26%20Robotics.mp4" type="video/mp4">
+              <source src="src/Videos/autonomous-systems-robotics.mp4?v=main-original" type="video/mp4">
             </video>
             <div
               style="position:absolute;inset:0;background:linear-gradient(to top,#03090f 18%,rgba(3,9,15,.2) 55%,transparent 80%)">
@@ -1333,10 +1338,9 @@
         <div class="svc-pair" style="display:flex;gap:20px;height:54vh;min-height:400px">
           <div class="svc-card"
             style="flex:1 1 50%;position:relative;border-radius:20px;overflow:hidden;border:1px solid rgba(38,208,206,.4);background:#050e18">
-            <video class="svc-video" autoplay loop muted playsinline disablepictureinpicture preload="auto"
+            <video class="svc-video" poster="src/Videos/applied-ai-systems-poster.webp" autoplay loop muted playsinline disablepictureinpicture preload="auto"
               style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none">
-              <source src="src/Videos/applied-ai-systems.mp4" type="video/mp4">
-              <source src="src/Videos/Applied%20AI%20Systems.mp4" type="video/mp4">
+              <source src="src/Videos/applied-ai-systems.mp4?v=main-original" type="video/mp4">
             </video>
             <div
               style="position:absolute;inset:0;background:linear-gradient(to top,#03090f 18%,rgba(3,9,15,.2) 55%,transparent 80%)">
@@ -1360,10 +1364,9 @@
           </div>
           <div class="svc-card"
             style="flex:1 1 50%;position:relative;border-radius:20px;overflow:hidden;border:1px solid rgba(38,208,206,.4);background:#050e18">
-            <video class="svc-video" autoplay loop muted playsinline disablepictureinpicture preload="auto"
+            <video class="svc-video" poster="src/Videos/co-product-incubation-growth-poster.webp" autoplay loop muted playsinline disablepictureinpicture preload="auto"
               style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.08);transform-origin:center;pointer-events:none">
-              <source src="src/Videos/co-product-incubation-growth.mp4" type="video/mp4">
-              <source src="src/Videos/Co-Product%20Incubation%20%26%20Growth.mp4" type="video/mp4">
+              <source src="src/Videos/co-product-incubation-growth.mp4?v=smooth-30fps" type="video/mp4">
             </video>
             <div
               style="position:absolute;inset:0;background:linear-gradient(to top,#03090f 18%,rgba(3,9,15,.2) 55%,transparent 80%)">
@@ -2109,12 +2112,15 @@
   ];
 
   const logoImages = [
-    "aws-gen-ai.svg", "cambridge-innovation-center.svg", "harvard-innovation-lab.svg", "harvard-university-seeklogo.svg", "international-monetary-fund-seeklogo.svg", "mit-delta-v.svg", "mit.svg", "mtc-hex.svg", "northeastern-university.svg", "TechCrunch-Logo.wine.svg", "World-bank-logo.svg", "world-summit-ai.svg", "y-combinator-seeklogo.svg"
+    "aws-gen-ai.webp", "cambridge-innovation-center.png", "harvard-innovation-lab.webp", "harvard-university-seeklogo.svg", "international-monetary-fund-seeklogo.svg", "mit-delta-v.webp", "mit.png", "mtc-hex.png", "northeastern-university.png", "TechCrunch-Logo.wine.svg", "World-bank-logo.svg", "world-summit-ai.webp", "y-combinator-seeklogo.webp"
   ];
 
   function initDeck(containerId, items, isLogo) {
     const container = document.getElementById(containerId);
     if (!container) return;
+    // The design-component runtime can remount this section in preview/HMR.
+    // Tear down a previous deck before binding a fresh one to the new DOM.
+    if (container._deckCleanup) container._deckCleanup();
     container.innerHTML = '';
     
     let domCards = [];
@@ -2160,8 +2166,10 @@
     
     updateDeck();
     let isHovered = false;
-    container.addEventListener("mouseenter", () => isHovered = true);
-    container.addEventListener("mouseleave", () => isHovered = false);
+    const onMouseEnter = () => isHovered = true;
+    const onMouseLeave = () => isHovered = false;
+    container.addEventListener("mouseenter", onMouseEnter);
+    container.addEventListener("mouseleave", onMouseLeave);
     container.addEventListener("click", advance);
     
     function advance() {
@@ -2169,15 +2177,26 @@
       currentIndex = (currentIndex + 1) % domCards.length;
       updateDeck(outIndex);
     }
-    setInterval(() => {
+    const timer = setInterval(() => {
       if (!isHovered) advance();
     }, 4500);
+    container._deckCleanup = () => {
+      clearInterval(timer);
+      container.removeEventListener("mouseenter", onMouseEnter);
+      container.removeEventListener("mouseleave", onMouseLeave);
+      container.removeEventListener("click", advance);
+      delete container._deckCleanup;
+    };
   }
 
-  setTimeout(() => {
+  function initPartnershipDecks() {
     initDeck("founder-deck", founderImages, false);
     initDeck("logo-deck", logoImages, true);
-  }, 100);
+  }
+  // Called by Component.componentDidMount after the design-system runtime has
+  // committed the rendered template. A fixed timer races that commit and
+  // attaches cards to DOM nodes which are then discarded.
+  window.initPartnershipDecks = initPartnershipDecks;
 
   const partnershipQuotes = [
     { t: "SOC 2–ready co-building", d: "Security baked in from day one." },
@@ -2295,7 +2314,9 @@ class Component extends DCLogic {
     let saved = null;
     try { saved = localStorage.getItem('dl-theme'); } catch (e) {}
     const initial = saved || this.props.defaultTheme || 'dark';
-    this.setState({ theme: initial });
+    this.setState({ theme: initial }, () => {
+      if (window.initPartnershipDecks) window.initPartnershipDecks();
+    });
     this.applyTheme(initial);
     this.applyCursor();
   }
@@ -2521,45 +2542,91 @@ class Component extends DCLogic {
 </script>
   <script>
     (function () {
-      function startVideos() {
-        var vids = document.querySelectorAll('video');
-        vids.forEach(function (v) {
-          v.muted = true;
-          v.playsInline = true;
-          v.setAttribute('muted', '');
-          v.setAttribute('playsinline', '');
-          v.setAttribute('autoplay', '');
-          v.setAttribute('loop', '');
+      var selector = '.svc-video';
 
-          if (!v._hasVideoListeners) {
-            v._hasVideoListeners = true;
-            v.addEventListener('pause', function () {
-              v.play().catch(function () { });
-            });
-            v.addEventListener('ended', function () {
-              v.currentTime = 0;
-              v.play().catch(function () { });
-            });
-          }
+      function play(v) {
+        if (!v._svcVisible || document.hidden || !v.paused) return;
+        var promise = v.play();
+        if (promise && promise.catch) promise.catch(function () {});
+      }
 
-          if (v.paused) {
-            var p = v.play();
-            if (p && p.catch) {
-              p.catch(function (e) { /* silent catch */ });
-            }
-          }
+      function warm(v) {
+        if (v._svcWarmed) return;
+        v._svcWarmed = true;
+        v.preload = 'auto';
+        v.setAttribute('preload', 'auto');
+        v.load();
+      }
+
+      // Keep main's original media files buffered, but only spend decoder/GPU
+      // time on cards that are meaningfully visible in this motion-heavy branch.
+      var observer = ('IntersectionObserver' in window)
+        ? new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              var v = entry.target;
+              v._svcVisible = entry.isIntersecting;
+              if (entry.isIntersecting) {
+                warm(v);
+                if (v.readyState >= 3) play(v);
+              } else if (!v.paused) {
+                v.pause();
+              }
+            });
+          }, { rootMargin: '0px', threshold: 0.5 })
+        : null;
+
+      function prepare(v) {
+        v.muted = true;
+        v.playsInline = true;
+        v.loop = true;
+        v.setAttribute('muted', '');
+        v.setAttribute('playsinline', '');
+        v.setAttribute('loop', '');
+        if (v._svcManaged) return;
+        v._svcManaged = true;
+        v.addEventListener('canplay', function () { play(v); });
+        if (observer) {
+          observer.observe(v);
+        } else {
+          v._svcVisible = true;
+          warm(v);
+          play(v);
+        }
+      }
+
+      function scanVideos() {
+        document.querySelectorAll(selector).forEach(prepare);
+      }
+      window.rescanVideos = scanVideos;
+
+      if ('MutationObserver' in window) {
+        new MutationObserver(scanVideos).observe(document.documentElement, {
+          childList: true,
+          subtree: true
         });
       }
 
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', startVideos);
-      } else {
-        startVideos();
+      document.addEventListener('visibilitychange', function () {
+        document.querySelectorAll(selector).forEach(function (v) {
+          if (document.hidden) {
+            if (!v.paused) v.pause();
+          } else {
+            play(v);
+          }
+        });
+      });
+
+      function warmAll() {
+        document.querySelectorAll(selector).forEach(warm);
       }
-      window.addEventListener('load', startVideos);
-      window.addEventListener('scroll', startVideos, { passive: true });
-      document.addEventListener('click', startVideos);
-      document.addEventListener('touchstart', startVideos);
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', scanVideos);
+      } else {
+        scanVideos();
+      }
+      if (document.readyState === 'complete') warmAll();
+      else window.addEventListener('load', warmAll);
     })();
   </script>
 <script>
@@ -2567,17 +2634,16 @@ class Component extends DCLogic {
     var cards = document.querySelectorAll('.svc-card');
     if (!cards.length) return;
     cards.forEach(function(card) {
-      // Remove old listener by cloning
-      var newCard = card.cloneNode(true);
-      card.parentNode.replaceChild(newCard, card);
-    });
-    document.querySelectorAll('.svc-card').forEach(function(card) {
+      // Preserve the buffered video element when this initializer runs again.
+      if (card._svcClickBound) return;
+      card._svcClickBound = true;
       card.addEventListener('click', function() {
         var isActive = card.classList.contains('active');
         document.querySelectorAll('.svc-card').forEach(function(c) { c.classList.remove('active'); });
         if (!isActive) card.classList.add('active');
       });
     });
+    if (window.rescanVideos) window.rescanVideos();
   }
   function splitEventSubheadings() {
     var subheaders = document.querySelectorAll('.ev-card > div[style*="top:18px"]');

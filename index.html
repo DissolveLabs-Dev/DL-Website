@@ -41,6 +41,13 @@
       .mobile-sub-track { height: 180vh !important; }
       #contact { margin-top: -30vh !important; padding-top: 30px !important; position: relative; z-index: 20; }
     }
+
+    /* Registered outside the page wrapper so the underwater logo strip animates in place. */
+    @keyframes logoMarquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
   </style>
   <style>
     
@@ -904,43 +911,43 @@
 
         <div class="logo-strip-container" aria-label="Trusted by leading organizations">
           <div class="logo-track">
-            <img class="logo-item" src="src/logos/y-combinator-seeklogo.svg" alt="Y Combinator" style="height:80px" />
+            <img class="logo-item" src="src/logos/y-combinator-seeklogo.webp" alt="Y Combinator" style="height:80px" decoding="async"/>
             <img class="logo-item" src="src/logos/harvard-university-seeklogo.svg" alt="Harvard University"
-              style="height:65px" />
-            <img class="logo-item" src="src/logos/harvard-innovation-lab.svg" alt="Harvard Innovation Lab" />
-            <img class="logo-item" src="src/logos/World-bank-logo.svg" alt="World Bank" style="height:110px" />
-            <img class="logo-item" src="src/logos/mit.svg" alt="MIT" />
-            <img class="logo-item" src="src/logos/mit-delta-v.svg" alt="MIT Delta V" />
-            <img class="logo-item" src="src/logos/northeastern-university.svg" alt="Northeastern University" />
+              style="height:65px" decoding="async"/>
+            <img class="logo-item" src="src/logos/harvard-innovation-lab.webp" alt="Harvard Innovation Lab" decoding="async"/>
+            <img class="logo-item" src="src/logos/World-bank-logo.svg" alt="World Bank" style="height:110px" decoding="async"/>
+            <img class="logo-item" src="src/logos/mit.png" alt="MIT" decoding="async"/>
+            <img class="logo-item" src="src/logos/mit-delta-v.webp" alt="MIT Delta V" decoding="async"/>
+            <img class="logo-item" src="src/logos/northeastern-university.png" alt="Northeastern University" decoding="async"/>
             <img class="logo-item logo-lg" src="src/logos/international-monetary-fund-seeklogo.svg"
-              alt="International Monetary Fund" />
-            <img class="logo-item" src="src/logos/TechCrunch-Logo.wine.svg" alt="TechCrunch" />
-            <img class="logo-item" src="src/logos/cambridge-innovation-center.svg" alt="Cambridge Innovation Center" />
-            <img class="logo-item" src="src/logos/world-summit-ai.svg" alt="World Summit AI" />
-            <img class="logo-item" src="src/logos/mtc-hex.svg" alt="Maryland Tech Council" />
-            <img class="logo-item" src="src/logos/aws-gen-ai.svg" alt="AWS Gen AI" />
+              alt="International Monetary Fund" decoding="async"/>
+            <img class="logo-item" src="src/logos/TechCrunch-Logo.wine.svg" alt="TechCrunch" decoding="async"/>
+            <img class="logo-item" src="src/logos/cambridge-innovation-center.png" alt="Cambridge Innovation Center" decoding="async"/>
+            <img class="logo-item" src="src/logos/world-summit-ai.webp" alt="World Summit AI" decoding="async"/>
+            <img class="logo-item" src="src/logos/mtc-hex.png" alt="Maryland Tech Council" decoding="async"/>
+            <img class="logo-item" src="src/logos/aws-gen-ai.webp" alt="AWS Gen AI" decoding="async"/>
 
             <!-- Duplicated logo set for 100% seamless infinite scroll -->
-            <img class="logo-item" aria-hidden="true" src="src/logos/y-combinator-seeklogo.svg" alt="Y Combinator"
-              style="height:80px" />
+            <img class="logo-item" aria-hidden="true" src="src/logos/y-combinator-seeklogo.webp" alt="Y Combinator"
+              style="height:80px" decoding="async" loading="lazy" fetchpriority="low"/>
             <img class="logo-item" aria-hidden="true" src="src/logos/harvard-university-seeklogo.svg"
-              alt="Harvard University" style="height:65px" />
-            <img class="logo-item" aria-hidden="true" src="src/logos/harvard-innovation-lab.svg"
-              alt="Harvard Innovation Lab" />
+              alt="Harvard University" style="height:65px" decoding="async" loading="lazy" fetchpriority="low"/>
+            <img class="logo-item" aria-hidden="true" src="src/logos/harvard-innovation-lab.webp"
+              alt="Harvard Innovation Lab" decoding="async" loading="lazy" fetchpriority="low"/>
             <img class="logo-item" aria-hidden="true" src="src/logos/World-bank-logo.svg" alt="World Bank"
-              style="height:110px" />
-            <img class="logo-item" aria-hidden="true" src="src/logos/mit.svg" alt="MIT" />
-            <img class="logo-item" aria-hidden="true" src="src/logos/mit-delta-v.svg" alt="MIT Delta V" />
-            <img class="logo-item" aria-hidden="true" src="src/logos/northeastern-university.svg"
-              alt="Northeastern University" />
+              style="height:110px" decoding="async" loading="lazy" fetchpriority="low"/>
+            <img class="logo-item" aria-hidden="true" src="src/logos/mit.png" alt="MIT" decoding="async" loading="lazy" fetchpriority="low"/>
+            <img class="logo-item" aria-hidden="true" src="src/logos/mit-delta-v.webp" alt="MIT Delta V" decoding="async" loading="lazy" fetchpriority="low"/>
+            <img class="logo-item" aria-hidden="true" src="src/logos/northeastern-university.png"
+              alt="Northeastern University" decoding="async" loading="lazy" fetchpriority="low"/>
             <img class="logo-item logo-lg" aria-hidden="true" src="src/logos/international-monetary-fund-seeklogo.svg"
-              alt="International Monetary Fund" />
-            <img class="logo-item" aria-hidden="true" src="src/logos/TechCrunch-Logo.wine.svg" alt="TechCrunch" />
-            <img class="logo-item" aria-hidden="true" src="src/logos/cambridge-innovation-center.svg"
-              alt="Cambridge Innovation Center" />
-            <img class="logo-item" aria-hidden="true" src="src/logos/world-summit-ai.svg" alt="World Summit AI" />
-            <img class="logo-item" aria-hidden="true" src="src/logos/mtc-hex.svg" alt="Maryland Tech Council" />
-            <img class="logo-item" aria-hidden="true" src="src/logos/aws-gen-ai.svg" alt="AWS Gen AI" />
+              alt="International Monetary Fund" decoding="async" loading="lazy" fetchpriority="low"/>
+            <img class="logo-item" aria-hidden="true" src="src/logos/TechCrunch-Logo.wine.svg" alt="TechCrunch" decoding="async" loading="lazy" fetchpriority="low"/>
+            <img class="logo-item" aria-hidden="true" src="src/logos/cambridge-innovation-center.png"
+              alt="Cambridge Innovation Center" decoding="async" loading="lazy" fetchpriority="low"/>
+            <img class="logo-item" aria-hidden="true" src="src/logos/world-summit-ai.webp" alt="World Summit AI" decoding="async" loading="lazy" fetchpriority="low"/>
+            <img class="logo-item" aria-hidden="true" src="src/logos/mtc-hex.png" alt="Maryland Tech Council" decoding="async" loading="lazy" fetchpriority="low"/>
+            <img class="logo-item" aria-hidden="true" src="src/logos/aws-gen-ai.webp" alt="AWS Gen AI" decoding="async" loading="lazy" fetchpriority="low"/>
           </div>
         </div>
       </section>
@@ -967,7 +974,7 @@
               <img
                 src="src/Hamza%20Mubashir/MIT%20Delta%20V%20Team%20with%20Center%20of%20Entrepreneurship%20Head%20Bill%20Aulet_.webp"
                 alt="MIT Delta V" loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -987,7 +994,7 @@
               style="flex:0 0 auto;width:clamp(240px,20vw,320px);aspect-ratio:2/3;position:relative;border:1px solid rgba(255,255,255,.14);border-radius:16px;overflow:hidden;background:#081A2C">
               <img src="src/Hamza Mubashir/Harvard Leadership Course- Masters of Management.webp"
                 alt="Harvard Leadership Course" loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1007,7 +1014,7 @@
               style="flex:0 0 auto;width:clamp(240px,20vw,320px);aspect-ratio:2/3;position:relative;border:1px solid rgba(255,255,255,.14);border-radius:16px;overflow:hidden;background:#081A2C">
               <img src="src/Hamza Mubashir/Y Combinator AI Startup School_s AWS After Party.webp" alt="AI Startup school"
                 loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1028,7 +1035,7 @@
               style="flex:0 0 auto;width:clamp(240px,20vw,320px);aspect-ratio:2/3;position:relative;border:1px solid rgba(255,255,255,.14);border-radius:16px;overflow:hidden;background:#081A2C">
               <img src="src/Hamza%20Mubashir/Instacart%20Headquarter%20San%20Francisco.webp" alt="US Tech Hubs"
                 loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1048,7 +1055,7 @@
               style="flex:0 0 auto;width:clamp(240px,20vw,320px);aspect-ratio:2/3;position:relative;border:1px solid rgba(255,255,255,.14);border-radius:16px;overflow:hidden;background:#081A2C">
               <img src="src/Hamza Mubashir/World Bank Group - Spring Meetings 2025.webp" alt="World Bank Spring Meeting"
                 loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1069,7 +1076,7 @@
               <img
                 src="src/Hamza%20Mubashir/Cambridge%20Innovation%20Center%20Hackathon%20Win..%20picture%20from%20during%20presentation.webp"
                 alt="CIC Cambridge" loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1089,7 +1096,7 @@
               style="flex:0 0 auto;width:clamp(240px,20vw,320px);aspect-ratio:2/3;position:relative;border:1px solid rgba(255,255,255,.14);border-radius:16px;overflow:hidden;background:#081A2C">
               <img src="src/Hamza%20Mubashir/AWS%20Gen%20AI%20Loft%20after%20winning%20a%20hackathon.webp"
                 alt="AWS Gen AI Loft" loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1109,7 +1116,7 @@
               style="flex:0 0 auto;width:clamp(240px,20vw,320px);aspect-ratio:2/3;position:relative;border:1px solid rgba(255,255,255,.14);border-radius:16px;overflow:hidden;background:#081A2C">
               <img src="src/Hamza%20Mubashir/TechCrunch%20Disrupt%20Conference.webp" alt="TechCrunch Spotlight"
                 loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1130,7 +1137,7 @@
               <img
                 src="src/Hamza%20Mubashir/MIT%20Delta%20V%20Team%20with%20Center%20of%20Entrepreneurship%20Head%20Bill%20Aulet_.webp"
                 alt="MIT Delta V" loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1148,7 +1155,7 @@
               style="flex:0 0 auto;width:clamp(240px,20vw,320px);aspect-ratio:2/3;position:relative;border:1px solid rgba(255,255,255,.14);border-radius:16px;overflow:hidden;background:#081A2C">
               <img src="src/Hamza Mubashir/Harvard Leadership Course- Masters of Management.webp"
                 alt="Harvard Leadership Course" loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1166,7 +1173,7 @@
               style="flex:0 0 auto;width:clamp(240px,20vw,320px);aspect-ratio:2/3;position:relative;border:1px solid rgba(255,255,255,.14);border-radius:16px;overflow:hidden;background:#081A2C">
               <img src="src/Hamza Mubashir/Y Combinator AI Startup School_s AWS After Party.webp" alt="AI Startup school"
                 loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1185,7 +1192,7 @@
               style="flex:0 0 auto;width:clamp(240px,20vw,320px);aspect-ratio:2/3;position:relative;border:1px solid rgba(255,255,255,.14);border-radius:16px;overflow:hidden;background:#081A2C">
               <img src="src/Hamza%20Mubashir/Instacart%20Headquarter%20San%20Francisco.webp" alt="US Tech Hubs"
                 loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1203,7 +1210,7 @@
               style="flex:0 0 auto;width:clamp(240px,20vw,320px);aspect-ratio:2/3;position:relative;border:1px solid rgba(255,255,255,.14);border-radius:16px;overflow:hidden;background:#081A2C">
               <img src="src/Hamza Mubashir/World Bank Group - Spring Meetings 2025.webp" alt="World Bank Spring Meeting"
                 loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1222,7 +1229,7 @@
               <img
                 src="src/Hamza%20Mubashir/Cambridge%20Innovation%20Center%20Hackathon%20Win..%20picture%20from%20during%20presentation.webp"
                 alt="CIC Cambridge" loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1240,7 +1247,7 @@
               style="flex:0 0 auto;width:clamp(240px,20vw,320px);aspect-ratio:2/3;position:relative;border:1px solid rgba(255,255,255,.14);border-radius:16px;overflow:hidden;background:#081A2C">
               <img src="src/Hamza%20Mubashir/AWS%20Gen%20AI%20Loft%20after%20winning%20a%20hackathon.webp"
                 alt="AWS Gen AI Loft" loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1258,7 +1265,7 @@
               style="flex:0 0 auto;width:clamp(240px,20vw,320px);aspect-ratio:2/3;position:relative;border:1px solid rgba(255,255,255,.14);border-radius:16px;overflow:hidden;background:#081A2C">
               <img src="src/Hamza%20Mubashir/TechCrunch%20Disrupt%20Conference.webp" alt="TechCrunch Disrupt Conference"
                 loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" />
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none" decoding="async" fetchpriority="low"/>
               <div
                 style="position:absolute;inset:0;background:linear-gradient(to top,#04101c 18%,rgba(4,16,28,.2) 60%,transparent 82%)">
               </div>
@@ -1291,10 +1298,14 @@
         <div class="svc-pair" style="display:flex;gap:20px;height:auto;margin-bottom:22px">
           <div class="svc-card"
             style="flex:1 1 50%;position:relative;border-radius:20px;overflow:hidden;border:1px solid rgba(38,208,206,.4);background:#050e18">
-            <video class="svc-video" autoplay loop muted playsinline disablepictureinpicture preload="auto"
+            <video class="svc-video" poster="src/Videos/co-founding-software-engineering-poster.webp" autoplay loop muted playsinline disablepictureinpicture preload="auto"
               style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none">
-              <source src="src/Videos/co-founding-software-engineering.mp4" type="video/mp4">
-              <source src="src/Videos/Co-Founding%20%26%20Software%20Engineering.mp4" type="video/mp4">
+              <!-- H.264 on purpose. AV1 measured 28% smaller here at equal
+                   VMAF, but AV1 hardware decode is still far from universal,
+                   and software-decoding one of four simultaneous background
+                   loops is a real stutter risk on older GPUs. Smoothness wins
+                   over 121 KB. See src/Videos/co-founding-*.webm if revisiting. -->
+              <source src="src/Videos/co-founding-software-engineering.mp4?v=main-original" type="video/mp4">
             </video>
             <div
               style="position:absolute;inset:0;background:linear-gradient(to top,#03090f 18%,rgba(3,9,15,.2) 55%,transparent 80%)">
@@ -1318,10 +1329,9 @@
           </div>
           <div class="svc-card"
             style="flex:1 1 50%;position:relative;border-radius:20px;overflow:hidden;border:1px solid rgba(38,208,206,.4);background:#050e18">
-            <video class="svc-video" autoplay loop muted playsinline disablepictureinpicture preload="auto"
+            <video class="svc-video" poster="src/Videos/autonomous-systems-robotics-poster.webp" autoplay loop muted playsinline disablepictureinpicture preload="auto"
               style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none">
-              <source src="src/Videos/autonomous-systems-robotics.mp4" type="video/mp4">
-              <source src="src/Videos/Autonomous%20Systems%20%26%20Robotics.mp4" type="video/mp4">
+              <source src="src/Videos/autonomous-systems-robotics.mp4?v=main-original" type="video/mp4">
             </video>
             <div
               style="position:absolute;inset:0;background:linear-gradient(to top,#03090f 18%,rgba(3,9,15,.2) 55%,transparent 80%)">
@@ -1347,10 +1357,9 @@
         <div class="svc-pair" style="display:flex;gap:20px;height:auto">
           <div class="svc-card"
             style="flex:1 1 50%;position:relative;border-radius:20px;overflow:hidden;border:1px solid rgba(38,208,206,.4);background:#050e18">
-            <video class="svc-video" autoplay loop muted playsinline disablepictureinpicture preload="auto"
+            <video class="svc-video" poster="src/Videos/applied-ai-systems-poster.webp" autoplay loop muted playsinline disablepictureinpicture preload="auto"
               style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none">
-              <source src="src/Videos/applied-ai-systems.mp4" type="video/mp4">
-              <source src="src/Videos/Applied%20AI%20Systems.mp4" type="video/mp4">
+              <source src="src/Videos/applied-ai-systems.mp4?v=main-original" type="video/mp4">
             </video>
             <div
               style="position:absolute;inset:0;background:linear-gradient(to top,#03090f 18%,rgba(3,9,15,.2) 55%,transparent 80%)">
@@ -1374,10 +1383,9 @@
           </div>
           <div class="svc-card"
             style="flex:1 1 50%;position:relative;border-radius:20px;overflow:hidden;border:1px solid rgba(38,208,206,.4);background:#050e18">
-            <video class="svc-video" autoplay loop muted playsinline disablepictureinpicture preload="auto"
+            <video class="svc-video" poster="src/Videos/co-product-incubation-growth-poster.webp" autoplay loop muted playsinline disablepictureinpicture preload="auto"
               style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.08);transform-origin:center;pointer-events:none">
-              <source src="src/Videos/co-product-incubation-growth.mp4" type="video/mp4">
-              <source src="src/Videos/Co-Product%20Incubation%20%26%20Growth.mp4" type="video/mp4">
+              <source src="src/Videos/co-product-incubation-growth.mp4?v=smooth-30fps" type="video/mp4">
             </video>
             <div
               style="position:absolute;inset:0;background:linear-gradient(to top,#03090f 18%,rgba(3,9,15,.2) 55%,transparent 80%)">
@@ -2126,21 +2134,28 @@
   ];
 
   const logoImages = [
-    "aws-gen-ai.svg", "cambridge-innovation-center.svg", "harvard-innovation-lab.svg", "harvard-university-seeklogo.svg", "international-monetary-fund-seeklogo.svg", "mit-delta-v.svg", "mit.svg", "mtc-hex.svg", "northeastern-university.svg", "TechCrunch-Logo.wine.svg", "World-bank-logo.svg", "world-summit-ai.svg", "y-combinator-seeklogo.svg"
+    "aws-gen-ai.webp", "cambridge-innovation-center.png", "harvard-innovation-lab.webp", "harvard-university-seeklogo.svg", "international-monetary-fund-seeklogo.svg", "mit-delta-v.webp", "mit.png", "mtc-hex.png", "northeastern-university.png", "TechCrunch-Logo.wine.svg", "World-bank-logo.svg", "world-summit-ai.webp", "y-combinator-seeklogo.webp"
   ];
 
   function initDeck(containerId, items, isLogo) {
     const container = document.getElementById(containerId);
     if (!container) return;
+    // The design-component runtime can remount this section in preview/HMR.
+    // Tear down a previous deck before binding a fresh one to the new DOM.
+    if (container._deckCleanup) container._deckCleanup();
     container.innerHTML = '';
     
+    // Every card sits stacked in the same 280px box, so browser-native lazy
+    // loading can't help: they'd all count as in-viewport together. Instead the
+    // URLs live in data-src and only the cards about to be seen get hydrated.
+    const LOOKAHEAD = 4;
     let domCards = [];
     if (isLogo) {
        for (let i = 0; i < logoImages.length; i += 2) {
          const card = document.createElement("div");
          card.className = "deck-card logo-card deck-hidden";
-         const img1 = "<img src=\"src/logos/" + logoImages[i] + "\" alt=\"Logo\">";
-         const img2 = logoImages[i+1] ? "<img src=\"src/logos/" + logoImages[i+1] + "\" alt=\"Logo\">" : "";
+         const img1 = "<img data-src=\"src/logos/" + logoImages[i] + "\" alt=\"Logo\" decoding=\"async\">";
+         const img2 = logoImages[i+1] ? "<img data-src=\"src/logos/" + logoImages[i+1] + "\" alt=\"Logo\" decoding=\"async\">" : "";
          card.innerHTML = img1 + img2;
          container.appendChild(card);
          domCards.push(card);
@@ -2150,10 +2165,22 @@
          const card = document.createElement("div");
          card.className = "deck-card deck-hidden";
          const title = img.split(".")[0].replace(/_/g, " ");
-         card.innerHTML = "<img src=\"src/Hamza Mubashir/" + img + "\" alt=\"" + title + "\"><div class=\"deck-title\">" + title + "</div>";
+         card.innerHTML = "<img data-src=\"src/Hamza Mubashir/" + img + "\" alt=\"" + title + "\" decoding=\"async\"><div class=\"deck-title\">" + title + "</div>";
          container.appendChild(card);
          domCards.push(card);
        });
+    }
+
+    let inView = false;
+    function hydrate(fromIndex) {
+      if (!inView) return;
+      for (let n = 0; n < LOOKAHEAD; n++) {
+        const card = domCards[(fromIndex + n) % domCards.length];
+        card.querySelectorAll("img[data-src]").forEach(im => {
+          im.src = im.getAttribute("data-src");
+          im.removeAttribute("data-src");
+        });
+      }
     }
 
     let currentIndex = 0;
@@ -2173,28 +2200,70 @@
           c.classList.add("deck-hidden");
         }
       });
+      hydrate(currentIndex);
     }
-    
+
     updateDeck();
     let isHovered = false;
-    container.addEventListener("mouseenter", () => isHovered = true);
-    container.addEventListener("mouseleave", () => isHovered = false);
+    const onMouseEnter = () => isHovered = true;
+    const onMouseLeave = () => isHovered = false;
+    container.addEventListener("mouseenter", onMouseEnter);
+    container.addEventListener("mouseleave", onMouseLeave);
     container.addEventListener("click", advance);
-    
+
     function advance() {
       const outIndex = currentIndex;
       currentIndex = (currentIndex + 1) % domCards.length;
       updateDeck(outIndex);
     }
-    setInterval(() => {
-      if (!isHovered) advance();
-    }, 4500);
+
+    // Only cycle while the deck is actually on screen — otherwise the timer
+    // keeps forcing style recalcs on 30 cards nobody is looking at.
+    let timer = null;
+    let observer = null;
+    function syncCycling() {
+      const shouldRun = inView && !document.hidden;
+      if (shouldRun && !timer) {
+        timer = setInterval(() => { if (!isHovered) advance(); }, 4500);
+      } else if (!shouldRun && timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+    }
+    if ("IntersectionObserver" in window) {
+      observer = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          inView = e.isIntersecting;
+          if (inView) hydrate(currentIndex);
+          syncCycling();
+        });
+      }, { rootMargin: "300px 0px" });
+      observer.observe(container);
+    } else {
+      inView = true;
+      hydrate(currentIndex);
+      syncCycling();
+    }
+    document.addEventListener("visibilitychange", syncCycling);
+    container._deckCleanup = () => {
+      if (timer) clearInterval(timer);
+      if (observer) observer.disconnect();
+      document.removeEventListener("visibilitychange", syncCycling);
+      container.removeEventListener("mouseenter", onMouseEnter);
+      container.removeEventListener("mouseleave", onMouseLeave);
+      container.removeEventListener("click", advance);
+      delete container._deckCleanup;
+    };
   }
 
-  setTimeout(() => {
+  function initPartnershipDecks() {
     initDeck("founder-deck", founderImages, false);
     initDeck("logo-deck", logoImages, true);
-  }, 100);
+  }
+  // Called by Component.componentDidMount after the design-system runtime has
+  // committed the rendered template. A fixed timer races that commit and
+  // attaches cards to DOM nodes which are then discarded.
+  window.initPartnershipDecks = initPartnershipDecks;
 
   const partnershipQuotes = [
     { t: "SOC 2–ready co-building", d: "Security baked in from day one." },
@@ -2312,7 +2381,9 @@ class Component extends DCLogic {
     let saved = null;
     try { saved = localStorage.getItem('dl-theme'); } catch (e) {}
     const initial = saved || this.props.defaultTheme || 'dark';
-    this.setState({ theme: initial });
+    this.setState({ theme: initial }, () => {
+      if (window.initPartnershipDecks) window.initPartnershipDecks();
+    });
     this.applyTheme(initial);
     this.applyCursor();
   }
@@ -2538,45 +2609,259 @@ class Component extends DCLogic {
 </script>
   <script>
     (function () {
-      function startVideos() {
-        var vids = document.querySelectorAll('video');
-        vids.forEach(function (v) {
-          v.muted = true;
-          v.playsInline = true;
-          v.setAttribute('muted', '');
-          v.setAttribute('playsinline', '');
-          v.setAttribute('autoplay', '');
-          v.setAttribute('loop', '');
+      // ---- Background video playback -------------------------------------
+      //
+      // Loading, in three stages:
+      //   1. markup ships preload="none" + a poster, so videos cost nothing
+      //      while the page's critical assets are still landing;
+      //   2. the moment `load` fires (all critical subresources done) every
+      //      video is buffered in the background, so they are ready long
+      //      before the reader scrolls down to them;
+      //   3. IntersectionObserver only decides play/pause, never loading, so
+      //      arriving at the section never waits on the network.
+      //
+      // Playback rules:
+      //   * the four cards start together, not staggered as each one happens
+      //     to finish buffering — staggered starts are what read as "janky";
+      //   * a video only starts once the browser says it can play through, so
+      //     it never stutters on a thin buffer. Until then the poster holds,
+      //     which looks deliberate rather than broken;
+      //   * offscreen and background-tab videos pause, so we never keep four
+      //     decoders running for content nobody is looking at.
+      //
+      // The component runtime re-renders whole sections after first paint,
+      // swapping every <video> for a brand new element. Everything we attach
+      // to a node is therefore disposable: a MutationObserver re-adopts the
+      // replacements whenever they appear, at any point in the page's life.
 
-          if (!v._hasVideoListeners) {
-            v._hasVideoListeners = true;
-            v.addEventListener('pause', function () {
-              v.play().catch(function () { });
-            });
-            v.addEventListener('ended', function () {
-              v.currentTime = 0;
-              v.play().catch(function () { });
-            });
-          }
+      var GROUP = '.svc-video';        // the 2x2 grid that must start in sync
+      var SYNC_TIMEOUT = 1500;         // don't hold ready videos hostage forever
 
-          if (v.paused) {
-            var p = v.play();
-            if (p && p.catch) {
-              p.catch(function (e) { /* silent catch */ });
-            }
+      var visible = new WeakSet();
+      var wantPlay = new WeakSet();    // asked for playback and never revoked
+      var released = false;            // has the synchronized start fired?
+      var releaseTimer = null;
+
+      // Don't burn a metered or 2g connection on decorative loops.
+      var conn = navigator.connection || {};
+      var thrifty = !!conn.saveData || /(^|-)2g$/.test(conn.effectiveType || '');
+
+      function group() {
+        return [].slice.call(document.querySelectorAll(GROUP));
+      }
+
+      function ready(v) {
+        // readyState 4 is the browser's own "can play through to the end at
+        // the current download rate" verdict.
+        if (v.readyState < 4) return false;
+        if (!v.duration || !isFinite(v.duration) || !v.buffered.length) return true;
+        // Back it with a real head start: looping rewinds to 0, so a thin
+        // buffer turns into a stall every time the clip wraps.
+        var end = 0;
+        for (var i = 0; i < v.buffered.length; i++) {
+          if (v.buffered.start(i) <= 0.05) end = Math.max(end, v.buffered.end(i));
+        }
+        return end >= Math.min(v.duration, 3);
+      }
+
+      function warm(v) {
+        if (v._warmed) return;
+        v._warmed = true;
+        try {
+          v.preload = 'auto';
+          v.setAttribute('preload', 'auto');
+          v.load();
+        } catch (e) { /* nothing useful to do */ }
+      }
+
+      function play(v) {
+        if (!v.paused) return;
+        var p = v.play();
+        if (p && p.catch) p.catch(function () { /* blocked; retried on gesture */ });
+      }
+
+      function releaseGroup() {
+        if (released) return;
+        released = true;
+        if (releaseTimer) { clearTimeout(releaseTimer); releaseTimer = null; }
+        group().forEach(function (v) {
+          if (visible.has(v) && ready(v) && !document.hidden) {
+            wantPlay.add(v);
+            play(v);
           }
         });
       }
 
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', startVideos);
-      } else {
-        startVideos();
+      // Fire the synchronized start once every card can play through — or once
+      // the timeout expires, so one slow file can't hold the others back.
+      function considerRelease() {
+        if (released || document.hidden) return;
+        var g = group();
+        if (!g.length) return;
+        if (!g.some(function (v) { return visible.has(v); })) return;
+        if (g.every(ready)) { releaseGroup(); return; }
+        if (!releaseTimer) {
+          releaseTimer = setTimeout(function () {
+            releaseTimer = null;
+            releaseGroup();
+          }, SYNC_TIMEOUT);
+        }
       }
-      window.addEventListener('load', startVideos);
-      window.addEventListener('scroll', startVideos, { passive: true });
-      document.addEventListener('click', startVideos);
-      document.addEventListener('touchstart', startVideos);
+
+      function tryPlay(v) {
+        if (!visible.has(v) || document.hidden) return;
+        warm(v);
+        var inGroup = v.matches && v.matches(GROUP);
+        if (inGroup && !released) { considerRelease(); pump.start(); return; }
+        if (!ready(v)) { pump.start(); return; }
+        wantPlay.add(v);
+        play(v);
+      }
+
+      // Readiness is checked by a short self-terminating poll rather than media
+      // events: `progress` stops firing once a file finishes downloading, so an
+      // event-driven watcher can wait forever if the last event landed just
+      // before the buffer target was met. The timer clears itself as soon as
+      // nothing is pending, so it costs nothing at rest.
+      function pump() {
+        var pending = false;
+        document.querySelectorAll('video').forEach(function (v) {
+          if (!visible.has(v) || document.hidden) return;
+          if (v.matches && v.matches(GROUP) && !released) {
+            pending = true;
+            considerRelease();
+            return;
+          }
+          if (!ready(v)) { pending = true; return; }
+          if (v.paused) { wantPlay.add(v); play(v); }
+        });
+        if (!pending && pump.timer) {
+          clearInterval(pump.timer);
+          pump.timer = null;
+        }
+      }
+      pump.timer = null;
+      pump.start = function () {
+        if (pump.timer) return;
+        pump.timer = setInterval(pump, 250);
+      };
+
+      function halt(v) {
+        wantPlay.delete(v);
+        if (!v.paused) v.pause();
+      }
+
+      function prepare(v) {
+        v.muted = true;
+        v.playsInline = true;
+        v.setAttribute('muted', '');
+        v.setAttribute('playsinline', '');
+        v.setAttribute('loop', '');
+        if (v._managed) return;
+        v._managed = true;
+        v.addEventListener('ended', function () {
+          v.currentTime = 0;
+          if (wantPlay.has(v) && visible.has(v)) play(v);
+        });
+        // A stall or an interrupted play() can park a visible video. Only
+        // resume when we still want it playing, so this never fights halt().
+        v.addEventListener('pause', function () {
+          if (wantPlay.has(v) && visible.has(v) && !document.hidden) {
+            setTimeout(function () { if (wantPlay.has(v)) play(v); }, 80);
+          }
+        });
+      }
+
+      // Keep main's original media files buffered, but only spend decoder/GPU
+      // time on cards that are meaningfully visible in this motion-heavy branch.
+      var observer = ('IntersectionObserver' in window)
+        ? new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+              if (e.isIntersecting) {
+                visible.add(e.target);
+                tryPlay(e.target);
+              } else {
+                visible.delete(e.target);
+                halt(e.target);
+              }
+            });
+          }, { rootMargin: '0px', threshold: 0.5 })
+        : null;
+
+      // Buffer everything in parallel. The synchronized start means we want all
+      // four ready at roughly the same moment, not the first one ready soonest.
+      function warmAll() {
+        warmAll.started = true;
+        if (thrifty) return;
+        document.querySelectorAll('video').forEach(warm);
+      }
+
+      function scanVideos() {
+        document.querySelectorAll('video').forEach(function (v) {
+          prepare(v);
+          if (!observer) {
+            visible.add(v);          // no IntersectionObserver: just play
+            tryPlay(v);
+          } else if (!v._observed) {
+            v._observed = true;
+            observer.observe(v);
+          }
+        });
+        // A re-render hands back cold elements: re-warm them, and re-open the
+        // sync gate so the fresh set starts together instead of dribbling in.
+        if (warmAll.started) {
+          released = false;
+          if (releaseTimer) { clearTimeout(releaseTimer); releaseTimer = null; }
+          warmAll();
+          considerRelease();
+        }
+      }
+      window.rescanVideos = scanVideos;
+
+      // Re-adopt videos whenever the DOM changes, coalesced to one rescan/frame.
+      if ('MutationObserver' in window) {
+        var queued = false;
+        new MutationObserver(function (records) {
+          if (queued) return;
+          var touchesVideo = records.some(function (r) {
+            return [].some.call(r.addedNodes, function (n) {
+              return n.nodeType === 1 &&
+                (n.tagName === 'VIDEO' || (n.querySelector && n.querySelector('video')));
+            });
+          });
+          if (!touchesVideo) return;
+          queued = true;
+          requestAnimationFrame(function () { queued = false; scanVideos(); });
+        }).observe(document.documentElement, { childList: true, subtree: true });
+      }
+
+      // Autoplay can be refused until the user interacts; retry on first gesture.
+      ['pointerdown', 'touchstart', 'keydown'].forEach(function (evt) {
+        document.addEventListener(evt, function () {
+          document.querySelectorAll('video').forEach(tryPlay);
+        }, { passive: true });
+      });
+
+      document.addEventListener('visibilitychange', function () {
+        document.querySelectorAll('video').forEach(function (v) {
+          if (document.hidden) { if (!v.paused) v.pause(); }
+          else if (wantPlay.has(v) && visible.has(v)) play(v);
+        });
+        if (!document.hidden) considerRelease();
+      });
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', scanVideos);
+      } else {
+        scanVideos();
+      }
+
+      // Start buffering as soon as `load` fires: that already means every
+      // critical subresource is done, so videos stay off the critical path
+      // without us adding any extra delay on top.
+      function start() { scanVideos(); warmAll(); considerRelease(); }
+      if (document.readyState === 'complete') start();
+      else window.addEventListener('load', start);
     })();
   </script>
 <script>
@@ -2584,17 +2869,17 @@ class Component extends DCLogic {
     var cards = document.querySelectorAll('.svc-card');
     if (!cards.length) return;
     cards.forEach(function(card) {
-      // Remove old listener by cloning
-      var newCard = card.cloneNode(true);
-      card.parentNode.replaceChild(newCard, card);
-    });
-    document.querySelectorAll('.svc-card').forEach(function(card) {
+      // Flag instead of cloning the card: cloning threw away the <video>
+      // elements (and their buffered data) on every re-run.
+      if (card._svcClickBound) return;
+      card._svcClickBound = true;
       card.addEventListener('click', function() {
         var isActive = card.classList.contains('active');
         document.querySelectorAll('.svc-card').forEach(function(c) { c.classList.remove('active'); });
         if (!isActive) card.classList.add('active');
       });
     });
+    if (window.rescanVideos) window.rescanVideos();
   }
   function splitEventSubheadings() {
     var subheaders = document.querySelectorAll('.ev-card > div[style*="top:18px"]');
