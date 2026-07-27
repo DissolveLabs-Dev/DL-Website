@@ -336,6 +336,21 @@ window.collapseCard = function() {
     if (arrowGroup) arrowGroup.style.opacity = '0';
 };
 
+// Show/hide the compartment-to-card connection arrow.
+//
+// The arrow only makes sense while the submarine is pinned and a card is open —
+// it physically points from a compartment down to the expanded card. The SVG's
+// own exit fade is driven by overscroll distance (~1.4 viewport heights), which
+// is far too slow to help here: by the time it has faded appreciably the arrow
+// has already scrolled out of view, so it sat at full opacity for the whole
+// unpin-and-slide-away transition. Driving it from the pin state instead makes
+// it fade out (0.6s, via the group's CSS transition) the moment the submarine
+// starts leaving.
+window.setConnectionArrowVisible = function(visible) {
+    const arrowGroup = document.getElementById('connection-arrow-group');
+    if (arrowGroup) arrowGroup.style.opacity = visible ? '1' : '0';
+};
+
 // Run init on any elements that are already present
 initSubmarineState();
 
@@ -476,6 +491,8 @@ window.addEventListener('scroll', () => {
                 svg.style.opacity = opac;
             }
         }
+        // Submarine is leaving upwards.
+        window.setConnectionArrowVisible(false);
         window.updateSubmarineState(0);
         return;
     } else if (scrolled > totalScrollableDistance) {
@@ -490,6 +507,9 @@ window.addEventListener('scroll', () => {
             svg.style.transform = `translate(${inv * -100}vw, ${inv * 40}vh) rotate(${inv * 15}deg)`;
             svg.style.opacity = opac;
         }
+        // Submarine is leaving downwards — drop the arrow immediately rather
+        // than waiting on the SVG's slow overscroll fade.
+        window.setConnectionArrowVisible(false);
         window.updateSubmarineState(4);
         return;
     } else {
@@ -513,6 +533,12 @@ window.addEventListener('scroll', () => {
     currentStep = Math.min(maxStep, currentStep);
     
     window.updateSubmarineState(currentStep);
+
+    // Restore the arrow when pinned. This cannot be left to expandCard():
+    // updateSubmarineState() early-returns when the step is unchanged, so
+    // scrolling out (arrow hidden at step 4) and back in would re-enter at the
+    // same step, skip expandCard(), and leave the arrow permanently hidden.
+    window.setConnectionArrowVisible(currentStep >= 1);
 });
 
 // Unified navigation function for arrows and scroll wheel
