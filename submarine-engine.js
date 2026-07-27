@@ -571,39 +571,22 @@ window.addEventListener('keydown', (e) => {
     }
 });
 
-// Wheel/Scroll Jacking Support
-let isAnimatingWheel = false;
-let wheelTimeout;
-window.addEventListener('wheel', (e) => {
-    const trackSection = document.getElementById('submarine-track');
-    const stickyElement = document.querySelector('.submarine-wrapper');
-    if (!trackSection || !stickyElement) return;
-    
-    const rect = trackSection.getBoundingClientRect();
-    const startOffset = window.innerWidth <= 768 ? 80 : 0;
-    const endOffset = startOffset + stickyElement.offsetHeight;
-    
-    // Only intercept if we are actively pinned
-    if (rect.top <= startOffset && rect.bottom >= endOffset) {
-        e.preventDefault();
-        
-        if (!isAnimatingWheel) {
-            isAnimatingWheel = true;
-            
-            if (e.deltaY > 0) {
-                window.navigateToSubmarineStep(1);
-            } else if (e.deltaY < 0) {
-                window.navigateToSubmarineStep(-1);
-            }
-            
-            // Block further wheel events until smooth scroll completes
-            clearTimeout(wheelTimeout);
-            wheelTimeout = setTimeout(() => {
-                isAnimatingWheel = false;
-            }, 800);
-        }
-    }
-}, { passive: false });
+// Wheel/Scroll Jacking Support — INTENTIONALLY DISABLED.
+//
+// This used to intercept `wheel` while the section was pinned and snap the
+// submarine to discrete steps. That conflicts with Lenis (see smooth-scroll.js):
+// calling e.preventDefault() here does NOT stop Lenis' own wheel listener, so
+// both handlers acted on every wheel tick and fought over the scroll position —
+// this handler set a step target, Lenis immediately overrode it, producing a
+// visible tug-of-war.
+//
+// The section now scrolls smoothly under Lenis. The five compartment states are
+// still driven from scroll position by the scroll listener above, so the
+// narrative still plays through — continuously rather than snapping.
+//
+// Step navigation is still available as discrete user actions (the on-screen
+// arrows and the keyboard handler above), both of which route through
+// window.navigateToSubmarineStep() and do not conflict with Lenis.
 
 
 // Initialize entry state
