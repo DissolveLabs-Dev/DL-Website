@@ -42,6 +42,13 @@
       display: block;
     }
 
+    .submarine-wrapper {
+      position: -webkit-sticky !important;
+      position: sticky !important;
+      top: 0px !important;
+      z-index: 10;
+    }
+
     @media (max-width: 820px) {
       .desktop-only-heading {
         display: none !important;
@@ -57,6 +64,10 @@
 
       .mobile-sub-track {
         height: 180vh !important;
+      }
+
+      .submarine-wrapper {
+        top: 80px !important;
       }
 
       #contact {
@@ -2919,9 +2930,46 @@
             <!-- data-lenis-prevent: let the Calendly widget own wheel/touch scrolling inside itself -->
             <div class="dl-booking-card" id="dl-booking-card"
               style="padding: 0; overflow: hidden; background: transparent; border: none;">
-              <div id="dl-calendly-inline-host" data-lenis-prevent
+              <div id="dl-calendly-inline-host"
                 style="width: 100%; min-height: 650px; position: relative; z-index: 5;"></div>
             </div>
+            <script>
+              (function initCalendlyScrollProtection() {
+                function protectIframe() {
+                  const host = document.getElementById('dl-calendly-inline-host');
+                  if (!host) return;
+                  
+                  const disablePointer = function() {
+                    const iframe = host.querySelector('iframe');
+                    if (iframe) iframe.style.pointerEvents = 'none';
+                  };
+                  
+                  const enablePointer = function() {
+                    const iframe = host.querySelector('iframe');
+                    if (iframe) iframe.style.pointerEvents = 'auto';
+                  };
+                  
+                  let timer = null;
+                  host.addEventListener('mousemove', function() {
+                    clearTimeout(timer);
+                    timer = setTimeout(enablePointer, 150);
+                  });
+                  host.addEventListener('mouseleave', disablePointer);
+                  host.addEventListener('click', enablePointer);
+                  
+                  window.addEventListener('wheel', disablePointer, { capture: true, passive: true });
+                  window.addEventListener('touchmove', disablePointer, { capture: true, passive: true });
+                  if (window.lenis) {
+                    window.lenis.on('scroll', disablePointer);
+                  }
+                }
+                if (document.readyState === 'loading') {
+                  document.addEventListener('DOMContentLoaded', protectIframe);
+                } else {
+                  protectIframe();
+                }
+              })();
+            </script>
 
             <!-- 4-Step Connector -->
             <div class="step-connector" style="width: 100%;">
