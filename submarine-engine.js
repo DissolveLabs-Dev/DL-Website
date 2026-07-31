@@ -417,9 +417,52 @@ window.addEventListener('scroll', () => {
     const startOffset = window.innerWidth <= 768 ? 80 : 0; // Top offset for mobile nav bar vs desktop
     const endOffset = startOffset + stickyElement.offsetHeight;
     
-    // 1. Native CSS position: sticky handles pinning smoothly without layout thrashing
+    // 1. Manually control sticky positioning
+    if (rect.top <= startOffset && rect.bottom >= endOffset) {
+        // Pinned
+        stickyElement.style.position = 'fixed';
+        stickyElement.style.top = startOffset + 'px';
+        stickyElement.style.bottom = 'auto';
+        stickyElement.style.left = '0';
+        stickyElement.style.transform = 'none';
+        stickyElement.style.width = '100%';
+        stickyElement.style.maxWidth = 'none';
+        stickyElement.style.zIndex = '10';
+    } else if (rect.bottom < endOffset) {
+        // Past section (stuck to bottom of track container)
+        stickyElement.style.position = 'absolute';
+        stickyElement.style.top = 'auto';
+        stickyElement.style.bottom = '0';
+        stickyElement.style.left = '0';
+        stickyElement.style.transform = 'none';
+        stickyElement.style.width = '100%';
+    } else {
+        // Before section (normal flow)
+        stickyElement.style.position = 'relative';
+        stickyElement.style.top = '0';
+        stickyElement.style.bottom = 'auto';
+        stickyElement.style.left = '0';
+        stickyElement.style.transform = 'none';
+        stickyElement.style.margin = '0 auto';
+        stickyElement.style.width = '100%';
+    }
+    
+    // Prevent overlap with '#contact' title when scrolling down or back up
+    const contactTitle = document.querySelector('#contact .reveal');
+    if (contactTitle) {
+        const titleRect = contactTitle.getBoundingClientRect();
+        const wrapperRect = stickyElement.getBoundingClientRect();
+        if (titleRect.top < wrapperRect.bottom) {
+            const overlap = wrapperRect.bottom - titleRect.top + 20; // 20px padding/margin spacing
+            if (overlap > 0) {
+                stickyElement.style.transform = `translateY(${-overlap}px)`;
+            }
+        }
+    }
+    
+    // 2. Track scroll progress and state
     const scrolled = startOffset - rect.top;
-    const totalScrollableDistance = Math.max(1, trackSection.offsetHeight - stickyElement.offsetHeight);
+    const totalScrollableDistance = trackSection.offsetHeight - stickyElement.offsetHeight;
     const svg = document.querySelector('.submarine-svg');
     
     // Determine scroll direction
