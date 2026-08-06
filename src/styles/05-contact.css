@@ -178,8 +178,8 @@
             justify-content: space-around;
             padding: 20px;
             background: var(--dl-surface-fill);
-            backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
             border: 1px solid var(--dl-surface-line);
           }
 
@@ -659,8 +659,8 @@
             overflow: hidden;
             margin-bottom: 20px;
             background: var(--dl-surface-fill);
-            backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
             border: 1px solid var(--dl-surface-line);
             box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), inset 0 0 20px rgba(0, 0, 0, 0.35);
             transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1), min-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);

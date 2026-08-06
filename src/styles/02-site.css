@@ -113,8 +113,8 @@
           border-radius: 100px;
           border: 1px solid var(--line-teal-soft);
           background: var(--surface-nav);
-          backdrop-filter: blur(18px);
           -webkit-backdrop-filter: blur(18px);
+          backdrop-filter: blur(18px);
           padding: 0;
         }
 
@@ -599,8 +599,8 @@
           overflow: hidden;
           padding: 8px 0;
           background: rgba(230, 246, 246, .85);
-          backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
+          backdrop-filter: blur(12px);
           border-top: 1px solid rgba(14, 154, 167, .2);
           z-index: 2;
           -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
