@@ -1,0 +1,66 @@
+    /* Footer Height & Tree Adjustments */
+    .main-footer {
+      height: 480px !important;
+      min-height: 480px !important;
+      margin-top: -150px !important;
+    }
+
+    @media (max-width: 820px) {
+      .main-footer {
+        height: 420px !important;
+        min-height: 420px !important;
+        margin-top: -120px !important;
+      }
+    }
+
+    /* Global Heading Adjustments */
+    x-import[component-from-global-scope*="SectionHeading"],
+    x-import[component-from-global-scope*="SectionHeading"] * {
+      white-space: nowrap !important;
+      font-size: clamp(10px, 3.5vw, 64px) !important;
+    }
+
+    /* Responsive Submarine Headings & Track */
+    .mobile-only-heading {
+      display: none;
+    }
+
+    .desktop-only-heading {
+      display: block;
+    }
+
+    @media (max-width: 820px) {
+      .desktop-only-heading {
+        display: none !important;
+      }
+
+      .mobile-only-heading {
+        display: block !important;
+      }
+
+      #delivery {
+        height: auto !important;
+      }
+
+      .mobile-sub-track {
+        height: 180vh !important;
+      }
+
+      #contact {
+        margin-top: -30vh !important;
+        padding-top: 30px !important;
+        position: relative;
+        z-index: 20;
+      }
+    }
+
+    /* Registered outside the page wrapper so the underwater logo strip animates in place. */
+    @keyframes logoMarquee {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }

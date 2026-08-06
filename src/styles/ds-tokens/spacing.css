@@ -1,0 +1,47 @@
+/* Dissolve Labs — Spacing tokens
+   A soft 2px-derived scale for component padding & gaps, plus page-level
+   rhythm (generous vertical sections, viewport-relative side gutters). */
+:root{
+  /* step scale */
+  --space-0:0;
+  --space-1:4px;
+  --space-2:6px;
+  --space-3:8px;
+  --space-4:10px;
+  --space-5:12px;
+  --space-6:14px;
+  --space-7:16px;
+  --space-8:18px;
+  --space-9:20px;
+  --space-10:22px;
+  --space-11:24px;
+  --space-12:26px;
+  --space-13:28px;
+  --space-14:30px;
+  --space-16:38px;
+  --space-20:48px;
+  --space-24:64px;
+
+  /* component gaps */
+  --gap-inline:12px;   /* icon ↔ label, chip rows */
+  --gap-card:24px;     /* between cards in a row */
+  --gap-nav:24px;      /* nav link spacing */
+
+  /* control padding — fluid on the same basis as the type scale (floor =
+     original fixed value, reached at ~1440px) so buttons grow with their
+     label instead of turning into thin pills on a large display. */
+  --pad-btn-sm:clamp(10px,.7vw,14px) clamp(20px,1.4vw,28px);/* @kind spacing */
+  --pad-btn-md:clamp(16px,1.11vw,22px) clamp(30px,2.08vw,42px);/* @kind spacing */
+  --pad-btn-lg:clamp(22px,1.53vw,30px) clamp(44px,3.05vw,60px);/* @kind spacing */
+  --pad-card:clamp(28px,1.94vw,40px);/* @kind spacing */
+
+  /* page rhythm */
+  --gutter:8vw;/* @kind spacing */        /* default side gutter */
+  --gutter-tight:5vw;/* @kind spacing */
+  --gutter-wide:6vw;/* @kind spacing */
+  --section-y:120px;   /* vertical padding between major sections */
+  --section-y-lg:150px;
+  --maxw-prose:640px;  /* centered heading blocks */
+  --maxw-hero:780px;
+  --maxw-page:1240px;  /* widest content frame */
+}

@@ -1,0 +1,62 @@
+/* Dissolve Labs — Color tokens
+   The palette is an "ocean descent": a teal surface that darkens to abyssal
+   black as you scroll, lit only by bioluminescent cyan. */
+:root{
+  /* ---- Depth scale: the scroll-driven background gradient, surface → abyss ---- */
+  --depth-0:#0D2B45; /* surface water */
+  --depth-1:#0A2238;
+  --depth-2:#081A2C;
+  --depth-3:#060F1C;
+  --depth-4:#040A14;
+  --depth-5:#03060D;
+  --depth-6:#020408; /* abyss / page base */
+
+  /* ---- Teal accent (bioluminescence) ---- */
+  --teal-light:#6BEBE8;  /* hover / highlight */
+  --teal-bright:#33E0DE; /* brightest accent, gradient start, cursor dot */
+  --teal:#26D0CE;        /* primary accent, links */
+  --teal-mid:#5CC6C4;    /* muted label teal */
+  --teal-deep:#0E9AA7;   /* gradient end, deep accent */
+  --teal-ink:#04121A;    /* near-black text used ON teal fills */
+
+  /* accent as raw channels — compose your own glows: rgba(var(--teal-rgb),.4) */
+  --teal-rgb:38,208,206;/* @kind color */        /* #26D0CE */
+  --teal-bright-rgb:51,224,222;/* @kind color */ /* #33E0DE */
+  --teal-light-rgb:107,235,232;/* @kind color */ /* #6BEBE8 */
+
+  /* ---- Surfaces (card & panel fills, darkest→lighter) ---- */
+  --surface-1:#081A2C; /* raised media card */
+  --surface-2:#050E18; /* service card */
+  --surface-3:#04101C; /* deep card / scrim floor */
+  --surface-4:#040C16; /* abyssal edge card */
+  --surface-nav:rgba(8,22,36,.55);   /* frosted nav pill */
+  --surface-panel:rgba(8,18,26,.70);  /* frosted booking panel */
+
+  /* ---- Ink (text), brightest → dimmest ---- */
+  --ink-100:#F2F7F8; /* primary heading / body-on-dark */
+  --ink-200:#DCEBEE; /* serif display */
+  --ink-300:#C7D4DA; /* secondary / ghost-button label */
+  --ink-400:#9BA8B4; /* muted body copy */
+  --ink-500:#8EA6AD; /* editorial sub / footer italic */
+  --ink-600:#5B6B77; /* dim captions */
+  --ink-700:#3C4A55; /* faint (© line) */
+
+  /* ---- Hairlines & strokes ---- */
+  --line-soft:rgba(255,255,255,.12);      /* neutral card border */
+  --line-teal:rgba(38,208,206,.40);       /* accent border */
+  --line-teal-soft:rgba(38,208,206,.28);  /* nav border */
+  --line-teal-faint:rgba(38,208,206,.20); /* panel border */
+
+  /* ---- Semantic aliases ---- */
+  --color-bg:var(--depth-6);
+  --color-surface:var(--surface-1);
+  --color-accent:var(--teal);
+  --color-accent-strong:var(--teal-bright);
+  --text-primary:var(--ink-100);
+  --text-body:var(--ink-400);
+  --text-muted:var(--ink-500);
+  --text-faint:var(--ink-600);
+  --text-on-accent:var(--teal-ink);
+  --eyebrow-color:var(--teal-bright);
+  --selection-bg:rgba(38,208,206,.35);
+}

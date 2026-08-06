@@ -1,0 +1,11 @@
+            @media (max-width: 768px) {
+              .footer-grid {
+                grid-template-columns: 1fr !important;
+                gap: 32px !important;
+                text-align: center !important;
+              }
+
+              .footer-grid>div {
+                text-align: center !important;
+              }
+            }

@@ -1,0 +1,36 @@
+/* Dissolve Labs — style barrel.
+   Import order mirrors legacy/index.legacy.html document order exactly.
+   Do not reorder: several blocks depend on cascade position, not specificity. */
+
+/* legacy L13-79 — footer height & heading overrides (!important-heavy) */
+@import './00-overrides.css';
+
+/* legacy L81-138 — cursor + contact/footer gap overrides */
+@import './01-head.css';
+
+/* legacy L145-157 — design-system tokens + base styles (was <helmet> <link>s) */
+@import './ds-tokens/fonts.css';
+@import './ds-tokens/colors.css';
+@import './ds-tokens/typography.css';
+@import './ds-tokens/spacing.css';
+@import './ds-tokens/effects.css';
+@import './ds-tokens/base.css';
+/* ds-tokens/ds-styles.css intentionally not imported: it is only a manifest
+   that re-imports the 6 token files above (see legacy helmet, which linked
+   both the tokens directly AND styles.css) — importing it too would just
+   re-apply the same rules a second time. */
+
+/* legacy L165-836 — main site CSS */
+@import './02-site.css';
+
+/* legacy L840-966 — site CSS block b */
+@import './03-site-b.css';
+
+/* legacy L1828-1833, 2008-2014 — delivery/submarine scoped styles */
+@import './04-delivery.css';
+
+/* legacy L2046-2900 — contact section CSS */
+@import './05-contact.css';
+
+/* legacy L3154-3165 — footer CSS */
+@import './06-footer.css';

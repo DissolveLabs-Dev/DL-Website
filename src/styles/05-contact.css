@@ -1,0 +1,1489 @@
+          /* Partnership Layout Styles */
+          .partnership-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr 1fr;
+            gap: 30px;
+            max-width: clamp(1300px, 82vw, 1800px);
+            margin: 0 auto;
+            /* stretch (not center): the three columns had different intrinsic
+               heights — decks 600px, tickers 670px, launcher+steps 353px — so
+               centering left every column with a different top and bottom edge.
+               Stretching makes all three share the row box exactly, and the
+               flex rules below split that box between each column's children.
+               This also keeps the edges aligned when the booking panel expands:
+               the row grows with it and the side columns grow to match. */
+            align-items: stretch;
+
+            /* Shared surface tokens — one fill/border language for every
+               container in this row: the step-flow rings, the ticker panels,
+               the logo deck, and the CTA button, so they read as one family
+               instead of four separately-tuned surfaces.
+               NOT the ring's literal values, deliberately: the ring's own
+               dark-mode fill (rgba(6,15,24,.42)) is barely lighter than the
+               page base (#020408) — fine for a thin outlined circle, but
+               copying it onto these larger panels verbatim would reproduce
+               the "all but invisible against the dark page" problem that the
+               earlier per-panel lift fix existed to solve. This keeps the
+               same dark-navy-teal family and translucency the ring uses,
+               lightened just enough that the panels stay legible as distinct
+               surfaces. Light mode has no such conflict — the ring's own
+               translucent white already reads fine on the light page, so
+               that value is used verbatim. */
+            --dl-surface-fill: rgba(14, 30, 46, 0.55);
+            --dl-surface-line: rgba(51, 224, 222, 0.30);
+          }
+
+          body.theme-light .partnership-grid {
+            --dl-surface-fill: rgba(255, 255, 255, 0.55);
+            --dl-surface-line: rgba(10, 110, 120, 0.30);
+          }
+
+          /* NOTE — why the booking panel is NOT widened to get Calendly's
+             compact two-column layout:
+             Chrome paints an opaque white base behind a cross-origin document
+             before rendering it, so any part of the iframe that Calendly's own
+             card does not cover reads white. A background on the <iframe>
+             element cannot show through that base. Calendly's card is a fixed
+             width and centred — and that width CHANGES per step (~400px on the
+             calendar view, 680px once the time list appears) — so at any frame
+             wider than the card there are white gutters, and no fixed-width
+             clip can track a card that resizes between steps.
+             Keeping the panel inside the centre column means the card fills the
+             frame at every step, which is why the widget stays fully dark.
+             The cost is the taller stacked layout, absorbed by the host's
+             hidden-bar scroll. Cogentlab gets the wide layout cleanly only
+             because their booking section is white, so Chrome's white base is
+             invisible against it. */
+
+          @media(min-width: 1025px) {
+            .partnership-left-col,
+            .partnership-center-col,
+            .partnership-right-col {
+              display: flex;
+              flex-direction: column;
+              min-height: 0;
+            }
+
+            /* Fixed heights become flex shares so both stacks fill the row
+               edge-to-edge. min-height keeps them from collapsing when the
+               row is short. */
+            .partnership-left-col .partnership-deck-container,
+            .partnership-right-col .ticker-container {
+              flex: 1 1 0;
+              height: auto;
+              min-height: 240px;
+              margin-bottom: 30px;
+            }
+
+            .partnership-left-col .partnership-deck-container:last-child,
+            .partnership-right-col .ticker-container:last-child {
+              margin-bottom: 0;
+            }
+
+            /* Only while OPEN: the panel takes the space the step row does
+               not, so the centre column's bottom lands on the same line as
+               the sides (see .dl-booking-launcher--open's margin-bottom:0).
+               Scoped to --open specifically — applied unconditionally this
+               also flex-grew the COLLAPSED launcher to fill the row, which is
+               what was defeating its 10px padding: the button just sat
+               centred in a box stretched far past its content. */
+            .partnership-center-col .dl-booking-launcher--open {
+              flex: 1 1 auto;
+            }
+
+            .partnership-center-col .step-flow {
+              flex: 0 0 auto;
+            }
+          }
+
+          @media(max-width: 1024px) {
+            .partnership-grid {
+              grid-template-columns: 1fr;
+              gap: 40px;
+            }
+
+            .partnership-right-col {
+              order: 1;
+            }
+
+            .partnership-center-col {
+              order: 2;
+            }
+
+            .partnership-left-col {
+              order: 3;
+            }
+          }
+
+          /* Card Decks */
+          .partnership-deck-container {
+            position: relative;
+            width: 100%;
+            height: 280px;
+            perspective: 1000px;
+            margin-bottom: 40px;
+            cursor: pointer;
+          }
+
+          .partnership-deck-container:last-child {
+            margin-bottom: 0;
+          }
+
+          .deck-card {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #050e18;
+            border: 1px solid rgba(107, 235, 232, 0.4);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s, box-shadow 0.6s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+          }
+
+          .deck-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+
+          /* Same --dl-surface-fill/--dl-surface-line as the rings, tickers and
+             CTA button (see .partnership-grid) — dark-navy-teal in dark mode,
+             translucent white in light mode. Its own cambridge-innovation-
+             center logo has a white "cambridge" wordmark baked in (visible
+             here on the dark fill), so a light-mode-only recoloured copy
+             swaps in via .theme-swap-light/-dark — see deck-engine.js. */
+          .deck-card.logo-card {
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            padding: 20px;
+            background: var(--dl-surface-fill);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--dl-surface-line);
+          }
+
+          .deck-card.logo-card img {
+            width: 90%;
+            height: 45%;
+            object-fit: contain;
+            margin: auto;
+          }
+
+          .deck-title {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 30px 20px 20px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.5) 70%, transparent);
+            color: #F2F7F8;
+            font-family: Sora, sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 1.3;
+          }
+
+          /* Deck states */
+          .deck-front {
+            transform: translateZ(0) translateY(0) translateX(0) rotate(0deg);
+            z-index: 3;
+            opacity: 1;
+          }
+
+          .deck-middle {
+            transform: translateZ(-40px) translateY(10px) translateX(-20px) rotate(-6deg) scale(0.95);
+            z-index: 2;
+            opacity: 0.8;
+            filter: blur(0px);
+          }
+
+          .deck-back {
+            transform: translateZ(-80px) translateY(20px) translateX(-40px) rotate(-12deg) scale(0.9);
+            z-index: 1;
+            opacity: 0.5;
+            filter: blur(1px);
+          }
+
+          .deck-hidden {
+            transform: translateZ(-120px) translateY(30px) translateX(-60px) rotate(-18deg) scale(0.85);
+            z-index: 0;
+            opacity: 0;
+          }
+
+          .deck-out {
+            transform: translateZ(50px) translateX(-150%) rotate(-25deg);
+            opacity: 0;
+            z-index: 4;
+            pointer-events: none;
+          }
+
+          /* Tickers */
+          .ticker-container {
+            position: relative;
+            height: 320px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            background: var(--dl-surface-fill);
+            border: 1px solid var(--dl-surface-line);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+            mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+          }
+
+          /* Explicit request: keep the container itself dark in light mode
+             too (its pre-unification value) rather than the unified white
+             fill — the cards inside go light instead, see .ticker-card. */
+          body.theme-light .ticker-container {
+            background: rgba(6, 15, 24, 0.3);
+            border-color: rgba(107, 235, 232, 0.2);
+          }
+
+          /* mask-image clips the element it is set on — background and
+             border included — so the ticker panel's own top/bottom edge
+             dissolves along with the scrolling cards. Fine in light mode,
+             where the panel is meant to blend into the page. In dark mode
+             the panel is a deliberately distinct --dl-surface-fill surface,
+             so the same clipping reads as a broken border there. Drop the
+             mask in dark mode only and fade the *content* instead, with two
+             overlay gradients matching --dl-surface-fill flattened onto the
+             dark page base (#03060d), so the frame stays crisp. */
+          body:not(.theme-light) .ticker-container {
+            mask-image: none;
+            -webkit-mask-image: none;
+          }
+
+          body:not(.theme-light) .ticker-container::before,
+          body:not(.theme-light) .ticker-container::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 15%;
+            pointer-events: none;
+            z-index: 2;
+          }
+
+          body:not(.theme-light) .ticker-container::before {
+            top: 0;
+            background: linear-gradient(to bottom, rgba(9, 19, 31, 0.98), rgba(9, 19, 31, 0));
+          }
+
+          body:not(.theme-light) .ticker-container::after {
+            bottom: 0;
+            background: linear-gradient(to top, rgba(9, 19, 31, 0.98), rgba(9, 19, 31, 0));
+          }
+
+          .ticker-container:last-child {
+            margin-bottom: 0;
+          }
+
+          .ticker-track {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            animation: ticker-scroll-up 40s linear infinite;
+            /* Promotes the track to its own compositor layer up front. Without
+               this, a style/layout change elsewhere on the page (Calendly's
+               widget booting, a deck card cycling, the step-flow's own
+               animations) can invalidate a layer this track happens to share,
+               forcing the browser to re-composite all 44 cards mid-scroll —
+               which reads as exactly the "stuck/slowing down" hitch this was
+               reported as. */
+            will-change: transform;
+          }
+
+          .ticker-container:hover .ticker-track {
+            animation-play-state: paused;
+          }
+
+          @keyframes ticker-scroll-up {
+            from {
+              transform: translateY(0);
+            }
+
+            to {
+              transform: translateY(-50%);
+            }
+          }
+
+          .ticker-card {
+            background: rgba(6, 15, 24, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            padding: 16px 20px;
+            /* No backdrop-filter here (was blur(6px)) — dropped it. The fill
+               is already 60% opaque, so blurring what's behind added little
+               visible depth; the real cost was compositing that blur across
+               all 44 duplicated cards (2 tickers × ~10 quotes × 2 for the
+               seamless loop) independently, every frame, while the whole
+               track is mid-animation. Measured as one of the larger
+               contributors to the ticker's frame cost. */
+          }
+
+          /* In dark mode this card's own fill, composited over the
+             --dl-surface-fill panel behind it, lands within ~2 luminance
+             steps of the panel itself (both are variants of the same
+             dark-navy family now) — worked fine against the old brighter
+             lifted panel, disappears against this calmer one. Pull the card
+             darker and closer to opaque so it reads as inset. */
+          body:not(.theme-light) .ticker-card {
+            background: rgba(2, 6, 12, 0.75);
+            border-color: rgba(107, 235, 232, 0.18);
+          }
+
+          /* Light mode: explicit request to keep .ticker-container itself on
+             its pre-unification dark fill (rgba(6,15,24,.3), set below) while
+             lifting just the cards inside it to the fill the container used
+             to have (rgba(255,255,255,.55)) — i.e. swap which layer is light
+             and which is dark, rather than unifying both to one. Title/desc
+             text flips dark-on-light to match (see .ticker-title/.ticker-desc
+             below). Dark mode is unaffected by any of this. */
+          body.theme-light .ticker-card {
+            background: rgba(255, 255, 255, 0.55);
+            border-color: rgba(10, 110, 120, 0.20);
+          }
+
+          .ticker-title {
+            font-family: Sora, sans-serif;
+            font-weight: 700;
+            font-size: 15px;
+            color: #EAF3F4;
+            margin-bottom: 6px;
+          }
+
+          body.theme-light .ticker-title {
+            color: #0d1f29;
+          }
+
+          .ticker-desc {
+            font-family: Manrope, sans-serif;
+            font-size: 13px;
+            color: #7F9AA2;
+            line-height: 1.5;
+          }
+
+          body.theme-light .ticker-desc {
+            color: #4B5B63;
+          }
+
+          /* Connector */
+          @keyframes step-line-1 {
+            0% {
+              transform: scaleX(0);
+            }
+
+            22% {
+              transform: scaleX(1);
+            }
+
+            97% {
+              transform: scaleX(1);
+            }
+
+            100% {
+              transform: scaleX(0);
+            }
+          }
+
+          @keyframes step-line-2 {
+
+            0%,
+            25% {
+              transform: scaleX(0);
+            }
+
+            47% {
+              transform: scaleX(1);
+            }
+
+            97% {
+              transform: scaleX(1);
+            }
+
+            100% {
+              transform: scaleX(0);
+            }
+          }
+
+          @keyframes step-line-3 {
+
+            0%,
+            50% {
+              transform: scaleX(0);
+            }
+
+            72% {
+              transform: scaleX(1);
+            }
+
+            97% {
+              transform: scaleX(1);
+            }
+
+            100% {
+              transform: scaleX(0);
+            }
+          }
+
+          @keyframes step-line-v-1 {
+            0% {
+              transform: scaleY(0);
+            }
+
+            22% {
+              transform: scaleY(1);
+            }
+
+            97% {
+              transform: scaleY(1);
+            }
+
+            100% {
+              transform: scaleY(0);
+            }
+          }
+
+          @keyframes step-line-v-2 {
+
+            0%,
+            25% {
+              transform: scaleY(0);
+            }
+
+            47% {
+              transform: scaleY(1);
+            }
+
+            97% {
+              transform: scaleY(1);
+            }
+
+            100% {
+              transform: scaleY(0);
+            }
+          }
+
+          @keyframes step-line-v-3 {
+
+            0%,
+            50% {
+              transform: scaleY(0);
+            }
+
+            72% {
+              transform: scaleY(1);
+            }
+
+            97% {
+              transform: scaleY(1);
+            }
+
+            100% {
+              transform: scaleY(0);
+            }
+          }
+
+          .step-connector {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 40px;
+            position: relative;
+            padding: 0;
+            gap: 0;
+          }
+
+          .step-arrow {
+            flex-grow: 1;
+            height: 2px;
+            background: rgba(51, 224, 222, 0.12);
+            position: relative;
+            z-index: 2;
+            margin: 0;
+            overflow: visible;
+          }
+
+          .step-arrow::after {
+            display: none;
+          }
+
+          .step-arrow::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: #33E0DE;
+            box-shadow: 0 0 6px rgba(51, 224, 222, 0.9), 0 0 14px rgba(51, 224, 222, 0.4);
+            transform: scaleX(0);
+            transform-origin: left center;
+          }
+
+          .step-connector>.step-arrow:nth-child(2)::before {
+            animation: step-line-1 4.5s linear infinite;
+          }
+
+          .step-connector>.step-arrow:nth-child(4)::before {
+            animation: step-line-2 4.5s linear infinite;
+          }
+
+          .step-connector>.step-arrow:nth-child(6)::before {
+            animation: step-line-3 4.5s linear infinite;
+          }
+
+          @media(max-width: 600px) {
+            .step-connector {
+              flex-direction: column;
+              gap: 0;
+              margin-top: 30px;
+              align-items: center;
+            }
+
+            .step-arrow {
+              height: 20px;
+              width: 2px;
+              flex-grow: 0;
+            }
+
+            .step-arrow::before {
+              transform-origin: top center;
+              transform: scaleY(0);
+            }
+
+            .step-connector>.step-arrow:nth-child(2)::before {
+              animation: step-line-v-1 4.5s linear infinite;
+            }
+
+            .step-connector>.step-arrow:nth-child(4)::before {
+              animation: step-line-v-2 4.5s linear infinite;
+            }
+
+            .step-connector>.step-arrow:nth-child(6)::before {
+              animation: step-line-v-3 4.5s linear infinite;
+            }
+          }
+
+          .step-badge {
+            cursor: pointer;
+            position: relative;
+            z-index: 3;
+            background: #0a151d;
+            border: 1px solid rgba(107, 235, 232, 0.6);
+            border-radius: 12px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            min-width: 80px;
+          }
+
+          .step-num {
+            font-family: Sora;
+            font-weight: 800;
+            color: #33E0DE;
+            font-size: 16px;
+          }
+
+          .step-label {
+            font-family: Manrope;
+            font-weight: 600;
+            color: #F2F7F8;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          }
+
+          /* === DL Booking Card === */
+          .dl-booking-card {
+            display: flex;
+            border-radius: 16px;
+            overflow: hidden;
+            width: 100%;
+            max-height: calc(100vh - 105px);
+            margin-bottom: 20px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+            border: 1px solid rgba(14, 154, 167, 0.25);
+            animation: dlBookingIn .4s cubic-bezier(.22, 1, .36, 1);
+            background: #071019;
+            position: relative;
+          }
+
+          /* === Booking launcher — click "Book a design partnership call" to
+             expand the panel to full page height and reveal the Calendly
+             widget; the 01-04 step-connector hides while it's open so the
+             panel has the room. === */
+          /* Dark mode: same --dl-surface-fill/--dl-surface-line as the
+             rings, tickers and logo deck (see .partnership-grid). Light mode
+             overrides back to its pre-unification dark fill below — explicit
+             request, kept separate from the ticker/logo treatment. */
+          .dl-booking-launcher {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 100%;
+            /* --dl-btn-gap is measured in Contact.jsx as the exact left/right
+               space centring leaves around the button, so the vertical gap
+               matches it and the button sits in an evenly-inset box. Falls
+               back to 10px before the first measurement / if JS is off. */
+            padding: var(--dl-btn-gap, 10px) 10px;
+            box-sizing: border-box;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            background: var(--dl-surface-fill);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--dl-surface-line);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), inset 0 0 20px rgba(0, 0, 0, 0.35);
+            transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1), min-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+          }
+
+          /* Background matched exactly to .ticker-container's light-mode
+             value (rgba(6,15,24,.3) — see there) per explicit request. Border
+             kept at its own slightly stronger value; only background was
+             asked to match. */
+          body.theme-light .dl-booking-launcher {
+            background: rgba(6, 15, 24, 0.3);
+            border-color: rgba(107, 235, 232, 0.3);
+          }
+
+          /* Wrap the widget instead of pinning to 100vh. Contact.jsx sets
+             --dl-cal-h from Calendly's announced page_height on every step, so
+             the panel is exactly as tall as the content and no taller — the
+             flat 100vh left dead space under the widget on any screen where
+             Calendly asked for less than a full viewport. min() caps it so a
+             step taller than the screen scrolls the host (hidden bar) rather
+             than running the panel off the page. The fallback covers the gap
+             before the first message lands. */
+          .dl-booking-launcher--open {
+            height: min(var(--dl-cal-h, 640px), calc(100vh - 40px));
+            min-height: 0;
+            align-items: stretch;
+            justify-content: stretch;
+            /* Drop the collapsed state's button inset — height here is the
+               widget's own measured height (border-box), so any padding would
+               eat into the calendar rather than frame it. */
+            padding: 0;
+            /* The base rule's margin-bottom:20px exists to separate the
+               collapsed launcher from the step-flow below it. Open, the
+               launcher is the column's only visible content, and decks/
+               tickers already zero this same margin on their own last child
+               — without matching it here the panel's visible bottom edge sat
+               20px above the row's actual bottom (i.e. above left/right). */
+            margin-bottom: 0;
+          }
+
+          .dl-booking-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            z-index: 6;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: 1px solid rgba(107, 235, 232, 0.35);
+            background: rgba(6, 15, 24, 0.7);
+            color: #ffffff;
+            font-size: 20px;
+            line-height: 1;
+            cursor: pointer;
+          }
+
+          @keyframes dlBookingIn {
+            from {
+              opacity: 0;
+              transform: translateY(20px) scale(0.96);
+            }
+
+            to {
+              opacity: 1;
+              transform: none;
+            }
+          }
+
+          .dl-booking-left {
+            background: #071019;
+            padding: 24px 22px;
+            flex: 0 0 40%;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid rgba(14, 154, 167, 0.15);
+          }
+
+          .dl-booking-right {
+            background: #0a151d;
+            padding: 22px 20px;
+            flex: 1;
+          }
+
+          body.theme-light .dl-booking-card {
+            background: #ffffff;
+            border-color: rgba(14, 154, 167, 0.2);
+          }
+
+          body.theme-light .dl-booking-left {
+            background: #f4f8fb;
+            border-right-color: rgba(14, 154, 167, 0.1);
+          }
+
+          body.theme-light .dl-booking-right {
+            background: #ffffff;
+          }
+
+          .dl-booking-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+          }
+
+          .dl-brand-badge {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #0E9AA7, #26D0CE);
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Sora, sans-serif;
+            font-weight: 800;
+            font-size: 12px;
+            color: #fff;
+            letter-spacing: 0.5px;
+            flex-shrink: 0;
+          }
+
+          .dl-brand-name {
+            font-family: Sora, sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            color: #EAF3F4;
+          }
+
+          body.theme-light .dl-brand-name {
+            color: #0d1f29;
+          }
+
+          .dl-booking-title {
+            font-family: Sora, sans-serif;
+            font-weight: 800;
+            font-size: 22px;
+            line-height: 1.15;
+            color: #EAF3F4;
+            margin: 0 0 14px;
+          }
+
+          body.theme-light .dl-booking-title {
+            color: #0d1f29;
+          }
+
+          .dl-booking-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 16px;
+          }
+
+          .dl-meta-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-family: Manrope, sans-serif;
+            font-size: 12px;
+            color: #7F9AA2;
+            line-height: 1.4;
+          }
+
+          .dl-meta-item svg {
+            flex-shrink: 0;
+            margin-top: 1px;
+          }
+
+          .dl-meta-selected {
+            color: #0E9AA7;
+          }
+
+          .dl-meta-selected span {
+            color: #0E9AA7 !important;
+            font-weight: 600;
+          }
+
+          body.theme-light .dl-meta-item {
+            color: #4a6272;
+          }
+
+          .dl-booking-quote {
+            font-family: Manrope, sans-serif;
+            font-style: italic;
+            font-size: 12px;
+            color: #4a6272;
+            line-height: 1.5;
+            margin-top: auto;
+            padding-top: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+          }
+
+          body.theme-light .dl-booking-quote {
+            color: #6b8494;
+            border-top-color: rgba(0, 0, 0, 0.07);
+          }
+
+          .dl-booking-subtitle {
+            font-family: Sora, sans-serif;
+            font-weight: 700;
+            font-size: 15px;
+            color: #EAF3F4;
+            margin: 0 0 12px;
+          }
+
+          body.theme-light .dl-booking-subtitle {
+            color: #0d1f29;
+          }
+
+          .dl-day-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 14px;
+          }
+
+          .dl-day-cell {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 62px;
+            height: 50px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all .15s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.04);
+          }
+
+          .dl-day-cell:hover {
+            border-color: rgba(14, 154, 167, 0.5);
+            background: rgba(14, 154, 167, 0.08);
+          }
+
+          .dl-day-cell.dl-day-sel {
+            background: #0E9AA7 !important;
+            border-color: #0E9AA7 !important;
+            box-shadow: 0 3px 12px rgba(14, 154, 167, .4);
+          }
+
+          body.theme-light .dl-day-cell {
+            background: #f1f6f9;
+            border-color: #d8e5ec;
+          }
+
+          body.theme-light .dl-day-cell:hover {
+            border-color: #0E9AA7;
+            background: rgba(14, 154, 167, 0.06);
+          }
+
+          body.theme-light .dl-day-cell.dl-day-sel {
+            background: #0E9AA7 !important;
+            border-color: #0E9AA7 !important;
+          }
+
+          .dl-day-wd {
+            font-family: Sora, sans-serif;
+            font-weight: 700;
+            font-size: 11px;
+            color: #EAF3F4;
+            display: block;
+          }
+
+          .dl-day-cell.dl-day-sel .dl-day-wd,
+          .dl-day-cell.dl-day-sel .dl-day-dm {
+            color: #fff !important;
+          }
+
+          .dl-day-dm {
+            font-family: Manrope, sans-serif;
+            font-size: 10px;
+            color: #7F9AA2;
+            display: block;
+            margin-top: 1px;
+          }
+
+          body.theme-light .dl-day-wd {
+            color: #26404a;
+          }
+
+          body.theme-light .dl-day-dm {
+            color: #5b7a88;
+          }
+
+          .dl-avail-label {
+            font-family: Sora, sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            color: #4a6272;
+            letter-spacing: 1.1px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+          }
+
+          body.theme-light .dl-avail-label {
+            color: #7a9aaa;
+          }
+
+          .dl-time-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 14px;
+          }
+
+          .dl-time-cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 6px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all .15s;
+            font-family: Manrope, sans-serif;
+            font-weight: 600;
+            font-size: 13px;
+            border: 1px solid rgba(14, 154, 167, 0.35);
+            color: #0E9AA7;
+            background: transparent;
+          }
+
+          .dl-time-cell:hover {
+            background: rgba(14, 154, 167, 0.1);
+            border-color: #0E9AA7;
+          }
+
+          .dl-time-cell.dl-time-sel {
+            background: #0E9AA7 !important;
+            border-color: #0E9AA7 !important;
+            color: #fff !important;
+            box-shadow: 0 3px 12px rgba(14, 154, 167, .35);
+          }
+
+          body.theme-light .dl-time-cell {
+            background: #fff;
+            border-color: #0E9AA7;
+            color: #0E9AA7;
+          }
+
+          body.theme-light .dl-time-cell:hover {
+            background: rgba(14, 154, 167, 0.06);
+          }
+
+          body.theme-light .dl-time-cell.dl-time-sel {
+            background: #0E9AA7 !important;
+            color: #fff !important;
+          }
+
+          .dl-confirm-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background: #0E9AA7;
+            color: #fff;
+            font-family: Sora, sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(14, 154, 167, .4);
+            transition: background .2s, box-shadow .2s, transform .2s;
+            margin-bottom: 10px;
+          }
+
+          .dl-confirm-btn:hover {
+            background: #0b8591;
+            box-shadow: 0 6px 22px rgba(14, 154, 167, .55);
+            transform: translateY(-1px);
+          }
+
+          .dl-confirm-btn:active {
+            transform: translateY(0);
+          }
+
+          .dl-powered {
+            text-align: center;
+            font-family: Manrope, sans-serif;
+            font-size: 11px;
+            color: #4a6272;
+          }
+
+          .dl-powered a {
+            color: #0E9AA7;
+            text-decoration: none;
+          }
+
+          .dl-powered a:hover {
+            text-decoration: underline;
+          }
+
+          .dl-booking-close {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 6px;
+            cursor: pointer;
+            color: #7F9AA2;
+            font-size: 14px;
+            line-height: 1;
+            padding: 4px 8px;
+            transition: color .15s, background .15s;
+            z-index: 10;
+          }
+
+          .dl-booking-close:hover {
+            color: #EAF3F4;
+            background: rgba(255, 255, 255, 0.12);
+          }
+
+          body.theme-light .dl-booking-close {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.1);
+            color: #6b8494;
+          }
+
+          body.theme-light .dl-booking-close:hover {
+            color: #0d1f29;
+            background: rgba(0, 0, 0, 0.1);
+          }
+
+          @media(max-width: 700px) {
+            .dl-booking-card {
+              flex-direction: column;
+              max-height: calc(100vh - 95px);
+            }
+
+            .dl-booking-left {
+              flex: none;
+              border-right: none;
+              border-bottom: 1px solid rgba(14, 154, 167, 0.15);
+              padding: 18px 16px;
+            }
+
+            .dl-booking-right {
+              padding: 18px 16px;
+            }
+
+            .dl-time-list {
+              grid-template-columns: repeat(2, 1fr);
+            }
+          }
+
+          /* Calendly override. Was written for the old, always-visible,
+             viewport-capped booking card (fixed 520px, capped at
+             100vh-110px) — now that #dl-calendly-inline-host lives inside
+             the full-height .dl-booking-launcher--open panel, those fixed/
+             capped values left the widget shorter than its container: empty
+             space below the calendar plus an internal scrollbar on the
+             (too-short-to-fit-the-full-month) iframe. Stretch to fill the
+             host completely instead. */
+          .calendly-inline-widget {
+            width: 100% !important;
+            height: 100% !important;
+            min-height: 0 !important;
+            max-height: none !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+          }
+
+          #dl-calendly-inline-host {
+            /* absolute+inset, not relative+100%: Contact.jsx now mounts this
+               permanently (it preloads before the user ever clicks), so it
+               must NOT participate in .dl-booking-launcher's flex layout
+               while collapsed — that would push the "Book a call" button off
+               centre. Sitting out of flow lets it overlay the whole launcher
+               in both states while staying invisible until opened, below. */
+            position: absolute;
+            /* bottom:-2px, not 0 — this kills the thin white bar you could
+               scroll up at the foot of the widget.
+               The panel's height is --dl-cal-h (Calendly's announced height,
+               602px say) and it is border-box, so its 1px borders leave this
+               host 600px of content while the iframe inside is the full 602px.
+               That 2px delta was scrollable, and what it revealed is the tail
+               of Calendly's own document that it never paints — i.e. Chrome's
+               opaque white iframe base.
+               Letting the host overhang the panel by exactly that 2px makes
+               host height == iframe height, so there is nothing to scroll when
+               the content fits, and the unpainted tail sits below the panel's
+               visible edge where its overflow:hidden clips it. A step taller
+               than the viewport cap still scrolls normally. */
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: -2px;
+            min-height: 0;
+            max-height: none;
+            background: transparent;
+            z-index: 5;
+            /* auto, not hidden: Contact.jsx sizes the iframe to the height
+               Calendly asks for, so on a panel shorter than the current step
+               the iframe overflows this element rather than scrolling inside
+               Calendly's own document. This host is same-origin, so that
+               scroll is ours — keep it reachable, just hide the bar. */
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            /* display:none while collapsed — hidden, but NOT unmounted, so the
+               preloaded widget keeps its document and opening stays instant.
+               This is load-bearing for scroll smoothness. Measured over a
+               scroll past this section with the widget already preloaded:
+                 opacity:0 only    5121ms long tasks (3175 cross-origin)
+                 visibility:hidden ... still 5121/3175 — it is laid out, so
+                                       Calendly keeps rendering
+                 display:none      1944ms long tasks (1125 cross-origin)
+               Chrome still loads and runs a display:none iframe (its
+               page_height messages arrive, and it re-lays out correctly on
+               reveal — verified identical 528x602 either way), it just stops
+               costing us layout and paint on every scrolled frame. */
+            display: none;
+          }
+
+          .dl-booking-launcher--open #dl-calendly-inline-host {
+            display: block;
+            animation: dlCalIn 0.3s ease both;
+          }
+
+          @keyframes dlCalIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+          }
+
+          #dl-calendly-inline-host::-webkit-scrollbar {
+            display: none;
+          }
+
+          #dl-calendly-inline-host iframe {
+            width: 100% !important;
+            height: 100% !important;
+            min-height: 0 !important;
+            max-height: none !important;
+            border: none !important;
+            display: block !important;
+            vertical-align: top !important;
+            /* --dl-cal-bg is set on the host in Contact.jsx at widget init to
+               the same colour passed to Calendly. Fallback matches the dark
+               default. Kills the white iframe canvas around their card. */
+            background: var(--dl-cal-bg, #071019) !important;
+          }
+
+          /* === Unified surface: rings, tickers, logo deck, CTA ===
+             All four share --dl-surface-fill/--dl-surface-line (defined on
+             .partnership-grid, and on .step-flow for the rings — see there
+             for why the values aren't identical to the ring's own). */
+
+          /* === Step flow (infographic style) =========================
+             Replaces the flat .step-badge row. Four tangent rings, the step
+             number on each ring's left edge, dashed arcs alternating over and
+             under. Geometry mirrors the SVG's 1000x260 user space (see the
+             STEPS/STEP_ARCS constants in Contact.jsx): every offset below is a
+             percentage of that box, and the aspect-ratio lock keeps the HTML
+             rings registered with the SVG arcs at any width.
+                ring   left = (cx - 115)/1000   top = 15/260   size = 230/1000
+                badge  centred on the ring's left edge, 60/1000 across
+             Accent flips per theme: the site's light mode darkens every
+             #33E0DE to #0A6E78 for contrast on white, so the flow follows. */
+          .step-flow {
+            --sf-accent: var(--teal-bright);
+            --sf-on-accent: var(--teal-ink);
+            /* Arc colour is deliberately separate from --sf-accent: the arcs
+               stay the submarine's bright #33E0DE + glow in BOTH themes (see
+               #connection-arrow-path in Delivery), while the badge accent has
+               to darken in light mode to keep its white numerals legible.
+               Literal, NOT var(--teal-bright): 02-site.css redefines that token
+               to #0A6E78 under body.theme-light, which is exactly the darkening
+               this line exists to avoid. The submarine arrow dodges it the same
+               way — a hardcoded #33E0DE attribute. */
+            --sf-arc: #33E0DE;
+            --sf-ring-line: rgba(51, 224, 222, 0.28);
+            --sf-ring-fill: rgba(6, 15, 24, 0.42);
+            --sf-label: var(--ink-100);
+
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1000 / 260;
+            margin-top: 40px;
+            /* Type inside the rings must scale with the RING, not the viewport.
+               The flow sits in a narrow column, so a vw-based size rendered a
+               15px label into a 123px ring on a 1600px screen. cqw ties it to
+               the flow's own width instead. */
+            container-type: inline-size;
+          }
+
+          body.theme-light .step-flow {
+            --sf-accent: #0A6E78;
+            --sf-on-accent: #ffffff;
+            /* Explicit request: the connecting arcs/arrowheads read as black
+               in light mode (not the teal they keep in dark mode above). */
+            --sf-arc: #000000;
+            --sf-ring-line: rgba(10, 110, 120, 0.30);
+            --sf-ring-fill: rgba(255, 255, 255, 0.55);
+            --sf-label: #0d1f29;
+          }
+
+          .step-flow-arcs {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            color: var(--sf-arc);
+            overflow: visible;
+            /* Same glow the submarine's connection arrow carries. */
+            filter: drop-shadow(0 0 4px rgba(51, 224, 222, 0.9)) drop-shadow(0 0 12px rgba(51, 224, 222, 0.4));
+          }
+
+          /* Black doesn't glow — a colour-tinted drop-shadow behind a black
+             stroke would read as a halo, not depth. A small neutral shadow
+             gives the dots definition against the light teal page instead. */
+          body.theme-light .step-flow-arcs {
+            filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
+          }
+
+          .step-flow-arcs path {
+            animation: sfDash 1.4s linear infinite;
+          }
+
+          @keyframes sfDash {
+            to {
+              stroke-dashoffset: -16;
+            }
+          }
+
+          .step-node {
+            position: absolute;
+            top: 0;
+            left: var(--sf-ring-left);
+            width: 23%;
+            height: 100%;
+          }
+
+          .step-ring {
+            position: absolute;
+            top: 5.77%;
+            left: 0;
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            border: 1px solid var(--sf-ring-line);
+            background: var(--sf-ring-fill);
+            display: flex;
+            /* column, or the icon sits beside the label instead of above it */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 18%;
+            box-sizing: border-box;
+          }
+
+          .step-ring-label {
+            font-family: Sora, sans-serif;
+            font-weight: 700;
+            font-size: clamp(8px, 1.9cqw, 17px);
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            line-height: 1.25;
+            color: var(--sf-label);
+          }
+
+          /* Sits on the ring's left edge: the node box starts at that edge, so
+             the badge is pulled back by half its own width. */
+          .step-node-num {
+            position: absolute;
+            top: 38.46%;
+            left: 0;
+            transform: translateX(-50%);
+            width: 26.1%;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: var(--sf-accent);
+            color: var(--sf-on-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Sora, sans-serif;
+            font-weight: 800;
+            font-size: clamp(11px, 3.2cqw, 30px);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+            z-index: 2;
+          }
+
+          /* Below ~700px the rings would be too small to hold a label, so drop
+             the arc layout entirely for a 2x2 card grid. */
+          @media(max-width: 700px) {
+            .step-flow {
+              aspect-ratio: auto;
+              display: grid;
+              grid-template-columns: repeat(2, 1fr);
+              gap: 14px;
+              margin-top: 30px;
+            }
+
+            .step-flow-arcs {
+              display: none;
+            }
+
+            .step-node {
+              position: relative;
+              left: auto;
+              width: auto;
+              height: auto;
+              padding-left: 18px;
+            }
+
+            .step-ring {
+              position: relative;
+              top: 0;
+              aspect-ratio: auto;
+              border-radius: 14px;
+              padding: 16px 12px 16px 22px;
+              justify-content: flex-start;
+            }
+
+            .step-ring-label {
+              font-size: 11px;
+            }
+
+            .step-node-num {
+              top: 50%;
+              transform: translate(-50%, -50%);
+              width: 36px;
+              height: 36px;
+              aspect-ratio: auto;
+              font-size: 13px;
+            }
+          }
+
+          /* --- Step icons -------------------------------------------------
+             Each icon animates out its own step's meaning. Sized in cqw for
+             the same reason the labels are (the flow sits in a narrow column,
+             so viewport units mis-size it). */
+          .sf-icon {
+            /* 2x the original clamp(14px,3.4cqw,30px), then +10px on top.
+               The cqw term is bumped to match: the flow is ~529px wide in the
+               centre column, where 6.8cqw rendered 36px, so 8.7cqw lands ~46px
+               — the same +10. */
+            width: clamp(38px, 8.7cqw, 70px);
+            height: clamp(38px, 8.7cqw, 70px);
+            display: block;
+            margin-bottom: 4%;
+            color: var(--sf-accent);
+            overflow: visible;
+          }
+
+          /* 01 Alignment — corner brackets close in on a centre that settles. */
+          .sf-align-b {
+            animation: sfAlignL 3.2s ease-in-out infinite;
+          }
+
+          .sf-align-b--r {
+            animation-name: sfAlignR;
+          }
+
+          .sf-align-ring {
+            transform-origin: 12px 12px;
+            animation: sfAlignRing 3.2s ease-in-out infinite;
+          }
+
+          @keyframes sfAlignL {
+            0%, 100% { transform: translateX(-2.5px); opacity: .55; }
+            45%, 65% { transform: translateX(1.5px); opacity: 1; }
+          }
+
+          @keyframes sfAlignR {
+            0%, 100% { transform: translateX(2.5px); opacity: .55; }
+            45%, 65% { transform: translateX(-1.5px); opacity: 1; }
+          }
+
+          @keyframes sfAlignRing {
+            0%, 100% { transform: scale(.82); opacity: .6; }
+            45%, 65% { transform: scale(1); opacity: 1; }
+          }
+
+          /* 02 Velocity — speed lines streak past, staggered. */
+          .sf-vel-l {
+            animation: sfVel 1.5s ease-in-out infinite;
+          }
+
+          .sf-vel-l--2 { animation-delay: .18s; }
+          .sf-vel-l--3 { animation-delay: .36s; }
+
+          @keyframes sfVel {
+            0% { transform: translateX(-4px); opacity: .25; }
+            45% { opacity: 1; }
+            100% { transform: translateX(5px); opacity: 0; }
+          }
+
+          /* 03 Execution — chevrons advance, one after the other. */
+          .sf-exec-c {
+            animation: sfExec 1.7s ease-in-out infinite;
+          }
+
+          .sf-exec-c--2 { animation-delay: .22s; }
+
+          @keyframes sfExec {
+            0%, 100% { transform: translateX(-2px); opacity: .4; }
+            50% { transform: translateX(2px); opacity: 1; }
+          }
+
+          /* 04 Stewardship — a fixed core with waves rippling outward, i.e.
+             care that keeps radiating after the ship date. */
+          .sf-stew-w {
+            transform-origin: 12px 12px;
+            animation: sfStew 3s ease-out infinite;
+          }
+
+          .sf-stew-w--2 { animation-delay: 1.5s; }
+
+          .sf-stew-core {
+            transform-origin: 12px 12px;
+            animation: sfStewCore 3s ease-in-out infinite;
+          }
+
+          @keyframes sfStew {
+            0% { transform: scale(.42); opacity: 0; }
+            25% { opacity: .9; }
+            100% { transform: scale(1.5); opacity: 0; }
+          }
+
+          @keyframes sfStewCore {
+            0%, 100% { transform: scale(.9); }
+            50% { transform: scale(1.08); }
+          }
+
+          @media(prefers-reduced-motion: reduce) {
+            .step-flow-arcs path,
+            .sf-align-b,
+            .sf-align-ring,
+            .sf-vel-l,
+            .sf-exec-c,
+            .sf-stew-w,
+            .sf-stew-core {
+              animation: none;
+            }
+          }
