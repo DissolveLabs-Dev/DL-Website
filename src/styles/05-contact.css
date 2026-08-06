@@ -113,6 +113,21 @@
             .partnership-left-col {
               order: 3;
             }
+
+            /* Grid items default to min-width:auto, i.e. "never shrink below
+               my content's min-content size" — so any descendant with a wide
+               intrinsic size (the step-flow's ring layout, a long ticker
+               quote, ...) was forcing the whole 1fr column, and with it the
+               page itself, wider than the viewport. Measured a 38px
+               horizontal overflow at 375px before this. min-width:0 lets the
+               column shrink to the viewport and rely on its children's own
+               responsive sizing (clamp()s, aspect-ratio, wrapping text)
+               instead of their unconstrained min-content width. */
+            .partnership-left-col,
+            .partnership-center-col,
+            .partnership-right-col {
+              min-width: 0;
+            }
           }
 
           /* Card Decks */
@@ -1149,6 +1164,23 @@
             overflow-x: hidden;
             scrollbar-width: none;
             -ms-overflow-style: none;
+            /* iOS Safari specifically has, in some versions, shown a nested
+               scrollable div's native indicator regardless of the
+               ::-webkit-scrollbar rule below — this is the standard
+               companion fix for that (also gives it native momentum
+               scrolling rather than the OS's plain/step-y fallback). */
+            -webkit-overflow-scrolling: touch;
+            /* data-lenis-prevent (below) exists so Lenis's WHEEL hijack
+               doesn't fight this widget's own scroll on desktop — but
+               smooth-scroll.js's stylesheet also blankets every
+               [data-lenis-prevent] element with overscroll-behavior:contain,
+               which on mobile blocks native touch scroll chaining: once this
+               host hit its own top/bottom, further swipes had nowhere to go
+               and the page read as stuck. auto restores chaining to the page
+               once this host's own scroll range is exhausted. Selector
+               specificity (id) beats the Lenis rule's (class + attribute) on
+               its own, no !important needed — verified via computed style. */
+            overscroll-behavior-y: auto;
             /* display:none while collapsed — hidden, but NOT unmounted, so the
                preloaded widget keeps its document and opening stays instant.
                This is load-bearing for scroll smoothness. Measured over a

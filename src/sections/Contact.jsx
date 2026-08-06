@@ -318,7 +318,7 @@ export function Contact({ theme }) {
           align="center"
           style={{ marginTop: '16px', fontSize: 'clamp(22px,4vw,84px)', whiteSpace: 'nowrap' }}
         >
-          Initiate{' '}a{' '}Design{' '}Partnership
+          Initiate{' '}a{' '}Design{' '}Partnership
         </SectionHeading>
         <p style={{ fontFamily: 'Manrope', fontSize: 'var(--fs-md)', lineHeight: 1.6, color: 'var(--ink-400)', margin: '16px auto 0' }}>
           Pick a time to align. We’ll break down your product roadmap and evaluate how we can co-build it together —

@@ -187,7 +187,7 @@ export function Events() {
       <div className="reveal" style={{ textAlign: 'center', marginBottom: '64px', padding: '0 8vw' }}>
         <Eyebrow>Below the surface</Eyebrow>
         <SectionHeading size="lg" align="center" style={{ marginTop: '16px' }}>
-          In{' '}the{' '}rooms{' '}where{' '}it’s{' '}built
+          In{' '}the{' '}rooms{' '}where{' '}it’s{' '}built
         </SectionHeading>
         <p
           style={{

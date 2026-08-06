@@ -22,7 +22,7 @@ function BlueprintHeading({ className }) {
     >
       <Eyebrow>The Co-Building Blueprint</Eyebrow>
       <SectionHeading size="lg" align="center" style={{ marginTop: '16px' }}>
-        How{' '}We{' '}Deliver{' '}a{' '}Product
+        How{' '}We{' '}Deliver{' '}a{' '}Product
       </SectionHeading>
       <p
         style={{
