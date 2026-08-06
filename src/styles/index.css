@@ -34,3 +34,18 @@
 
 /* legacy L3154-3165 — footer CSS */
 @import './06-footer.css';
+
+/* Not ported from legacy — added this session. Toggled by
+   usePauseOffscreenAnimations (src/hooks) on #hero, #events and #delivery:
+   each holds a CSS animation with infinite iterations (logo marquee, quote
+   marquee, submarine propeller + connection-arrow dash) that ran constantly
+   regardless of scroll position. Measured 25 concurrent animations active
+   while idling on #contact alone, several of them from sections scrolled
+   fully out of view — this was the dominant cost behind the ticker's own
+   "stuck/slowing down" symptom. Freezing decorative loops the user isn't
+   looking at frees that budget back up; resuming mid-loop is invisible for
+   this kind of ambient animation. */
+.dl-anim-paused,
+.dl-anim-paused * {
+  animation-play-state: paused !important;
+}

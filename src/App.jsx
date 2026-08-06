@@ -3,6 +3,7 @@ import { useSmoothScroll } from './hooks/useSmoothScroll.js'
 import { useTheme } from './hooks/useTheme.js'
 import { useDepthEngine } from './hooks/useDepthEngine.js'
 import { useVideoManager } from './hooks/useVideoManager.js'
+import { usePauseOffscreenAnimations } from './hooks/usePauseOffscreenAnimations.js'
 import { DepthBackdrop } from './components/DepthBackdrop.jsx'
 import { MobileNav } from './components/MobileNav.jsx'
 import { Hero } from './sections/Hero.jsx'
@@ -37,6 +38,9 @@ function App() {
   // after every section below has mounted. See MIGRATION_PLAN.md §6.2/§6.4.
   useDepthEngine(theme)
   useVideoManager()
+  // Same "after every section has mounted" constraint as the two hooks
+  // above — it looks up #hero/#events/#delivery by id.
+  usePauseOffscreenAnimations()
 
   const goWork = useCallback((e) => {
     if (e && e.preventDefault) e.preventDefault()
