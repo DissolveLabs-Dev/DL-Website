@@ -1,9 +1,0 @@
-/* Dissolve Labs Design System — global entry point.
-   Consumers link ONLY this file. It is an @import manifest; every token,
-   font-face, and base rule ships through the closure below. */
-@import "tokens/fonts.css";
-@import "tokens/colors.css";
-@import "tokens/typography.css";
-@import "tokens/spacing.css";
-@import "tokens/effects.css";
-@import "tokens/base.css";
