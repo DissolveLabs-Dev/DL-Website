@@ -1,14 +1,14 @@
 import { useEffect } from 'react'
 
 // Sections that hold a CSS animation with infinite iterations and no other
-// gate on it — #hero's logo marquee, #events' quote marquee, #delivery's
-// submarine propeller + connection-arrow dash. Confirmed via
-// document.getAnimations(): all four were still "running" while idling on
-// #contact, scrolled fully out of view. #contact itself is deliberately not
-// included — its own animations (ticker marquees, step-flow) are the ones
-// actively being looked at while this fix matters, so they should keep
-// running whenever Contact is the visible section.
-const SECTION_IDS = ['hero', 'events', 'delivery']
+// gate on it — #hero's logo marquee, #delivery's submarine propeller +
+// connection-arrow dash. Confirmed via document.getAnimations(): both were
+// still "running" while idling on #contact, scrolled fully out of view.
+// #contact itself is deliberately not included — its own animations (ticker
+// marquees, step-flow) are the ones actively being looked at while this fix
+// matters, so they should keep running whenever Contact is the visible
+// section.
+const SECTION_IDS = ['hero', 'delivery']
 
 /**
  * usePauseOffscreenAnimations — freezes decorative CSS animations in

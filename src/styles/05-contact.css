@@ -190,6 +190,56 @@
             margin: auto;
           }
 
+          /* Same surface language as .logo-card (see .partnership-grid's
+             --dl-surface-fill/--dl-surface-line) — the process-phase deck
+             replaces the old founder photo cards, so it borrows the "text on
+             a translucent panel" treatment rather than the photo+gradient
+             one .deck-title was built for. */
+          .deck-card.phase-card {
+            flex-direction: column;
+            justify-content: center;
+            padding: 28px;
+            background: var(--dl-surface-fill);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--dl-surface-line);
+          }
+
+          .phase-badge {
+            display: inline-block;
+            align-self: flex-start;
+            padding: 4px 12px;
+            background: rgba(51, 224, 222, 0.1);
+            border: 1px solid rgba(51, 224, 222, 0.3);
+            border-radius: 20px;
+            margin-bottom: 16px;
+          }
+
+          .phase-badge-text {
+            font-family: Sora, sans-serif;
+            font-weight: 700;
+            font-size: 11px;
+            color: #33E0DE;
+            letter-spacing: 1px;
+          }
+
+          .phase-heading {
+            font-family: Sora, sans-serif;
+            font-weight: 700;
+            font-size: 19px;
+            color: var(--text-primary, #F2F7F8);
+            letter-spacing: -0.3px;
+            margin: 0 0 10px;
+          }
+
+          .phase-body {
+            font-family: Manrope, sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-body, #8EA6AD);
+            margin: 0;
+          }
+
           .deck-title {
             position: absolute;
             bottom: 0;

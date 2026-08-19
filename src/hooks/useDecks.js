@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { initPartnershipDecks, initTickers } from '../engines/deck-engine.js'
 
 /**
- * useDecks — founder/logo photo decks + the two quote tickers on Contact.
+ * useDecks — process-phase/logo decks + the two quote tickers on Contact.
  * Original called these from Component.componentDidMount's setState
  * callback (after the design-system runtime committed the render) with a
  * setTimeout(100) safety net for the tickers. React's effect already runs

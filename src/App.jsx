@@ -7,7 +7,6 @@ import { usePauseOffscreenAnimations } from './hooks/usePauseOffscreenAnimations
 import { DepthBackdrop } from './components/DepthBackdrop.jsx'
 import { MobileNav } from './components/MobileNav.jsx'
 import { Hero } from './sections/Hero.jsx'
-import { Events } from './sections/Events.jsx'
 import { Services } from './sections/Services.jsx'
 import { Delivery } from './sections/Delivery.jsx'
 import { Contact } from './sections/Contact.jsx'
@@ -39,12 +38,12 @@ function App() {
   useDepthEngine(theme)
   useVideoManager()
   // Same "after every section has mounted" constraint as the two hooks
-  // above — it looks up #hero/#events/#delivery by id.
+  // above — it looks up #hero/#delivery by id.
   usePauseOffscreenAnimations()
 
   const goWork = useCallback((e) => {
     if (e && e.preventDefault) e.preventDefault()
-    scrollToId('events')
+    scrollToId('services')
   }, [])
   const goServices = useCallback((e) => {
     if (e && e.preventDefault) e.preventDefault()
@@ -85,7 +84,6 @@ function App() {
       />
 
       <Hero heroA={heroA} heroB={heroB} heroC={heroC} goWork={goWork} goContact={goContact} />
-      <Events />
       <Services />
       <Delivery />
       <Contact theme={theme} />

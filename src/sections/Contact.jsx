@@ -328,7 +328,7 @@ export function Contact({ theme }) {
 
       <div className="partnership-grid">
         <div className="partnership-left-col">
-          <div className="partnership-deck-container" id="founder-deck" />
+          <div className="partnership-deck-container" id="process-deck" />
           <div className="partnership-deck-container" id="logo-deck" />
         </div>
 

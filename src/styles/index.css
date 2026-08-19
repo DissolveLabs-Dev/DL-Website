@@ -36,9 +36,9 @@
 @import './06-footer.css';
 
 /* Not ported from legacy — added this session. Toggled by
-   usePauseOffscreenAnimations (src/hooks) on #hero, #events and #delivery:
-   each holds a CSS animation with infinite iterations (logo marquee, quote
-   marquee, submarine propeller + connection-arrow dash) that ran constantly
+   usePauseOffscreenAnimations (src/hooks) on #hero and #delivery: each
+   holds a CSS animation with infinite iterations (logo marquee, submarine
+   propeller + connection-arrow dash) that ran constantly
    regardless of scroll position. Measured 25 concurrent animations active
    while idling on #contact alone, several of them from sections scrolled
    fully out of view — this was the dominant cost behind the ticker's own

@@ -1,22 +1,38 @@
-// deck-engine.js — ported verbatim from legacy/index.legacy.html L2955-3133.
-// Founder / logo photo decks (stacked-card cycler) + the two auto-scrolling
-// quote tickers on the Contact section. Kept imperative on purpose: this is
+// deck-engine.js — ported from legacy/index.legacy.html L2955-3133, since
+// adapted: the founder-photo deck (was 30 conference-photo cards) is now a
+// 4-card deck of our co-founding phases, mirroring the copy in
+// submarine-engine.js's phaseData without duplicating it verbatim — this
+// card format is condensed for a 280px stacked card, not the full expanded
+// panel. Logo photo deck + the two auto-scrolling quote tickers on the
+// Contact section are unchanged. Kept imperative on purpose: this is
 // DOM-churn animation code, not view logic.
 
-const founderImages = [
-  "After the MIT Deep Learning Course.webp", "Appointed Mentor for the Fulbright Austin Conference 2025.webp", "AWS Gen AI Loft after winning a hackathon.webp", "Cambridge Innovation Center Hackathon Win.. picture from during presentation.webp", "Harvard Leadership Course- Masters of Management.webp", "Harvard Summer School - Project Management Cohort.webp", "Harvard Summer School - Purple Squirrel Award.webp", "IMF AI in Finance Meeting.webp", "Infront of the Great Dome at MIT.webp", "Instacart Headquarter San Francisco.webp", "International Monetary Fund Spring Conference 2025.webp", "Martin Trust Center for MIT Entrepreneurship_.webp", "Martin Trust Center of Entrepreneurship MIT.webp", "Me at Harvard Business School.webp", "MIT Arts Incubator.webp", "MIT Delta V Banner 2025.webp", "MIT Delta V Team with Center of Entrepreneurship Head Bill Aulet_.webp", "MIT Media Lab after winning Harvard and MIT Joint Hackathon.webp", "MIT Media Lab after winning Joint Harvard and MIT Hackathon.webp", "MIT Sloan School of Management.webp", "Pitched at MIT Design X 2025.webp", "TechCrunch Disrupt Conference.webp", "TechCrunch.webp", "Welcome to Harvard Summer School 2025.webp", "With Elizabeth Segren - Masters in Management Harvard.webp", "With Nikita Shamgunov VP Engineering Data Bricks.webp", "World Bank Group - Spring Meetings 2025.webp", "Y Combinator AI Startup School_s AWS After Party.webp", "YCombinator AI Startup School.webp", "YCombinator Startup School HackHouse.webp"
+const phaseCards = [
+  {
+    n: '01',
+    label: 'Alignment',
+    heading: 'Strategic Immersion, Not a Sales Pitch',
+    body: 'We dissect your product physics and unit economics together, as equal co-architects, before a single line of code ships.',
+  },
+  {
+    n: '02',
+    label: 'Velocity',
+    heading: 'High-Velocity Prototyping',
+    body: 'Whiteboards become production-grade frontends and AI pipelines in days — real software, not deck theatre.',
+  },
+  {
+    n: '03',
+    label: 'Execution',
+    heading: 'Embedded Co-Building',
+    body: 'Senior partners plug directly into your codebase for continuous, frictionless shipping — no hand-offs, no delays.',
+  },
+  {
+    n: '04',
+    label: 'Stewardship',
+    heading: 'Stewardship Beyond Launch',
+    body: 'Launch is day zero. We keep optimizing infrastructure and iterating features long after go-live.',
+  },
 ];
-
-// Per-photo object-position overrides. .deck-card img is object-fit:cover
-// inside a landscape-ish 280px-tall card; most of these source photos are
-// portrait (e.g. this one is 608x1080), so the default centred crop only
-// shows the vertical middle ~39% of the image, which happened to land on
-// this subject's torso and clip the head. "top" anchors the crop to the top
-// of the source photo instead, trading the legs (already out of frame) for
-// the head staying fully in.
-const FOUNDER_PHOTO_POSITION = {
-  "Appointed Mentor for the Fulbright Austin Conference 2025.webp": "center top",
-};
 
 const logoImages = [
   "aws-gen-ai.webp", "cambridge-innovation-center.png", "harvard-innovation-lab.webp", "harvard-university-seeklogo.svg", "international-monetary-fund-seeklogo.svg", "mit-delta-v.webp", "mit.png", "mtc-hex.png", "northeastern-university.png", "TechCrunch-Logo.wine.svg", "World-bank-logo.svg", "world-summit-ai.webp", "y-combinator-seeklogo.webp"
@@ -64,13 +80,13 @@ export function initDeck(containerId, items, isLogo) {
       domCards.push(card);
     }
   } else {
-    founderImages.forEach(img => {
+    phaseCards.forEach(item => {
       const card = document.createElement("div");
-      card.className = "deck-card deck-hidden";
-      const title = img.split(".")[0].replace(/_/g, " ");
-      const pos = FOUNDER_PHOTO_POSITION[img];
-      const posAttr = pos ? " style=\"object-position: " + pos + "\"" : "";
-      card.innerHTML = "<img data-src=\"https://nfuozimtwnfww445.public.blob.vercel-storage.com/src/Hamza%20Mubashir/" + img + "\" alt=\"" + title + "\" decoding=\"async\"" + posAttr + "><div class=\"deck-title\">" + title + "</div>";
+      card.className = "deck-card phase-card deck-hidden";
+      card.innerHTML =
+        "<div class=\"phase-badge\"><span class=\"phase-badge-text\">PHASE " + item.n + " — " + item.label.toUpperCase() + "</span></div>" +
+        "<h3 class=\"phase-heading\">" + item.heading + "</h3>" +
+        "<p class=\"phase-body\">" + item.body + "</p>";
       container.appendChild(card);
       domCards.push(card);
     });
@@ -162,7 +178,7 @@ export function initDeck(containerId, items, isLogo) {
 }
 
 export function initPartnershipDecks() {
-  initDeck("founder-deck", founderImages, false);
+  initDeck("process-deck", phaseCards, false);
   initDeck("logo-deck", logoImages, true);
 }
 

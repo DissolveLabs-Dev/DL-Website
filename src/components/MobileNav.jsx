@@ -35,7 +35,7 @@ export function MobileNav({ toTop, goWork, goServices, goAbout, goContact, toggl
       </div>
       <div id="cmn-menu" className={open ? 'cmn-menu open' : 'cmn-menu'}>
         <a
-          href="#events"
+          href="#services"
           className="cmn-link hit-slop-48"
           onClick={(e) => {
             goWork(e)

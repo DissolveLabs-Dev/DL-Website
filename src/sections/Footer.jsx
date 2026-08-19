@@ -58,7 +58,7 @@ export function Footer({ goServices, goWork, goAbout }) {
           <a
             className="foot-link hit-slop-48"
             style={{ padding: 0 }}
-            href="#events"
+            href="#services"
             onClick={goWork}
           >
             Co-Built Products
