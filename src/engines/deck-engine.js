@@ -107,7 +107,7 @@ export function initDeck(containerId, items, isLogo) {
   let currentIndex = 0;
   function updateDeck(animateOutIndex = -1) {
     domCards.forEach((c, idx) => {
-      c.className = "deck-card " + (isLogo ? "logo-card " : "");
+      c.className = "deck-card " + (isLogo ? "logo-card " : "phase-card ");
       let diff = (idx - currentIndex + domCards.length) % domCards.length;
       if (idx === animateOutIndex) {
         c.classList.add("deck-out");
