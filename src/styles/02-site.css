@@ -356,12 +356,34 @@
           transition: flex .6s cubic-bezier(.5, 0, .2, 1)
         }
 
-        .svc-pair:hover .svc-card {
-          flex: 0 1 30%
-        }
+        /* Side-by-side hover-expand (flex-basis swap) only makes sense with a
+           real mouse: on mobile the column-stack + .svc-card.active rules
+           (@media max-width:820px below) drive tap-to-expand instead, via
+           height rather than flex. Unscoped, these rules used to still match
+           on touch (Chromium/mobile browsers apply :hover after a tap), and a
+           percentage flex-basis (70%/30%) inside that column layout's
+           indeterminate-height container resolved unpredictably — collapsing
+           a card to ~2px instead of expanding it. (hover:hover) never
+           matches on a touchscreen, so this whole block is now inert there. */
+        @media (hover: hover) and (pointer: fine) {
+          .svc-pair:hover .svc-card {
+            flex: 0 1 30%
+          }
 
-        .svc-card:hover {
-          flex: 1 1 70% !important
+          .svc-card:hover {
+            flex: 1 1 70% !important
+          }
+
+          .svc-card:hover .svc-desc {
+            opacity: 1;
+            max-height: 200px;
+            margin-top: 14px !important;
+          }
+
+          .svc-card:hover .svc-arrow {
+            transform: translateX(6px);
+            opacity: 1
+          }
         }
 
         .svc-desc {
@@ -372,7 +394,6 @@
           transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), margin-top 0.5s;
         }
 
-        .svc-card:hover .svc-desc,
         .svc-card.active .svc-desc {
           opacity: 1;
           max-height: 200px;
@@ -386,11 +407,6 @@
 
         .svc-arrow {
           transition: transform .4s, opacity .4s
-        }
-
-        .svc-card:hover .svc-arrow {
-          transform: translateX(6px);
-          opacity: 1
         }
 
         .cred-card {
