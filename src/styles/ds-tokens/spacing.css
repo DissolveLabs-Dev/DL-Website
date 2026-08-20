@@ -27,20 +27,19 @@
   --gap-card:24px;     /* between cards in a row */
   --gap-nav:24px;      /* nav link spacing */
 
-  /* control padding — fluid on the same basis as the type scale (floor =
-     original fixed value, reached at ~1440px) so buttons grow with their
-     label instead of turning into thin pills on a large display. */
-  --pad-btn-sm:clamp(10px,.7vw,14px) clamp(20px,1.4vw,28px);/* @kind spacing */
-  --pad-btn-md:clamp(16px,1.11vw,22px) clamp(30px,2.08vw,42px);/* @kind spacing */
-  --pad-btn-lg:clamp(22px,1.53vw,30px) clamp(44px,3.05vw,60px);/* @kind spacing */
-  --pad-card:clamp(28px,1.94vw,40px);/* @kind spacing */
+  --pad-btn-sm:10px 20px;/* @kind spacing */
+  --pad-btn-md:16px 30px;/* @kind spacing */
+  --pad-btn-lg:22px 44px;/* @kind spacing */
+  --pad-card:28px;/* @kind spacing */
 
   /* page rhythm */
-  --gutter:8vw;/* @kind spacing */        /* default side gutter */
+  --gutter:6vw;/* @kind spacing */        /* default side gutter */
   --gutter-tight:5vw;/* @kind spacing */
   --gutter-wide:6vw;/* @kind spacing */
-  --section-y:120px;   /* vertical padding between major sections */
-  --section-y-lg:150px;
+  --section-y:80px;    /* vertical padding between major sections */
+  --section-y-lg:110px;
+  /* fixed nav: top offset + pill padding + content + breathing room */
+  --nav-clearance:calc(var(--space-9) + 68px + var(--space-3));
   --maxw-prose:640px;  /* centered heading blocks */
   --maxw-hero:780px;
   --maxw-page:1240px;  /* widest content frame */

@@ -3,7 +3,7 @@
             display: grid;
             grid-template-columns: 1fr 1.5fr 1fr;
             gap: 30px;
-            max-width: clamp(1300px, 82vw, 1800px);
+            max-width: clamp(1100px, 76vw, 1280px);
             margin: 0 auto;
             /* stretch (not center): the three columns had different intrinsic
                heights — decks 600px, tickers 670px, launcher+steps 353px — so
@@ -249,8 +249,6 @@
             border-radius: 16px;
             padding: 20px;
             box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
-            mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
-            -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
           }
 
           /* Explicit request: keep the container itself dark in light mode
@@ -259,41 +257,6 @@
           body.theme-light .ticker-container {
             background: rgba(6, 15, 24, 0.3);
             border-color: rgba(107, 235, 232, 0.2);
-          }
-
-          /* mask-image clips the element it is set on — background and
-             border included — so the ticker panel's own top/bottom edge
-             dissolves along with the scrolling cards. Fine in light mode,
-             where the panel is meant to blend into the page. In dark mode
-             the panel is a deliberately distinct --dl-surface-fill surface,
-             so the same clipping reads as a broken border there. Drop the
-             mask in dark mode only and fade the *content* instead, with two
-             overlay gradients matching --dl-surface-fill flattened onto the
-             dark page base (#03060d), so the frame stays crisp. */
-          body:not(.theme-light) .ticker-container {
-            mask-image: none;
-            -webkit-mask-image: none;
-          }
-
-          body:not(.theme-light) .ticker-container::before,
-          body:not(.theme-light) .ticker-container::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            right: 0;
-            height: 15%;
-            pointer-events: none;
-            z-index: 2;
-          }
-
-          body:not(.theme-light) .ticker-container::before {
-            top: 0;
-            background: linear-gradient(to bottom, rgba(9, 19, 31, 0.98), rgba(9, 19, 31, 0));
-          }
-
-          body:not(.theme-light) .ticker-container::after {
-            bottom: 0;
-            background: linear-gradient(to top, rgba(9, 19, 31, 0.98), rgba(9, 19, 31, 0));
           }
 
           .ticker-container:last-child {

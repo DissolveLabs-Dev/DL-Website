@@ -60,9 +60,7 @@
       const p = this.parts, r = this.rays;
       if (p) this.size(p, innerWidth, innerHeight);
       if (r) this.size(r, innerWidth, innerHeight);
-      [this.hero, this.sub, this.seabed].forEach(c => { if (c) this.size(c, c.clientWidth, c.clientHeight); });
-      this.svcCanvases.forEach(c => this.size(c, c.clientWidth, c.clientHeight));
-      this.evDrawn = false;
+      [this.hero, this.seabed].forEach(c => { if (c) this.size(c, c.clientWidth, c.clientHeight); });
     }
 
     attach() {
@@ -74,22 +72,14 @@
       this.dotEl = document.getElementById('cursor-dot');
       this.hero = document.getElementById('hero-canvas');
       this.heroSec = document.getElementById('hero');
-      this.sub = document.getElementById('sub-canvas');
-      this.subZone = document.getElementById('descend');
       this.seabed = document.getElementById('seabed-canvas');
       this.footer = this.seabed ? this.seabed.closest('footer') : null;
       this.scrollInd = document.getElementById('scroll-ind');
-      this.eventsSec = document.getElementById('events');
-      this.servicesSec = document.getElementById('services');
-      this.rows = Array.from(document.querySelectorAll('[data-ev-row]'));
-      this.svcCanvases = Array.from(document.querySelectorAll('[data-svc]'));
-      this.evCanvases = Array.from(document.querySelectorAll('[data-ev]'));
-      this.evDrawn = false;
 
       const noHover = matchMedia('(hover:none)').matches;
       if (noHover || this.reduced) { if (this.curEl) this.curEl.style.display = 'none'; if (this.dotEl) this.dotEl.style.display = 'none'; }
 
-      this.particles = Array.from({ length: 130 }, () => ({ x: Math.random(), y: Math.random(), vx: (Math.random() - .5) * .0006, vy: -(Math.random() * .0012 + .0004), s: Math.random() * 2 + .6, ph: Math.random() * 6.28 }));
+      this.particles = Array.from({ length: 55 }, () => ({ x: Math.random(), y: Math.random(), vx: (Math.random() - .5) * .0006, vy: -(Math.random() * .0012 + .0004), s: Math.random() * 2 + .6, ph: Math.random() * 6.28 }));
       this.seabedInit();
 
       window.addEventListener('resize', this.onResize, { passive: true });
@@ -98,8 +88,8 @@
       if (!this.reduced) window.addEventListener('mouseover', this.onOver, { passive: true });
       this.resize();
 
-      this.io = new IntersectionObserver((es) => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }), { threshold: .15 });
-      document.querySelectorAll('.reveal').forEach(el => this.io.observe(el));
+      // Section reveals are owned by useScrollMotion (GSAP). DepthEngine
+      // no longer observes `.reveal` — dual drivers fought over opacity.
 
       if (this.reduced) { this.renderStatic(); }
       else { this.raf = requestAnimationFrame(this.loop); }
@@ -110,7 +100,6 @@
       window.removeEventListener('scroll', this.onScroll);
       window.removeEventListener('mousemove', this.onMove);
       window.removeEventListener('mouseover', this.onOver);
-      if (this.io) this.io.disconnect();
     }
     pause() { if (this.raf) { cancelAnimationFrame(this.raf); this.raf = 0; } this.renderStatic(); }
     resume() { this.lastNow = 0; if (!this.raf && !this.reduced) this.raf = requestAnimationFrame(this.loop); }
@@ -137,9 +126,6 @@
       const t = 0.6; this.updateDepth();
       this.drawRays(t, this.depth); this.drawParticles(t, this.depth, true);
       if (this.inView(this.heroSec)) this.drawHero(t);
-      if (!this.evDrawn) this.drawEventBgs();
-      this.svcCanvases.forEach(c => { if (this.inView(c)) this.drawSvc(c, t); });
-      if (this.inView(this.subZone)) this.drawSub(t);
       if (this.inView(this.footer)) this.drawSeabed(t);
     }
 
@@ -162,10 +148,6 @@
         this.drawRays(t, d); this.drawParticles(t, d);
         // gated per-section work
         if (this.inView(this.heroSec)) this.drawHero(t);
-        if (!this.evDrawn && this.inView(this.eventsSec, 400)) this.drawEventBgs();
-        if (this.inView(this.servicesSec)) { this.svcCanvases.forEach(c => { if (this.inView(c)) this.drawSvc(c, t); }); }
-        if (this.inView(this.eventsSec)) this.parallax();
-        if (this.inView(this.subZone)) this.drawSub(t);
         if (this.inView(this.footer)) this.drawSeabed(t);
       } catch (err) {
         if (!this._warned) { this._warned = true; console.warn('[DepthEngine] frame error (loop continues):', err); }
@@ -173,15 +155,6 @@
         this.raf = requestAnimationFrame(this.loop);
       }
     };
-
-    parallax() {
-      const ev = this.eventsSec; if (!ev) return;
-      const r = ev.getBoundingClientRect();
-      const p = Math.max(-1, Math.min(1, 1 - (r.top + r.height / 2) / ((innerHeight + r.height) / 2)));
-      if (this.rows[0]) this.rows[0].style.transform = 'translateX(' + (p * 140) + 'px)';
-      if (this.rows[1]) this.rows[1].style.transform = 'translateX(' + (p * 16) + 'px)';
-      if (this.rows[2]) this.rows[2].style.transform = 'translateX(' + (-p * 140) + 'px)';
-    }
 
     // ---------- light rays ----------
     drawRays(t, d) { const c = this.rays; if (!c) return; const x = c.getContext('2d'), w = c.cw, h = c.ch; x.clearRect(0, 0, w, h); if (this.light) return; const op = Math.max(0, 1 - d / 0.5); if (op <= 0) return; x.globalCompositeOperation = 'screen'; for (let i = 0; i < 7; i++) { const bx = w * (i / 6) + Math.sin(t * .3 + i) * 40; const sw = 60 + i * 10; const g = x.createLinearGradient(bx, 0, bx - 140, h * .9); g.addColorStop(0, 'rgba(120,230,225,' + (.10 * op) + ')'); g.addColorStop(1, 'rgba(120,230,225,0)'); x.fillStyle = g; x.beginPath(); x.moveTo(bx - sw, 0); x.lineTo(bx + sw, 0); x.lineTo(bx - 90, h); x.lineTo(bx - 90 - sw * 1.6, h); x.closePath(); x.fill(); } x.globalCompositeOperation = 'source-over'; }
@@ -201,7 +174,7 @@
       const n = Math.floor(this.particles.length * dens);
       for (let i = 0; i < n; i++) {
         const p = this.particles[i];
-        if (!stat) { p.x += p.vx * spd * 4 * this.speed; p.y += p.vy * spd * 4 * this.speed; if (p.y < -.02) { p.y = 1.02; p.x = Math.random(); } if (p.x < 0) p.x = 1; if (p.x > 1) p.x = 0; }
+        if (!stat) { p.x += p.vx * spd * 2.2 * this.speed; p.y += p.vy * spd * 2.2 * this.speed; if (p.y < -.02) { p.y = 1.02; p.x = Math.random(); } if (p.x < 0) p.x = 1; if (p.x > 1) p.x = 0; }
         const px = p.x * w, py = p.y * h;
         const tw = d > 0.6 ? (0.4 + 0.6 * Math.abs(Math.sin(t * 1.5 + p.ph))) : 1;
         const a = (d > 0.6 ? .9 : .5) * tw * (this.light ? 0.5 : 1);
@@ -215,7 +188,7 @@
     drawHero(t) { const c = this.hero; if (!c) return; const x = c.getContext('2d'), w = c.cw, h = c.ch; x.clearRect(0, 0, w, h); const base = h * 0.72;
       const waveY = (px) => base + Math.sin(px * .008 + t * 1.1) * 14 + Math.sin(px * .017 - t * 1.6) * 8 + Math.sin(px * .031 + t * .7) * 5 + Math.sin(px * .005 + t * .4) * 20;
       x.beginPath(); x.moveTo(0, h); for (let px = 0; px <= w; px += 6) x.lineTo(px, waveY(px)); x.lineTo(w, h); x.closePath(); const g = x.createLinearGradient(0, base - 30, 0, h); g.addColorStop(0, '#1ABFB8'); g.addColorStop(.5, '#12A29B'); g.addColorStop(1, '#0A5E60'); x.fillStyle = g; x.fill();
-      x.lineWidth = 2; x.strokeStyle = 'rgba(220,255,252,.5)'; x.beginPath(); for (let px = 0; px <= w; px += 6) { const y = waveY(px); (px === 0 ? x.moveTo(px, y) : x.lineTo(px, y)); } x.stroke();
+      x.lineWidth = 2; x.strokeStyle = 'rgba(220,255,252,.5)'; x.beginPath(); for (let px = 0; px <= w; px += 6) { const y = waveY(px); if (px === 0) x.moveTo(px, y); else x.lineTo(px, y); } x.stroke();
       for (let px = 0; px < w; px += 14) { const y = waveY(px); if (Math.sin(px * .017 - t * 1.6) > .7) { x.fillStyle = 'rgba(240,255,253,.7)'; x.beginPath(); x.arc(px, y, 1.6, 0, 6.28); x.fill(); } }
       const targetX = Math.max(w * .2, Math.min(w * .85, this.mouse.x - (c.getBoundingClientRect().left)));
       this.shipX += (targetX - this.shipX) * .04; if (!this.shipX) this.shipX = w * .62;
@@ -239,52 +212,6 @@
       x.strokeStyle = 'rgba(150,235,230,.7)'; x.lineWidth = 2; x.beginPath(); x.moveTo(0, -30); x.lineTo(0, -54); x.stroke();
       x.fillStyle = 'rgba(51,224,222,.6)'; x.beginPath(); x.moveTo(0, -54); x.lineTo(23, -46); x.lineTo(0, -39); x.closePath(); x.fill();
     }
-
-    // ---------- submarine ----------
-    drawSub(t) { const c = this.sub; if (!c) return; const x = c.getContext('2d'), w = c.cw, h = c.ch; x.clearRect(0, 0, w, h);
-      const z = this.subZone; if (!z) return; const r = z.getBoundingClientRect(); const prog = Math.max(0, Math.min(1, (innerHeight - r.top) / (r.height + innerHeight)));
-      const cy = h * 1.15 - prog * h * 1.5; const cx = w * .5 + Math.sin(t * .4) * 30;
-      x.globalCompositeOperation = 'screen'; for (let i = 0; i < 6; i++) { const by = cy + 80 + ((t * 40 + i * 60) % 300); const bx = cx - 90 - i * 8 + Math.sin(t + i) * 6; x.beginPath(); x.fillStyle = 'rgba(120,220,220,' + (.25 * (1 - i / 6)) + ')'; x.arc(bx, by, 6 + i * 2, 0, 6.28); x.fill(); } x.globalCompositeOperation = 'source-over';
-      x.save(); x.translate(cx, cy);
-      x.fillStyle = '#050f18'; x.strokeStyle = 'rgba(60,210,205,.55)'; x.lineWidth = 2;
-      x.beginPath(); x.ellipse(0, 0, 110, 34, 0, 0, 6.28); x.fill(); x.stroke();
-      x.beginPath(); x.moveTo(105, -14); x.lineTo(140, 0); x.lineTo(105, 14); x.closePath(); x.fillStyle = '#050f18'; x.fill(); x.stroke();
-      x.strokeStyle = 'rgba(120,235,230,.7)'; x.lineWidth = 2; const pr = t * 4; for (let i = 0; i < 3; i++) { const a = pr + i * 2.09; x.beginPath(); x.moveTo(140, 0); x.lineTo(140 + Math.cos(a) * 4, Math.sin(a) * 16); x.stroke(); }
-      x.fillStyle = '#07131d'; x.beginPath(); x.moveTo(-26, -30); x.lineTo(20, -30); x.lineTo(14, -62); x.lineTo(-20, -62); x.closePath(); x.fill(); x.stroke();
-      x.beginPath(); x.moveTo(-4, -62); x.lineTo(-4, -80); x.lineTo(8, -80); x.stroke();
-      x.fillStyle = '#07131d'; x.beginPath(); x.moveTo(-70, 30); x.lineTo(-98, 44); x.lineTo(-70, 40); x.closePath(); x.fill(); x.stroke();
-      x.fillStyle = 'rgba(130,240,235,.95)'; x.shadowBlur = 12; x.shadowColor = 'rgba(90,235,230,.9)'; [-55, -30, -5, 25].forEach(px => { x.beginPath(); x.arc(px, 0, 5, 0, 6.28); x.fill(); }); x.shadowBlur = 0;
-      x.restore(); }
-
-    // ---------- service canvases ----------
-    drawSvc(c, t) { const type = c.dataset.svc; const x = c.getContext('2d'), w = c.cw, h = c.ch; if (type === 'matrix') this.svcMatrix(c, x, w, h, t); else if (type === 'robot') this.svcRobot(c, x, w, h, t); else if (type === 'neural') this.svcNeural(c, x, w, h, t); else this.svcBlueprint(c, x, w, h, t); }
-    svcMatrix(c, x, w, h, t) { const fs = 15; const cols = Math.floor(w / fs); if (c._cols !== cols) { c._cols = cols; c._d = Array.from({ length: cols }, () => Math.random() * -40); } x.fillStyle = 'rgba(5,14,24,.14)'; x.fillRect(0, 0, w, h); x.font = fs + 'px monospace'; for (let i = 0; i < cols; i++) { const ch = Math.random() < .5 ? '0' : '1'; const px = i * fs, py = c._d[i] * fs; x.fillStyle = 'rgba(51,224,222,.9)'; x.fillText(ch, px, py); x.fillStyle = 'rgba(140,240,236,.5)'; if (Math.random() < .1) x.fillText(Math.random() < .5 ? '0' : '1', px, py - fs); c._d[i] += 0.55 * this.speed; if (py > h && Math.random() > .975) c._d[i] = 0; } }
-    svcRobot(c, x, w, h, t) { x.clearRect(0, 0, w, h);
-      x.strokeStyle = 'rgba(38,208,206,.08)'; x.lineWidth = 1; for (let i = 0; i < 6; i++) { const gy = h * (i / 6); x.beginPath(); x.moveTo(0, gy); x.lineTo(w, gy); x.stroke(); }
-      const bx = w * .5, by = h * .86; const a0 = -1.3 + Math.sin(t * .7) * .35, a1 = 0.7 + Math.sin(t * .7 + 1) * .5, a2 = 0.5 + Math.sin(t * .7 + 2) * .4;
-      const L = [h * .22, h * .2, h * .13]; let px = bx, py = by, ang = a0; const pts = [[px, py]];
-      [a0, a0 + a1, a0 + a1 + a2].forEach((_, i) => { px += Math.cos(ang) * L[i]; py += Math.sin(ang) * L[i]; pts.push([px, py]); ang += i === 0 ? a1 : a2; });
-      x.fillStyle = '#0a1c26'; x.fillRect(bx - 26, by, 52, h * .12);
-      x.lineCap = 'round'; for (let i = 0; i < pts.length - 1; i++) { x.strokeStyle = 'rgba(46,208,206,.85)'; x.lineWidth = 16 - i * 3; x.beginPath(); x.moveTo(pts[i][0], pts[i][1]); x.lineTo(pts[i + 1][0], pts[i + 1][1]); x.stroke(); x.strokeStyle = 'rgba(140,245,240,.5)'; x.lineWidth = 4 - i; x.beginPath(); x.moveTo(pts[i][0], pts[i][1]); x.lineTo(pts[i + 1][0], pts[i + 1][1]); x.stroke(); }
-      pts.forEach((p, i) => { x.fillStyle = '#04121a'; x.beginPath(); x.arc(p[0], p[1], 9 - i, 0, 6.28); x.fill(); x.strokeStyle = 'rgba(120,240,235,.9)'; x.lineWidth = 2; x.stroke(); });
-      const e = pts[pts.length - 1]; x.strokeStyle = 'rgba(140,245,240,.8)'; x.lineWidth = 3; x.beginPath(); x.moveTo(e[0] - 6, e[1]); x.lineTo(e[0] - 10, e[1] - 10); x.moveTo(e[0] + 6, e[1]); x.lineTo(e[0] + 10, e[1] - 10); x.stroke(); }
-    svcNeural(c, x, w, h, t) { x.clearRect(0, 0, w, h); const layers = [5, 8, 8, 5]; const pad = w * .14; const gap = (w - pad * 2) / (layers.length - 1); const pos = layers.map((n, li) => { const cx = pad + li * gap; const vpad = h * .16; return Array.from({ length: n }, (_, i) => ({ x: cx, y: vpad + (h - 2 * vpad) * (n === 1 ? .5 : i / (n - 1)) })); });
-      const front = ((t * .6) % 1) * (layers.length - 1);
-      for (let li = 0; li < pos.length - 1; li++) { const act = Math.max(0, 1 - Math.abs(li + .5 - front) * 1.4); pos[li].forEach(a => pos[li + 1].forEach(b => { x.strokeStyle = 'rgba(38,208,206,' + (0.08 + act * .5) + ')'; x.lineWidth = act > .3 ? 1.4 : .7; x.beginPath(); x.moveTo(a.x, a.y); x.lineTo(b.x, b.y); x.stroke(); })); }
-      pos.forEach((layer, li) => { const act = Math.max(0, 1 - Math.abs(li - front) * 1.2); layer.forEach(nd => { x.beginPath(); x.fillStyle = 'rgba(' + (20 + act * 120) + ',' + (120 + act * 135) + ',' + (160 + act * 95) + ',1)'; x.shadowBlur = act * 16; x.shadowColor = 'rgba(80,240,235,.9)'; x.arc(nd.x, nd.y, 5 + act * 3, 0, 6.28); x.fill(); }); }); x.shadowBlur = 0; }
-    svcBlueprint(c, x, w, h, t) { x.clearRect(0, 0, w, h);
-      x.strokeStyle = 'rgba(38,208,206,.06)'; x.lineWidth = 1; for (let gx = 0; gx < w; gx += 26) { x.beginPath(); x.moveTo(gx, 0); x.lineTo(gx, h); x.stroke(); } for (let gy = 0; gy < h; gy += 26) { x.beginPath(); x.moveTo(0, gy); x.lineTo(w, gy); x.stroke(); }
-      const m = w * .16; const els = [[m, h * .16, w - 2 * m, h * .09, 0], [m, h * .3, w - 2 * m, h * .22, .18], [m, h * .56, (w - 2 * m) * .55, h * .16, .42], [m + (w - 2 * m) * .6, h * .56, (w - 2 * m) * .4, h * .16, .42], [m, h * .76, (w - 2 * m) * .3, h * .08, .66], [m + (w - 2 * m) * .36, h * .76, (w - 2 * m) * .3, h * .08, .78]];
-      const cyc = (t % 5) / 5; const fade = cyc > .82 ? 1 - (cyc - .82) / .18 : 1;
-      x.strokeStyle = 'rgba(51,224,222,' + (.9 * fade) + ')'; x.lineWidth = 2;
-      els.forEach(([ex, ey, ew, eh, st]) => { const p = Math.max(0, Math.min(1, (cyc - st) / .18)); if (p <= 0) return; const peri = 2 * (ew + eh); x.setLineDash([peri]); x.lineDashOffset = peri * (1 - p); x.strokeRect(ex, ey, ew, eh); }); x.setLineDash([]); }
-
-    // ---------- event card backgrounds (static, drawn once when in view) ----------
-    drawEventBgs() { let any = false; this.evCanvases.forEach(c => { const w = c.clientWidth, h = c.clientHeight; if (!w || !h) return; any = true; const x = this.size(c, w, h); this.evBg(x, w, h, parseInt(c.dataset.ev) || 1); }); if (any) this.evDrawn = true; }
-    evBg(x, w, h, style) { x.clearRect(0, 0, w, h); const bg = x.createLinearGradient(0, 0, 0, h); bg.addColorStop(0, '#0a2130'); bg.addColorStop(1, '#04101c'); x.fillStyle = bg; x.fillRect(0, 0, w, h);
-      if (style === 1) { x.strokeStyle = 'rgba(46,208,206,.28)'; x.lineWidth = 1; const vx = w * .5, vy = h * .32; for (let i = -6; i <= 6; i++) { x.beginPath(); x.moveTo(vx, vy); x.lineTo(vx + i * w * .13, h); x.stroke(); } for (let j = 1; j < 7; j++) { const yy = vy + (h - vy) * Math.pow(j / 7, 1.6); x.beginPath(); x.moveTo(w * .5 - yy * .9, yy); x.lineTo(w * .5 + yy * .9, yy); x.stroke(); } }
-      else if (style === 2) { for (let i = 0; i < 26; i++) { const px = Math.random() * w, ph = h * (.28 + Math.random() * .2), pw = w * .05; x.fillStyle = 'rgba(20,60,72,' + (.4 + Math.random() * .4) + ')'; x.beginPath(); x.arc(px, h - ph + pw, pw, Math.PI, 0); x.fillRect(px - pw, h - ph + pw, pw * 2, ph); x.fill(); x.fillStyle = 'rgba(46,208,206,.15)'; x.beginPath(); x.arc(px, h - ph, pw * .7, 0, 6.28); x.fill(); } }
-      else { x.strokeStyle = 'rgba(46,208,206,.3)'; x.lineWidth = 1; x.fillStyle = 'rgba(51,224,222,.5)'; for (let i = 0; i < 10; i++) { const y = Math.random() * h, x0 = Math.random() * w; x.beginPath(); x.moveTo(x0, y); const len = w * .3; x.lineTo(x0 + len, y); x.lineTo(x0 + len + 12, y - 12); x.stroke(); x.beginPath(); x.arc(x0, y, 2, 0, 6.28); x.fill(); x.beginPath(); x.arc(x0 + len + 12, y - 12, 2, 0, 6.28); x.fill(); } } }
 
     // ---------- seabed ----------
     seabedInit() {
@@ -320,7 +247,7 @@
       const H = 72 * s, ribs = 9, sway = Math.sin(t * 0.7 + ph) * 0.12; x.lineCap = 'round';
       for (let i = 0; i < ribs; i++) { const f = i / (ribs - 1) - 0.5, sp = f * 1.35 + sway; const tx = bx + Math.sin(sp) * H * 0.8, ty = by - Math.cos(sp) * H; x.strokeStyle = 'rgba(' + hue + ',' + (0.5 * fade) + ')'; x.lineWidth = 2.4 * s; x.beginPath(); x.moveTo(bx, by); x.quadraticCurveTo(bx + Math.sin(sp) * H * 0.3, by - H * 0.55, tx, ty); x.stroke(); }
       x.strokeStyle = 'rgba(' + hue + ',' + (0.2 * fade) + ')'; x.lineWidth = 1 * s;
-      for (let lvl = 0.32; lvl < 1; lvl += 0.22) { x.beginPath(); for (let i = 0; i < ribs; i++) { const f = i / (ribs - 1) - 0.5, sp = f * 1.35 + sway; const mx = bx + Math.sin(sp) * H * 0.8 * lvl, my = by - Math.cos(sp) * H * lvl; (i === 0 ? x.moveTo(mx, my) : x.lineTo(mx, my)); } x.stroke(); }
+      for (let lvl = 0.32; lvl < 1; lvl += 0.22) { x.beginPath(); for (let i = 0; i < ribs; i++) { const f = i / (ribs - 1) - 0.5, sp = f * 1.35 + sway; const mx = bx + Math.sin(sp) * H * 0.8 * lvl, my = by - Math.cos(sp) * H * lvl; if (i === 0) x.moveTo(mx, my); else x.lineTo(mx, my); } x.stroke(); }
     }
     reefSponge(x, bx, by, s, hue, ph, fade, t) {
       const n = 4;
@@ -350,7 +277,7 @@
       // sandy sloping floor
       const fg = x.createLinearGradient(0, floor - 20, 0, h); fg.addColorStop(0, '#0a1a1c'); fg.addColorStop(1, '#04100f'); x.fillStyle = fg;
       x.beginPath(); x.moveTo(0, h); x.lineTo(0, baseY(0)); for (let px = 0; px <= w; px += 24) x.lineTo(px, baseY(px)); x.lineTo(w, h); x.closePath(); x.fill();
-      x.strokeStyle = 'rgba(120,200,190,.05)'; x.lineWidth = 1; for (let y = floor + 14; y < h; y += 9) { x.beginPath(); for (let px = 0; px <= w; px += 12) { const yy = y + Math.sin(px * .03 + y) * 2; (px === 0 ? x.moveTo(px, yy) : x.lineTo(px, yy)); } x.stroke(); }
+      x.strokeStyle = 'rgba(120,200,190,.05)'; x.lineWidth = 1; for (let y = floor + 14; y < h; y += 9) { x.beginPath(); for (let px = 0; px <= w; px += 12) { const yy = y + Math.sin(px * .03 + y) * 2; if (px === 0) x.moveTo(px, yy); else x.lineTo(px, yy); } x.stroke(); }
       // sea stars resting on the sand (behind reef)
       this.stars.forEach(s => { const sx = s.x * w, sy = floor + 20 + s.y * (h - floor - 30); x.save(); x.translate(sx, sy); x.rotate(s.rot); x.fillStyle = 'rgba(48,150,140,.5)'; x.beginPath(); for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, r = i % 2 ? 4 : 11; x.lineTo(Math.cos(a) * r, Math.sin(a) * r); } x.closePath(); x.fill(); x.restore(); });
       // reef, back-to-front

@@ -61,7 +61,9 @@ export function initVideoManager() {
       v.preload = 'auto';
       v.setAttribute('preload', 'auto');
       v.load();
-    } catch (e) { /* nothing useful to do */ }
+    } catch {
+      /* nothing useful to do */
+    }
   }
 
   function play(v) {

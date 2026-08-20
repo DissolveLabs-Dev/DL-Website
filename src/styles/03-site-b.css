@@ -46,16 +46,8 @@
         }
 
         .cmn-logo {
-          font-family: Georgia, serif;
-          font-weight: 700;
-          font-size: 20px;
-          color: var(--text-primary, #F2F7F8);
           text-decoration: none;
-          letter-spacing: -0.5px;
-        }
-
-        .cmn-logo span {
-          color: #33E0DE;
+          color: inherit;
         }
 
         .cmn-hamburger {
@@ -100,8 +92,8 @@
         }
 
         .cmn-link {
-          font-family: Sora, sans-serif;
-          font-weight: 600;
+          font-family: var(--font-display);
+          font-weight: var(--fw-semibold);
           font-size: 18px;
           color: var(--text-primary, #F2F7F8);
           text-decoration: none;
@@ -110,8 +102,8 @@
         .cmn-cta {
           background: linear-gradient(135deg, #33E0DE, #0E9AA7);
           color: #04121a;
-          font-family: Sora, sans-serif;
-          font-weight: 700;
+          font-family: var(--font-display);
+          font-weight: var(--fw-bold);
           font-size: 16px;
           padding: 12px 24px;
           border-radius: 100px;

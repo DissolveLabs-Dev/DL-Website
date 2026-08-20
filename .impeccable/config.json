@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "layout-transition",
+        "value": "*",
+        "files": [
+          "src/styles/05-contact.css"
+        ],
+        "createdAt": "2026-08-10T04:56:02.170Z",
+        "reason": "False positive: .dl-booking-card max-height is a static clamp; dlBookingIn only animates opacity and transform"
+      }
+    ]
+  }
+}

@@ -14,26 +14,23 @@
   --fw-bold:700;/* @kind font */
   --fw-black:800;/* @kind font */
 
-  /* Fluid size scale. Every step is clamp(floor, vw, ceiling): the floor is
-     the site's original fixed value, the vw term is tuned to hit that same
-     value at a ~1440px viewport, and the ceiling lets it keep growing on
-     large displays instead of stranding 13px text in a 2560px window.
-     Below 1440px nothing changes — the floor holds, so the original design
-     is byte-for-byte preserved at the sizes it was drawn for. */
-  --fs-2xs:clamp(11px,.76vw,15px);/* @kind font */
-  --fs-eyebrow:clamp(12px,.83vw,16px);/* @kind font */
-  --fs-xs:clamp(13px,.9vw,17px);/* @kind font */
-  --fs-sm:clamp(14px,.97vw,19px);/* @kind font */
-  --fs-base:clamp(15px,1.04vw,20px);/* @kind font */
-  --fs-md:clamp(17px,1.18vw,23px);/* @kind font */
-  --fs-lg:clamp(16px,1.4vw,26px);/* @kind font */
-  --fs-card-title:clamp(21px,1.46vw,30px);/* @kind font */
-  --fs-h3:clamp(22px,2.5vw,54px);/* @kind font */
-  --fs-h2-sm:clamp(34px,4.6vw,88px);/* @kind font */
-  --fs-h2:clamp(36px,5vw,100px);/* @kind font */
-  --fs-serif-lg:clamp(40px,6vw,116px);/* @kind font */
-  --fs-display:clamp(48px,6.5vw,140px);/* @kind font */
-  --fs-wordmark-serif:clamp(52px,8vw,150px);/* @kind font */
+  /* Body scale — fixed px so 100% browser zoom stays readable on laptops. */
+  --fs-2xs:11px;/* @kind font */
+  --fs-eyebrow:12px;/* @kind font */
+  --fs-xs:13px;/* @kind font */
+  --fs-sm:14px;/* @kind font */
+  --fs-base:15px;/* @kind font */
+  --fs-md:17px;/* @kind font */
+  --fs-lg:16px;/* @kind font */
+  --fs-card-title:21px;/* @kind font */
+
+  /* Display scale — fluid headings, tuned for ~1280px at 100% zoom. */
+  --fs-h3:clamp(20px,2.1vw,36px);/* @kind font */
+  --fs-h2-sm:clamp(30px,3.9vw,58px);/* @kind font */
+  --fs-h2:clamp(32px,4.25vw,68px);/* @kind font */
+  --fs-serif-lg:clamp(36px,5.2vw,76px);/* @kind font */
+  --fs-display:clamp(44px,5.5vw,88px);/* @kind font */
+  --fs-wordmark-serif:clamp(46px,6.8vw,108px);/* @kind font */
 
   /* letter-spacing */
   --ls-display:-3px;/* @kind font */

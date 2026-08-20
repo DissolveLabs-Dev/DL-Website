@@ -113,7 +113,7 @@ export function Delivery() {
   useSubmarine()
 
   return (
-    <section id="delivery" style={{ position: 'relative', zIndex: 1, height: '400vh', padding: 0, paddingTop: '90px' }}>
+    <section id="delivery" style={{ position: 'relative', zIndex: 1, height: '400vh', padding: 0, paddingTop: 'var(--section-y)' }}>
       <BlueprintHeading className="reveal desktop-only-heading" />
 
       <div id="submarine-track" className="mobile-sub-track" style={{ position: 'relative', height: '350vh', width: '100%' }}>

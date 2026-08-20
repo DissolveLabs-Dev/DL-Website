@@ -78,7 +78,7 @@
           background: rgba(14, 154, 167, 0.6) !important;
         }
 
-        /* 3. Hero Buttons Positioning (Desktop/Big Screens) */
+        /* 3. Hero Buttons */
         .hero-action-buttons {
           display: flex;
           gap: 16px;
@@ -86,21 +86,24 @@
           flex-wrap: wrap;
         }
 
+        #hero .hero-layout-anchored {
+          transform: translateY(-96px);
+        }
+
         @media (min-width: 1024px) {
-          .hero-inner-container {
-            position: static !important;
+          #hero .hero-layout-anchored {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 48px;
           }
 
-          .hero-action-buttons {
-            position: absolute !important;
-            right: 8vw !important;
-            top: 45% !important;
-            transform: translateY(-50%) !important;
-            flex-direction: column !important;
-            align-items: center !important;
-            gap: 16px !important;
-            margin-top: 0 !important;
-            z-index: 10;
+          #hero .hero-layout-anchored .hero-action-buttons {
+            flex-direction: column;
+            align-items: stretch;
+            margin-top: 0;
+            flex-shrink: 0;
+            width: max-content;
           }
         }
 
@@ -172,14 +175,13 @@
           color: #26D0CE !important;
         }
 
-        body.theme-light span[style*="linear-gradient"],
-        body.theme-light h1 span[style*="linear-gradient"],
-        body.theme-light h2 span[style*="linear-gradient"],
-        body.theme-light h3 span[style*="linear-gradient"] {
-          background: linear-gradient(100deg, #0d8a96, #066770) !important;
-          -webkit-background-clip: text !important;
-          background-clip: text !important;
-          -webkit-text-fill-color: transparent !important;
+        /* Brand accent word — solid teal, no gradient fill. */
+        body.theme-light .brand-accent {
+          color: #0A6E78 !important;
+        }
+
+        .brand-accent {
+          color: #33E0DE;
         }
 
         /* 7c. Hero stat cards are dark glass — rgba(6,15,24,.55) over the light
@@ -300,49 +302,32 @@
           }
         }
 
-        @keyframes evMarquee {
-          from {
-            transform: translateX(0)
-          }
-
-          to {
-            transform: translateX(-50%)
-          }
+        .ev-marquee {
+          position: relative;
+          overflow-x: auto;
+          overflow-y: hidden;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+          touch-action: pan-x;
+          overscroll-behavior-x: contain;
+          cursor: grab;
+          padding: 40px 0;
         }
 
-        .ev-marquee:hover .ev-track {
-          animation-play-state: paused
+        .ev-marquee::-webkit-scrollbar {
+          display: none;
         }
 
-        .ev-card {
-          transition: transform .35s cubic-bezier(.4, 0, .2, 1), opacity .35s cubic-bezier(.4, 0, .2, 1), filter .35s cubic-bezier(.4, 0, .2, 1), box-shadow .35s, border-color .35s
+        .ev-marquee.is-dragging {
+          cursor: grabbing;
+          user-select: none;
         }
 
-        .ev-grid:hover .ev-card,
-        .ev-track:hover .ev-card {
-          opacity: .28;
-          filter: blur(2.5px)
-        }
-
-        .ev-grid .ev-card:hover,
-        .ev-track .ev-card:hover {
-          opacity: 1 !important;
-          filter: none !important;
-          transform: scale(1.06) translateY(-10px) !important;
-          box-shadow: 0 0 40px rgba(38, 208, 206, .4), 0 24px 50px rgba(0, 0, 0, .55);
-          border-color: rgba(107, 235, 232, .6) !important;
-          z-index: 6
-        }
-
-        .ev-card .ev-more {
-          opacity: 0;
-          transform: translateY(6px);
-          transition: opacity .35s ease .05s, transform .35s ease .05s
-        }
-
-        .ev-card:hover .ev-more {
-          opacity: 1;
-          transform: none
+        .ev-track {
+          display: flex;
+          align-items: stretch;
+          gap: 12px;
+          width: max-content;
         }
 
         .ev-card>div[style*="top:18px"],
@@ -365,23 +350,28 @@
         }
 
         .svc-desc {
+          display: grid;
+          grid-template-rows: 0fr;
           opacity: 0;
-          max-height: 0;
           margin-top: 0 !important;
+          transition: grid-template-rows 0.45s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
+        }
+
+        .svc-desc > .svc-desc-inner {
           overflow: hidden;
-          transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), margin-top 0.5s;
+          min-height: 0;
         }
 
         .svc-card:hover .svc-desc,
         .svc-card.active .svc-desc {
+          grid-template-rows: 1fr;
           opacity: 1;
-          max-height: 200px;
           margin-top: 14px !important;
         }
 
         .svc-card h3 {
           line-height: 1.1 !important;
-          font-size: clamp(16px, 2.5vw, 40px) !important;
+          font-size: clamp(16px, 2vw, 32px) !important;
         }
 
         .svc-arrow {
@@ -411,15 +401,10 @@
           z-index: 4
         }
 
+        /* GSAP (useScrollMotion) owns reveal motion — quiet initial state only. */
         .reveal {
           opacity: 0;
-          transform: translateY(40px);
-          transition: opacity .7s ease-out, transform .7s ease-out
-        }
-
-        .reveal.in {
-          opacity: 1;
-          transform: none
+          will-change: transform, opacity, filter;
         }
 
         .foot-link {
@@ -471,19 +456,17 @@
             min-height: 0 !important;
           }
 
-          /* Default card: flex:none stops the inline flex:1 1 50% from stretching */
+          /* Expand via .svc-desc grid-template-rows — no height tweens. */
           .svc-card {
             flex: none !important;
-            height: 160px !important;
-            max-height: 160px !important;
-            transition: height 0.55s cubic-bezier(0.4, 0, 0.2, 1), max-height 0.55s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            min-height: 160px !important;
+            height: auto !important;
+            max-height: none !important;
             cursor: pointer;
           }
 
-          /* Active card grows to show description */
           .svc-card.active {
-            height: 300px !important;
-            max-height: 300px !important;
+            min-height: 160px !important;
           }
 
           .svc-card h3 {
@@ -517,8 +500,11 @@
           .svc-card .svc-desc {
             opacity: 0 !important;
             pointer-events: none !important;
-            transition: opacity 0.3s ease !important;
             margin: 0 !important;
+            transition: opacity 0.3s ease, grid-template-rows 0.45s cubic-bezier(0.4, 0, 0.2, 1) !important;
+          }
+
+          .svc-card .svc-desc .svc-desc-inner p {
             font-size: 14px !important;
             line-height: 1.5 !important;
             color: #9BA8B4 !important;
@@ -535,6 +521,7 @@
           .svc-card.active .svc-desc {
             opacity: 1 !important;
             pointer-events: auto !important;
+            grid-template-rows: 1fr !important;
           }
 
           .svc-bottom {
@@ -602,9 +589,7 @@
           -webkit-backdrop-filter: blur(12px);
           backdrop-filter: blur(12px);
           border-top: 1px solid rgba(14, 154, 167, .2);
-          z-index: 2;
-          -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
-          mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)
+          z-index: 2
         }
 
         .logo-track {
@@ -637,7 +622,7 @@
         /* Generic src-swap for assets that need a different file per theme
            (e.g. a logo whose wordmark is baked in white and needs a
            dark-text copy on light surfaces). CSS-only: the browser just
-           shows/hides two <img>, no theme plumbing into vanilla JS
+           shows/hides two theme variants, no theme plumbing into vanilla JS
            components like the deck engine that don't otherwise know the
            theme. display:none removes the hidden one from flex/flow
            entirely, so only one ever takes up layout space. */

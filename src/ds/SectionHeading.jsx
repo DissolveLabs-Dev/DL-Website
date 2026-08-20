@@ -8,7 +8,7 @@ const SIZES = {
 /**
  * SectionHeading — the big display heading. Sora black for structural
  * headings (`display`/`lg`/`md`); Cormorant serif for reflective "depth"
- * moments (`serif`). Compose <GradientText> inside to emphasise a word.
+ * moments (`serif`). Use `.brand-accent` to emphasise a word.
  */
 export function SectionHeading({ children, size = 'lg', as: Tag = 'h2', align = 'left', style = {}, ...rest }) {
   const isSerif = size === 'serif'

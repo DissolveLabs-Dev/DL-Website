@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Wordmark } from '../ds/Wordmark.jsx'
 import { ThemeToggleKnob } from './ThemeToggleKnob.jsx'
 
 // legacy L1016-1074. The setTimeout-bound hamburger/menu-close script
@@ -11,16 +12,15 @@ export function MobileNav({ toTop, goWork, goServices, goAbout, goContact, toggl
   return (
     <div className="custom-mobile-nav">
       <div className="cmn-bar">
-        <a
+        <Wordmark
+          as="a"
           href="#"
           className="cmn-logo hit-slop-48"
           onClick={(e) => {
             e.preventDefault()
             toTop()
           }}
-        >
-          Dissolve<span>Labs</span>
-        </a>
+        />
         <button
           className="cmn-hamburger hit-slop-48"
           onClick={(e) => {
@@ -63,16 +63,6 @@ export function MobileNav({ toTop, goWork, goServices, goAbout, goContact, toggl
           }}
         >
           Partners
-        </a>
-        <a
-          href="#contact"
-          className="cmn-link hit-slop-48"
-          onClick={() => {
-            goContact()
-            closeMenu()
-          }}
-        >
-          Contact
         </a>
         <a
           href="#contact"

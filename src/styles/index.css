@@ -1,3 +1,5 @@
+@import 'tailwindcss';
+
 /* Dissolve Labs — style barrel.
    Import order mirrors legacy/index.legacy.html document order exactly.
    Do not reorder: several blocks depend on cascade position, not specificity. */
@@ -48,4 +50,20 @@
 .dl-anim-paused,
 .dl-anim-paused * {
   animation-play-state: paused !important;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+.dl-root {
+  position: relative;
+  width: 100%;
+  overflow-x: clip;
 }

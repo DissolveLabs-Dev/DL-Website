@@ -1,72 +1,157 @@
-                @keyframes spinPropellerSmooth {
-                  0% { transform: rotate(0deg); }
-                  100% { transform: rotate(360deg); }
-                }
+@keyframes spinPropellerSmooth {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 
-                @keyframes flowDash {
-                  to {
-                    stroke-dashoffset: -12;
-                  }
-                }
+@keyframes flowDash {
+  to {
+    stroke-dashoffset: -12;
+  }
+}
 
-                /* === Dark-mode compartment card edge ===
-                   #submarine-card-container is styled inline in Delivery.jsx
-                   with --surface-panel + a 1px rgba(255,255,255,.08) hairline.
-                   Against the abyss that hairline is essentially invisible, so
-                   the card that reveals under the submarine had no readable
-                   boundary. Give it a crisp teal edge and an outer glow in dark
-                   mode only — light mode already has the contrast it needs.
-                   !important because the border/shadow it overrides are inline
-                   styles on the element (same reason the theme-light colour
-                   override in 02-site.css needs it). */
-                body:not(.theme-light) #submarine-card-container {
-                  border: 1px solid rgba(51, 224, 222, 0.45) !important;
-                  box-shadow:
-                    0 0 0 1px rgba(51, 224, 222, 0.12),
-                    0 0 28px rgba(51, 224, 222, 0.14),
-                    0 20px 40px rgba(0, 0, 0, 0.55) !important;
-                }
+/* === Dark-mode compartment card edge ===
+   #submarine-card-container is styled inline in Delivery.jsx
+   with --surface-panel + a 1px rgba(255,255,255,.08) hairline.
+   Against the abyss that hairline is essentially invisible, so
+   the card that reveals under the submarine had no readable
+   boundary. Give it a crisp teal edge and an outer glow in dark
+   mode only — light mode already has the contrast it needs.
+   !important because the border/shadow it overrides are inline
+   styles on the element (same reason the theme-light colour
+   override in 02-site.css needs it). */
+body:not(.theme-light) #submarine-card-container {
+  border: 1px solid rgba(51, 224, 222, 0.45) !important;
+  box-shadow:
+    0 0 0 1px rgba(51, 224, 222, 0.12),
+    0 0 28px rgba(51, 224, 222, 0.14),
+    0 20px 40px rgba(0, 0, 0, 0.55) !important;
+}
 
-                /* The compartment tiles on the hull are divided by #1a3344
-                   strokes, which read as flat black-on-black in dark mode.
-                   Brighten the dividers so each compartment is a distinct
-                   card. These are SVG presentation attributes, so a plain CSS
-                   rule outranks them without !important. */
-                body:not(.theme-light) .sub-compartments>line {
-                  stroke: rgba(51, 224, 222, 0.30);
-                }
+body:not(.theme-light) .sub-compartments > line {
+  stroke: rgba(51, 224, 222, 0.30);
+}
 
-                body:not(.theme-light) .comp-cover>line {
-                  stroke: rgba(51, 224, 222, 0.35);
-                }
+body:not(.theme-light) .comp-cover > line {
+  stroke: rgba(51, 224, 222, 0.35);
+}
 
-                body:not(.theme-light) .comp-content>rect {
-                  stroke: rgba(51, 224, 222, 0.28);
-                  stroke-width: 1;
-                }
+body:not(.theme-light) .comp-content > rect {
+  stroke: rgba(51, 224, 222, 0.28);
+  stroke-width: 1;
+}
 
-                /* Nav clearance + fluid sizing for the pinned submarine block.
-                   Padding lives here (not inline) so it can be viewport-aware:
-                   the engine pins .submarine-wrapper at top:0 on desktop, so
-                   the block needs to start below the fixed nav pill, and the
-                   remaining space is then split evenly by justify-content
-                   center on the wrapper. */
-                .submarine-wrapper {
-                  padding: 15px 10px 0;
-                }
+.submarine-wrapper {
+  padding: 12px 10px 0;
+  justify-content: flex-start !important;
+}
 
-                @media(min-width: 769px) {
-                  .submarine-wrapper {
-                    /* top pad clears the nav pill (top:20px + ~58px tall) with
-                       breathing room; the matching bottom pad keeps the
-                       centred block optically level rather than nav-biased. */
-                    padding: clamp(96px, 7.5vh, 132px) clamp(10px, 2vw, 48px) clamp(24px, 3vh, 56px);
-                  }
+.submarine-wrapper .mobile-only-heading {
+  margin-bottom: 8px !important;
+}
 
-                  /* Let the submarine and its card use the width a large
-                     display actually has, instead of stranding the artwork at
-                     a fixed cap with empty gutters. */
-                  .submarine-wrapper .submarine-svg {
-                    max-width: clamp(1000px, 88vw, 1900px);
-                  }
-                }
+@media (min-width: 769px) {
+  .submarine-wrapper {
+    padding: var(--nav-clearance) clamp(10px, 2vw, 40px) clamp(20px, 2.5vh, 48px);
+  }
+
+  .submarine-wrapper .submarine-svg {
+    max-width: clamp(960px, 82vw, 1280px);
+  }
+}
+
+/* Phase card under the submarine — owned by CSS, not injected <style> tags. */
+#submarine-card-container.is-open {
+  max-height: 600px !important;
+  opacity: 1 !important;
+  margin-top: 8px !important;
+}
+
+.sub-card-container {
+  padding: 32px;
+}
+
+.sub-phase-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(51, 224, 222, 0.1);
+  border: 1px solid rgba(51, 224, 222, 0.3);
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.sub-phase-text {
+  font-family: Sora, sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--teal, #33E0DE);
+  letter-spacing: 1px;
+}
+
+.sub-card-heading {
+  font-family: Sora, sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--text-primary, #F2F7F8);
+  margin: 0 0 16px 0;
+  letter-spacing: -0.5px;
+}
+
+.sub-card-body {
+  font-family: Manrope, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-body, #8EA6AD);
+  margin: 0 0 24px 0;
+}
+
+.sub-bullets-grid {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.sub-bullet {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sub-bullet-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--teal, #33E0DE);
+  box-shadow: 0 0 4px var(--teal, #33E0DE);
+  flex-shrink: 0;
+}
+
+.sub-bullet-text {
+  font-family: Manrope, sans-serif;
+  font-size: 14px;
+  color: var(--text-body, #8EA6AD);
+}
+
+@media (max-width: 768px) {
+  .sub-card-container {
+    padding: 20px;
+  }
+
+  .sub-card-heading {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  .sub-card-body {
+    font-size: 15px;
+    margin-bottom: 20px;
+  }
+
+  .sub-bullets-grid {
+    gap: 12px;
+    flex-direction: column;
+  }
+
+  .sub-phase-badge {
+    margin-bottom: 16px;
+  }
+}

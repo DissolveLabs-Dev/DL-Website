@@ -305,18 +305,18 @@ export function Contact({ theme }) {
   }, [bookingOpen])
 
   return (
-    <section id="contact" style={{ position: 'relative', zIndex: 1, padding: '60px 5vw 90px' }}>
+    <section id="contact" style={{ position: 'relative', zIndex: 1, padding: '36px 5vw var(--section-y)' }}>
       {/* Pre-existing bug fix decided in MIGRATION_PLAN.md §11: the "Partners"
           nav/footer link targets #descend, which never existed in the legacy
           markup. Resolved by anchoring it to Contact. */}
       <span id="descend" style={{ position: 'absolute', top: '-1px' }} />
 
-      <div className="reveal" style={{ textAlign: 'center', maxWidth: '1200px', margin: '0 auto 54px' }}>
+      <div className="reveal" style={{ textAlign: 'center', maxWidth: '1200px', margin: '0 auto 40px' }}>
         <Eyebrow>The deep — bioluminescence only</Eyebrow>
         <SectionHeading
           size="md"
           align="center"
-          style={{ marginTop: '16px', fontSize: 'clamp(22px,4vw,84px)', whiteSpace: 'nowrap' }}
+          style={{ marginTop: '16px', fontSize: 'clamp(20px,3.2vw,64px)', whiteSpace: 'nowrap' }}
         >
           Initiate{' '}a{' '}Design{' '}Partnership
         </SectionHeading>

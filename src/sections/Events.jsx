@@ -1,6 +1,7 @@
-import { Fragment } from 'react'
+import { Fragment, memo } from 'react'
 import { Eyebrow } from '../ds/Eyebrow.jsx'
 import { SectionHeading } from '../ds/SectionHeading.jsx'
+import { useAutoMarquee } from '../hooks/useAutoMarquee.js'
 
 // legacy L1268-1627. All 16 `.ev-card` DOM nodes (8 real events + 8
 // `aria-hidden` duplicates appended so the CSS marquee track loops
@@ -12,7 +13,7 @@ import { SectionHeading } from '../ds/SectionHeading.jsx'
 // plus their 8 duplicates. Ported from what is actually present in the range.
 //
 // `dupAlt` on the TechCrunch entry preserves a real source quirk: the
-// duplicate card's <img alt> (L1608) is "TechCrunch Disrupt Conference",
+// duplicate card's image alt (L1608) is "TechCrunch Disrupt Conference",
 // while the original card's alt (L1445) is "TechCrunch Spotlight" — the two
 // are NOT identical in the legacy markup, so it is not homogenised here.
 //
@@ -33,14 +34,17 @@ function splitDot(text) {
   ))
 }
 
-const CARD_STYLE = {
+const CARD_HEIGHT = 'clamp(320px, 28vw, 440px)'
+
+const CARD_SIZES = {
+  narrow: { width: 'clamp(260px, 20vw, 320px)' },
+  wide: { width: 'clamp(520px, 42vw, 680px)' },
+}
+
+const CARD_BASE = {
   flex: '0 0 auto',
-  width: 'clamp(240px,20vw,320px)',
-  aspectRatio: '2/3',
+  height: CARD_HEIGHT,
   position: 'relative',
-  border: '1px solid rgba(255,255,255,.14)',
-  borderRadius: '16px',
-  overflow: 'hidden',
   background: '#081A2C',
 }
 
@@ -71,8 +75,6 @@ const TAG_STYLE = {
   color: '#5CC6C4',
   background: 'rgba(4,16,28,.7)',
   padding: '4px 10px',
-  borderRadius: '12px',
-  backdropFilter: 'blur(6px)',
 }
 
 const CAPTION_WRAP_STYLE = {
@@ -100,6 +102,7 @@ const SUBHEADING_STYLE = {
 const events = [
   {
     key: 'mit-delta-v',
+    size: 'wide',
     img: 'https://nfuozimtwnfww445.public.blob.vercel-storage.com/src/Hamza%20Mubashir/MIT%20Delta%20V%20Team%20with%20Center%20of%20Entrepreneurship%20Head%20Bill%20Aulet_.webp',
     alt: 'MIT Delta V',
     tag: 'Accelerators · Cambridge',
@@ -108,6 +111,7 @@ const events = [
   },
   {
     key: 'harvard-leadership-course',
+    size: 'narrow',
     img: 'https://nfuozimtwnfww445.public.blob.vercel-storage.com/src/Hamza%20Mubashir/Harvard%20Leadership%20Course-%20Masters%20of%20Management.webp',
     alt: 'Harvard Leadership Course',
     tag: 'Incubators · Boston',
@@ -116,6 +120,7 @@ const events = [
   },
   {
     key: 'yc-ai-startup-school',
+    size: 'narrow',
     img: 'https://nfuozimtwnfww445.public.blob.vercel-storage.com/src/Hamza%20Mubashir/Y%20Combinator%20AI%20Startup%20School_s%20AWS%20After%20Party.webp',
     alt: 'AI Startup school',
     tag: 'Venture · Silicon Valley',
@@ -124,6 +129,7 @@ const events = [
   },
   {
     key: 'us-tech-hubs',
+    size: 'wide',
     img: 'https://nfuozimtwnfww445.public.blob.vercel-storage.com/src/Hamza%20Mubashir/Instacart%20Headquarter%20San%20Francisco.webp',
     alt: 'US Tech Hubs',
     tag: 'Ecosystem · US Hubs',
@@ -132,6 +138,7 @@ const events = [
   },
   {
     key: 'world-bank-spring-meeting',
+    size: 'narrow',
     img: 'https://nfuozimtwnfww445.public.blob.vercel-storage.com/src/Hamza%20Mubashir/World%20Bank%20Group%20-%20Spring%20Meetings%202025.webp',
     alt: 'World Bank Spring Meeting',
     tag: 'Global · Enterprise',
@@ -140,6 +147,7 @@ const events = [
   },
   {
     key: 'cic-cambridge',
+    size: 'wide',
     img: 'https://nfuozimtwnfww445.public.blob.vercel-storage.com/src/Hamza%20Mubashir/Cambridge%20Innovation%20Center%20Hackathon%20Win..%20picture%20from%20during%20presentation.webp',
     alt: 'CIC Cambridge',
     tag: 'Hubs · Cambridge',
@@ -148,6 +156,7 @@ const events = [
   },
   {
     key: 'aws-gen-ai-loft',
+    size: 'narrow',
     img: 'https://nfuozimtwnfww445.public.blob.vercel-storage.com/src/Hamza%20Mubashir/AWS%20Gen%20AI%20Loft%20after%20winning%20a%20hackathon.webp',
     alt: 'AWS Gen AI Loft',
     tag: 'Frontier AI · Summits',
@@ -156,6 +165,7 @@ const events = [
   },
   {
     key: 'techcrunch-disrupt-conference',
+    size: 'wide',
     img: 'https://nfuozimtwnfww445.public.blob.vercel-storage.com/src/Hamza%20Mubashir/TechCrunch%20Disrupt%20Conference.webp',
     alt: 'TechCrunch Spotlight',
     dupAlt: 'TechCrunch Disrupt Conference',
@@ -165,9 +175,13 @@ const events = [
   },
 ]
 
-function EvCard({ img, alt, tag, title, subheading, ariaHidden }) {
+const EvCard = memo(function EvCard({ size = 'wide', img, alt, tag, title, subheading, ariaHidden }) {
   return (
-    <div className="ev-card" style={CARD_STYLE} aria-hidden={ariaHidden ? 'true' : undefined}>
+    <div
+      className="ev-card"
+      style={{ ...CARD_BASE, ...CARD_SIZES[size] }}
+      aria-hidden={ariaHidden ? 'true' : undefined}
+    >
       <img src={img} alt={alt} loading="lazy" style={IMG_STYLE} decoding="async" fetchPriority="low" />
       <div style={GRADIENT_STYLE}></div>
       <div style={TAG_STYLE}>{splitDot(tag)}</div>
@@ -179,12 +193,14 @@ function EvCard({ img, alt, tag, title, subheading, ariaHidden }) {
       </div>
     </div>
   )
-}
+})
 
 export function Events() {
+  const { ref: marqueeRef, handlers: marqueeHandlers } = useAutoMarquee()
+
   return (
-    <section id="events" style={{ position: 'relative', zIndex: '1', padding: '90px 0 70px' }}>
-      <div className="reveal" style={{ textAlign: 'center', marginBottom: '64px', padding: '0 8vw' }}>
+    <section id="events" style={{ position: 'relative', zIndex: '1', padding: 'var(--section-y) 0 56px' }}>
+      <div className="reveal" style={{ textAlign: 'center', marginBottom: '48px', padding: '0 var(--gutter)' }}>
         <Eyebrow>Below the surface</Eyebrow>
         <SectionHeading size="lg" align="center" style={{ marginTop: '16px' }}>
           In{' '}the{' '}rooms{' '}where{' '}it’s{' '}built
@@ -204,34 +220,17 @@ export function Events() {
         </p>
       </div>
       <div
+        ref={marqueeRef}
         className="ev-marquee"
-        style={{
-          overflow: 'hidden',
-          // 6px in the legacy source (preserved until now) isn't enough
-          // clearance for the hover state's `scale(1.06) translateY(-10px)`
-          // (src/styles/02-site.css `.ev-track .ev-card:hover`) — the tallest
-          // card (clamp(...) up to 320px wide, 2/3 aspect ratio = 480px tall)
-          // needs ~14px from the scale growth plus the 10px translateY, so
-          // the top of a hovered card was clipped by this wrapper's own
-          // overflow:hidden. 30px gives every card size room to grow.
-          padding: '30px 0',
-          WebkitMaskImage: 'linear-gradient(to right,transparent,#000 5%,#000 95%,transparent)',
-          maskImage: 'linear-gradient(to right,transparent,#000 5%,#000 95%,transparent)',
-        }}
+        role="region"
+        aria-label="Event highlights gallery"
+        {...marqueeHandlers}
       >
-        <div
-          className="ev-track"
-          style={{
-            display: 'flex',
-            gap: '24px',
-            width: 'max-content',
-            willChange: 'transform',
-            animation: 'evMarquee 45s linear infinite',
-          }}
-        >
+        <div className="ev-track">
           {events.map((event) => (
             <EvCard
               key={event.key}
+              size={event.size}
               img={event.img}
               alt={event.alt}
               tag={event.tag}
@@ -240,10 +239,10 @@ export function Events() {
             />
           ))}
 
-          {/* Duplicated set for 100% seamless infinite scrolling (legacy L1462-1624) */}
           {events.map((event) => (
             <EvCard
               key={`${event.key}-dup`}
+              size={event.size}
               img={event.img}
               alt={event.dupAlt || event.alt}
               tag={event.tag}

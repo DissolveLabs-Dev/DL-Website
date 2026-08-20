@@ -63,7 +63,7 @@ export function Button({
     opacity: disabled ? 0.45 : 1,
     transform: lifted ? 'translateY(-2px)' : 'none',
     transition:
-      'transform var(--dur-fast) var(--ease-soft), box-shadow var(--dur-fast) var(--ease-soft), color var(--dur-fast) var(--ease-soft), border-color var(--dur-fast) var(--ease-soft)',
+      'transform 180ms cubic-bezier(.2,.8,.2,1), box-shadow 180ms cubic-bezier(.2,.8,.2,1), color 180ms ease, border-color 180ms ease, background 180ms ease',
     animation: pulse ? 'pulseGlow 3s ease-in-out infinite' : undefined,
     ...variants[variant],
     ...style,
@@ -71,6 +71,12 @@ export function Button({
   const handlers = {
     onMouseEnter: () => setHover(true),
     onMouseLeave: () => setHover(false),
+    onMouseDown: (e) => {
+      if (!disabled) e.currentTarget.style.transform = 'translateY(1px) scale(0.985)'
+    },
+    onMouseUp: (e) => {
+      e.currentTarget.style.transform = lifted ? 'translateY(-2px)' : 'none'
+    },
   }
   const Tag = href ? 'a' : 'button'
   const extra = href ? { href } : { disabled }

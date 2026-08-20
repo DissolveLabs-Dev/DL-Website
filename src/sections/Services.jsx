@@ -83,11 +83,13 @@ export function Services() {
   const [activeCard, setActiveCard] = useState(null)
 
   return (
-    <section id="services" style={{ position: 'relative', zIndex: 1, padding: '80px 6vw 80px' }}>
-      <div className="reveal" style={{ maxWidth: '720px', margin: '0 auto 60px', textAlign: 'center' }}>
+    <section id="services" style={{ position: 'relative', zIndex: 1, padding: 'var(--section-y) var(--gutter)' }}>
+      <div className="reveal" style={{ maxWidth: '720px', margin: '0 auto 44px', textAlign: 'center' }}>
         <Eyebrow>Mid-water — how we build together</Eyebrow>
         <SectionHeading size="lg" align="center" style={{ marginTop: '16px' }}>
-          End-to-end design &amp; product partnership
+          End-to-end design &amp; product
+          <br />
+          partnership
         </SectionHeading>
         <p
           style={{
@@ -171,7 +173,7 @@ export function Services() {
                 style={{
                   fontFamily: 'Sora',
                   fontWeight: '700',
-                  fontSize: 'clamp(16px,2.5vw,40px)',
+                  fontSize: 'clamp(16px,2vw,32px)',
                   color: '#F2F7F8',
                   letterSpacing: '-1px',
                 }}
@@ -181,19 +183,22 @@ export function Services() {
                   →
                 </span>
               </h3>
-              <p
-                className="svc-desc"
-                style={{
-                  fontFamily: 'Manrope',
-                  fontSize: 'var(--fs-lg)',
-                  lineHeight: '1.6',
-                  color: '#9BA8B4',
-                  marginTop: '14px',
-                  maxWidth: '440px',
-                }}
-              >
-                {svc.desc}
-              </p>
+              <div className="svc-desc">
+                <div className="svc-desc-inner">
+                  <p
+                    style={{
+                      fontFamily: 'Manrope',
+                      fontSize: 'var(--fs-lg)',
+                      lineHeight: '1.6',
+                      color: '#9BA8B4',
+                      margin: 0,
+                      maxWidth: '440px',
+                    }}
+                  >
+                    {svc.desc}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         ))}
@@ -274,7 +279,7 @@ export function Services() {
                   style={{
                     fontFamily: 'Sora',
                     fontWeight: '700',
-                    fontSize: 'clamp(16px,2.5vw,40px)',
+                    fontSize: 'clamp(16px,2vw,32px)',
                     color: '#F2F7F8',
                     letterSpacing: '-1px',
                   }}
@@ -284,19 +289,22 @@ export function Services() {
                     →
                   </span>
                 </h3>
-                <p
-                  className="svc-desc"
-                  style={{
-                    fontFamily: 'Manrope',
-                    fontSize: 'var(--fs-lg)',
-                    lineHeight: '1.6',
-                    color: '#9BA8B4',
-                    marginTop: '14px',
-                    maxWidth: '440px',
-                  }}
-                >
-                  {svc.desc}
-                </p>
+                <div className="svc-desc">
+                  <div className="svc-desc-inner">
+                    <p
+                      style={{
+                        fontFamily: 'Manrope',
+                        fontSize: 'var(--fs-lg)',
+                        lineHeight: '1.6',
+                        color: '#9BA8B4',
+                        margin: 0,
+                        maxWidth: '440px',
+                      }}
+                    >
+                      {svc.desc}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           )

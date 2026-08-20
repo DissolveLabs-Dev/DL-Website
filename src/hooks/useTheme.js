@@ -11,7 +11,7 @@ export function useTheme() {
     let saved = null
     try {
       saved = localStorage.getItem('dl-theme')
-    } catch (e) {
+    } catch {
       /* private browsing / storage disabled */
     }
     const canMatch = typeof matchMedia === 'function'
@@ -23,7 +23,7 @@ export function useTheme() {
     let saved = null
     try {
       saved = localStorage.getItem('dl-theme')
-    } catch (e) {
+    } catch {
       /* ignore */
     }
     if (saved || typeof matchMedia !== 'function') return
@@ -32,7 +32,7 @@ export function useTheme() {
       let chosen = null
       try {
         chosen = localStorage.getItem('dl-theme')
-      } catch (err) {
+      } catch {
         /* ignore */
       }
       if (!chosen) setTheme(e.matches ? 'light' : 'dark')
@@ -55,7 +55,7 @@ export function useTheme() {
       const next = t === 'light' ? 'dark' : 'light'
       try {
         localStorage.setItem('dl-theme', next)
-      } catch (e) {
+      } catch {
         /* ignore */
       }
       return next

@@ -20,18 +20,6 @@ export function Footer({ goServices, goWork, goAbout }) {
       <div
         style={{
           position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: '1.5px',
-          background:
-            'linear-gradient(90deg,transparent,#26D0CE 25%,#6BEBE8 50%,#26D0CE 75%,transparent)',
-          boxShadow: '0 0 30px rgba(38,208,206,.8)',
-        }}
-      ></div>
-      <div
-        style={{
-          position: 'absolute',
           inset: 0,
           background:
             'linear-gradient(to bottom,transparent 0%,rgba(2,4,8,.6) 62%,rgba(2,4,8,.85) 100%)',
@@ -86,16 +74,16 @@ export function Footer({ goServices, goWork, goAbout }) {
         >
           <div style={{ textAlign: 'left' }}>
             <Wordmark
-              variant="serif"
               size="clamp(24px,3.2vw,38px)"
-              color="#26D0CE"
+              color="#F2F7F8"
+              accent="#26D0CE"
               style={{ lineHeight: '.9' }}
             />
           </div>
           <div style={{ textAlign: 'center' }}>
             <div
               style={{
-                fontFamily: 'Sora,sans-serif',
+                fontFamily: 'var(--font-display)',
                 fontWeight: 700,
                 fontSize: 'var(--fs-lg)',
                 letterSpacing: '-0.2px',
@@ -107,7 +95,7 @@ export function Footer({ goServices, goWork, goAbout }) {
             </div>
             <div
               style={{
-                fontFamily: 'Manrope',
+                fontFamily: 'var(--font-body)',
                 fontSize: 'var(--fs-xs)',
                 color: '#3C4A55',
                 marginTop: '12px',
@@ -120,7 +108,7 @@ export function Footer({ goServices, goWork, goAbout }) {
             <a
               href="mailto:team@dissolvelabs.studio"
               className="hit-slop-48"
-              style={{ fontFamily: 'Manrope', fontSize: 'var(--fs-base)', color: '#26D0CE' }}
+              style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--fs-base)', color: '#26D0CE' }}
             >
               team@dissolvelabs.studio
             </a>
